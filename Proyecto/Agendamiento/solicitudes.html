@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solicitudes de Tutoría — myTEACHER</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body style="background:#F9FAFB;">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><div class="logo-icon-inner"><div class="bar1"></div><div class="bar2"></div></div></div>
+      <div class="logo-text"><span class="my">my</span><span class="teacher">TEACHER</span></div>
+    </a>
+    <div style="flex:1;"></div>
+    <div class="nav-actions">
+      <div class="nav-avatar">
+        <div class="avatar-circle">SM</div>
+        <span style="color:#364153; font-size:14px; font-weight:500;">Sofía Martínez</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-with-sidebar">
+    <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="panel_tutor.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="horario_tutor.html" class="sidebar-item">📅 Horarios y Tutorías</a>
+        <a href="solicitudes.html" class="sidebar-item active">📋 Solicitudes de Tutorías</a>
+        <a href="panel_tutor.html#estadisticas" class="sidebar-item">📊 Estadísticas</a>
+        <a href="mensaje_tutor.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="perfil2.html" class="sidebar-item">👤 Perfil</a>
+        <a href="configuracion.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <div class="page-content">
+      <div class="page-title">Solicitudes de Tutoría</div>
+      <div class="page-subtitle">Gestiona las solicitudes de tutoría y métodos de pago de tus estudiantes</div>
+
+      <!-- Stats -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:28px;">
+        <div class="card" style="display:flex; gap:16px; align-items:center;">
+          <div class="stat-icon stat-icon-yellow" style="width:48px; height:48px; border-radius:12px; flex-shrink:0;">⏳</div>
+          <div>
+            <div style="font-size:24px; font-weight:700; color:#101828;">3</div>
+            <div style="font-size:13px; color:#6A7282;">Pendientes · Requieren tu atención</div>
+          </div>
+        </div>
+        <div class="card" style="display:flex; gap:16px; align-items:center;">
+          <div class="stat-icon stat-icon-green" style="width:48px; height:48px; border-radius:12px; flex-shrink:0;">✅</div>
+          <div>
+            <div style="font-size:24px; font-weight:700; color:#101828;">1</div>
+            <div style="font-size:13px; color:#6A7282;">Aceptadas · Este mes</div>
+          </div>
+        </div>
+        <div class="card" style="display:flex; gap:16px; align-items:center;">
+          <div class="stat-icon stat-icon-purple" style="width:48px; height:48px; border-radius:12px; flex-shrink:0;">💰</div>
+          <div>
+            <div style="font-size:24px; font-weight:700; color:#101828;">$60.000</div>
+            <div style="font-size:13px; color:#6A7282;">Ingresos confirmados</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filtros + búsqueda -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-wrap:wrap; gap:12px;">
+        <div style="display:flex; gap:8px;">
+          <button class="filter-btn active">Todas</button>
+          <button class="filter-btn">Pendientes</button>
+          <button class="filter-btn">Aceptadas</button>
+          <button class="filter-btn">Rechazadas</button>
+        </div>
+        <div class="search-bar" style="max-width:300px;">
+          <svg width="16" height="16" fill="none" stroke="#99A1AF" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="Buscar por estudiante o materia..." />
+        </div>
+      </div>
+
+      <!-- Lista solicitudes -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- Solicitud pendiente 1 -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div class="avatar-circle" style="width:48px; height:48px; font-size:14px; flex-shrink:0;">MG</div>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <div style="font-size:15px; font-weight:700; color:#101828;">María García</div>
+                  <span class="badge badge-yellow">Pendiente</span>
+                </div>
+                <div style="font-size:13px; color:#6A7282; margin-bottom:2px;">Universidad - 2º año</div>
+                <div style="font-size:13px; color:#7F22FE; font-weight:500; margin-bottom:8px;">Álgebra Lineal</div>
+                <div style="display:flex; gap:20px; font-size:12px; color:#6A7282;">
+                  <span>📅 15 Mar 2026</span>
+                  <span>⏰ 10:00 AM</span>
+                  <span>💻 Virtual</span>
+                  <span>⏱️ 60 min</span>
+                  <span>💰 $25.000</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-shrink:0;">
+              <button class="btn-primary" style="font-size:13px; padding:8px 20px; border-radius:10px; border:none; cursor:pointer;">Aceptar</button>
+              <button class="btn-secondary" style="font-size:13px; padding:8px 20px; border-radius:10px; cursor:pointer;">Rechazar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solicitud pendiente 2 -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div class="avatar-circle" style="width:48px; height:48px; font-size:14px; flex-shrink:0;">JL</div>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <div style="font-size:15px; font-weight:700; color:#101828;">Juan López</div>
+                  <span class="badge badge-yellow">Pendiente</span>
+                </div>
+                <div style="font-size:13px; color:#6A7282; margin-bottom:2px;">Universidad - 3º año</div>
+                <div style="font-size:13px; color:#7F22FE; font-weight:500; margin-bottom:8px;">Cálculo Diferencial</div>
+                <div style="display:flex; gap:20px; font-size:12px; color:#6A7282;">
+                  <span>📅 16 Mar 2026</span>
+                  <span>⏰ 3:00 PM</span>
+                  <span>🏫 Presencial</span>
+                  <span>⏱️ 90 min</span>
+                  <span>💰 $37.500</span>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; flex-shrink:0;">
+              <button class="btn-primary" style="font-size:13px; padding:8px 20px; border-radius:10px; border:none; cursor:pointer;">Aceptar</button>
+              <button class="btn-secondary" style="font-size:13px; padding:8px 20px; border-radius:10px; cursor:pointer;">Rechazar</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solicitud aceptada -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:16px;">
+            <div style="display:flex; gap:14px; align-items:flex-start;">
+              <div class="avatar-circle" style="width:48px; height:48px; font-size:14px; flex-shrink:0;">AR</div>
+              <div>
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
+                  <div style="font-size:15px; font-weight:700; color:#101828;">Ana Ruiz</div>
+                  <span class="badge badge-green">✓ Aceptada</span>
+                </div>
+                <div style="font-size:13px; color:#6A7282; margin-bottom:2px;">Universidad - 1º año</div>
+                <div style="font-size:13px; color:#7F22FE; font-weight:500; margin-bottom:8px;">Estadística</div>
+                <div style="display:flex; gap:20px; font-size:12px; color:#6A7282;">
+                  <span>📅 17 Mar 2026</span>
+                  <span>⏰ 11:00 AM</span>
+                  <span>💻 Virtual</span>
+                  <span>⏱️ 60 min</span>
+                  <span>💰 $25.000</span>
+                </div>
+              </div>
+            </div>
+            <div style="flex-shrink:0;">
+              <a href="tutorias.html" class="btn-secondary" style="font-size:13px; padding:8px 20px; border-radius:10px;">Ver detalles</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

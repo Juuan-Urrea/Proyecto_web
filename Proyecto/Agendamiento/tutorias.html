@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mis Tutorías — myTEACHER</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body style="background:#F9FAFB;">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><div class="logo-icon-inner"><div class="bar1"></div><div class="bar2"></div></div></div>
+      <div class="logo-text"><span class="my">my</span><span class="teacher">TEACHER</span></div>
+    </a>
+    <div style="flex:1;"></div>
+    <div class="nav-actions">
+      <div class="nav-avatar">
+        <div class="avatar-circle">DR</div>
+        <span style="color:#364153; font-size:14px; font-weight:500;">Diego Ramírez</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-with-sidebar">
+    <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="panel_estudiante.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="busqueda_tutores.html" class="sidebar-item">🔍 Buscar Tutores</a>
+        <a href="tutorias.html" class="sidebar-item active">📅 Mis Tutorías</a>
+        <a href="mensaje_estudiante.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="notificaciones.html" class="sidebar-item">🔔 Notificaciones</a>
+        <a href="perfil2.html" class="sidebar-item">👤 Perfil</a>
+        <a href="configuracion.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <div class="page-content">
+      <div class="page-title">Mis Tutorías</div>
+      <div class="page-subtitle">Administra todas tus tutorías</div>
+
+      <!-- Stats -->
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:28px;">
+        <div class="card" style="text-align:center;">
+          <div style="color:#6A7282; font-size:12px; margin-bottom:4px;">Total Reservas</div>
+          <div style="font-size:28px; font-weight:700; color:#101828;">6</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="color:#6A7282; font-size:12px; margin-bottom:4px;">Confirmadas</div>
+          <div style="font-size:28px; font-weight:700; color:#16A34A;">2</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="color:#6A7282; font-size:12px; margin-bottom:4px;">Pendientes</div>
+          <div style="font-size:28px; font-weight:700; color:#CA8A04;">2</div>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div style="color:#6A7282; font-size:12px; margin-bottom:4px;">Total Invertido</div>
+          <div style="font-size:28px; font-weight:700; color:#7F22FE;">$90.000</div>
+        </div>
+      </div>
+
+      <!-- Filtros -->
+      <div style="display:flex; gap:8px; margin-bottom:20px;">
+        <button class="filter-btn active">Todas</button>
+        <button class="filter-btn">Confirmadas</button>
+        <button class="filter-btn">Pendientes</button>
+        <button class="filter-btn">Completadas</button>
+        <button class="filter-btn">Canceladas</button>
+      </div>
+
+      <!-- Lista tutorías -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- Tutoría 1 -->
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; gap:16px; align-items:center;">
+            <img src="https://placehold.co/56x56" style="width:56px; height:56px; border-radius:50%; object-fit:cover; flex-shrink:0;"/>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#101828;">Álgebra Lineal</div>
+              <div style="font-size:13px; color:#7F22FE; margin:2px 0;">María González</div>
+              <div style="font-size:12px; color:#6A7282;">Reservada el 15/3/2026</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:24px;">
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Fecha</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">15 mar</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Hora</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">10:00 AM</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Modalidad</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">Virtual</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Precio</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">$25.000</div>
+            </div>
+            <span class="badge badge-green">Confirmada</span>
+            <a href="agendar.html" class="btn-primary" style="font-size:13px; padding:8px 14px; border-radius:10px; white-space:nowrap;">Unirse</a>
+          </div>
+        </div>
+
+        <!-- Tutoría 2 -->
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="display:flex; gap:16px; align-items:center;">
+            <img src="https://placehold.co/56x56" style="width:56px; height:56px; border-radius:50%; flex-shrink:0;"/>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#101828;">Cálculo Diferencial</div>
+              <div style="font-size:13px; color:#7F22FE; margin:2px 0;">Sofía Martínez</div>
+              <div style="font-size:12px; color:#6A7282;">Reservada el 16/3/2026</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:24px;">
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Fecha</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">16 mar</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Hora</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">3:00 PM</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Modalidad</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">Presencial</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Precio</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">$25.000</div>
+            </div>
+            <span class="badge badge-yellow">Pendiente</span>
+            <a href="confirmacion.html" class="btn-secondary" style="font-size:13px; padding:8px 14px; border-radius:10px; white-space:nowrap;">Ver detalles</a>
+          </div>
+        </div>
+
+        <!-- Tutoría 3 - completada -->
+        <div class="card" style="display:flex; justify-content:space-between; align-items:center; opacity:.85;">
+          <div style="display:flex; gap:16px; align-items:center;">
+            <img src="https://placehold.co/56x56" style="width:56px; height:56px; border-radius:50%; flex-shrink:0;"/>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:#101828;">Inglés IELTS</div>
+              <div style="font-size:13px; color:#7F22FE; margin:2px 0;">Amara Johnson</div>
+              <div style="font-size:12px; color:#6A7282;">12 Mar 2026</div>
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:24px;">
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Duración</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">60 min</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:11px; color:#6A7282; text-transform:uppercase; letter-spacing:.05em;">Precio</div>
+              <div style="font-size:14px; font-weight:600; color:#101828;">$35.000</div>
+            </div>
+            <span class="badge badge-gray">Completada</span>
+            <a href="revision_tutor.html" class="btn-secondary" style="font-size:13px; padding:8px 14px; border-radius:10px; white-space:nowrap;">Ver detalles</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

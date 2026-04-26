@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Perfil Tutor — myTEACHER</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><div class="logo-icon-inner"><div class="bar1"></div><div class="bar2"></div></div></div>
+      <div class="logo-text"><span class="my">my</span><span class="teacher">TEACHER</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Inicio</a>
+      <a href="busqueda_tutores.html">Buscar Tutores</a>
+      <a href="index.html#como-funciona">Cómo Funciona</a>
+    </div>
+    <div class="nav-actions">
+      <a href="login.html" class="btn-login">Iniciar Sesión</a>
+      <a href="registro_estudiante.html" class="btn-register">Registrarse</a>
+    </div>
+  </nav>
+
+  <!-- Breadcrumb -->
+  <div style="padding:16px 67px; background:white; border-bottom:1px solid #F3F4F6;">
+    <a href="busqueda_tutores.html" style="color:#6A7282; font-size:14px; text-decoration:none;">← Volver al perfil</a>
+  </div>
+
+  <div style="padding:32px 67px; display:grid; grid-template-columns:300px 1fr; gap:32px; max-width:1280px; margin:0 auto;">
+
+    <!-- Sidebar perfil -->
+    <div>
+      <div class="card" style="text-align:center; margin-bottom:16px;">
+        <img src="https://placehold.co/120x120" alt="Sofía" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin:0 auto 16px; display:block;" />
+        <div style="color:#101828; font-size:20px; font-weight:700;">Sofía Martínez</div>
+        <div style="color:#7F22FE; font-size:14px; font-weight:500; margin:4px 0;">Álgebra y Cálculo</div>
+        <div style="color:#6A7282; font-size:13px; margin-bottom:16px;">📍 Barranquilla, Colombia</div>
+        <div style="display:flex; justify-content:center; gap:8px; margin-bottom:16px; flex-wrap:wrap;">
+          <span class="badge badge-purple">Top Tutor</span>
+          <span class="badge badge-purple">Responde rápido</span>
+        </div>
+        <div style="display:flex; justify-content:space-around; padding:16px 0; border-top:1px solid #F3F4F6; border-bottom:1px solid #F3F4F6; margin-bottom:16px;">
+          <div style="text-align:center;">
+            <div style="color:#101828; font-size:20px; font-weight:700;">4.9</div>
+            <div style="color:#6A7282; font-size:12px;">Calificación</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="color:#101828; font-size:20px; font-weight:700;">128</div>
+            <div style="color:#6A7282; font-size:12px;">Reseñas</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="color:#101828; font-size:20px; font-weight:700;">3</div>
+            <div style="color:#6A7282; font-size:12px;">Años exp.</div>
+          </div>
+        </div>
+        <div style="color:#101828; font-size:22px; font-weight:700; margin-bottom:4px;">$25.000<span style="color:#99A1AF; font-size:13px; font-weight:400;">/hora</span></div>
+        <a href="agendar.html" class="btn-primary" style="width:100%; display:block; text-align:center; margin-top:12px;">Reservar sesión</a>
+      </div>
+
+      <!-- Materias -->
+      <div class="card" style="margin-bottom:16px;">
+        <div style="color:#101828; font-size:15px; font-weight:700; margin-bottom:12px;">Materias para enseñar</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <span class="badge badge-outline">📐 Álgebra</span>
+          <span class="badge badge-outline">∫ Cálculo</span>
+          <span class="badge badge-outline">📊 Estadística</span>
+        </div>
+      </div>
+
+      <!-- Disponibilidad -->
+      <div class="card">
+        <div style="color:#101828; font-size:15px; font-weight:700; margin-bottom:12px;">Disponibilidad</div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:13px; color:#6A7282;">
+          <div>Lun – Vie: 8:00 – 20:00</div>
+          <div>Sáb: 9:00 – 14:00</div>
+          <div>Dom: No disponible</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div>
+      <!-- Sobre mí -->
+      <div class="card" style="margin-bottom:24px;">
+        <div style="color:#101828; font-size:18px; font-weight:700; margin-bottom:12px;">Sobre mí</div>
+        <p style="color:#6A7282; font-size:14px; line-height:1.6;">Soy tutora de matemáticas con más de 3 años de experiencia ayudando a estudiantes de todos los niveles. Me especializo en álgebra, cálculo diferencial e integral y estadística. Mi enfoque es práctico y adaptado al ritmo de cada estudiante.</p>
+      </div>
+
+      <!-- Horarios disponibles -->
+      <div class="card" style="margin-bottom:24px;">
+        <div style="color:#101828; font-size:18px; font-weight:700; margin-bottom:16px;">Horarios disponibles</div>
+        <div style="display:flex; flex-wrap:wrap; gap:8px;">
+          <button class="horario-btn">09:00</button>
+          <button class="horario-btn">10:00</button>
+          <button class="horario-btn active">11:00</button>
+          <button class="horario-btn">13:00</button>
+          <button class="horario-btn">14:00</button>
+          <button class="horario-btn disabled">15:00</button>
+          <button class="horario-btn">16:00</button>
+          <button class="horario-btn">17:00</button>
+        </div>
+      </div>
+
+      <!-- Opiniones de estudiantes -->
+      <div class="card">
+        <div style="color:#101828; font-size:18px; font-weight:700; margin-bottom:4px;">Opiniones de estudiantes</div>
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:20px;">
+          <div style="font-size:32px; font-weight:700; color:#101828;">4.9</div>
+          <div>
+            <div style="display:flex; gap:4px; margin-bottom:4px;">
+              <div class="rating-star-sm"></div><div class="rating-star-sm"></div><div class="rating-star-sm"></div><div class="rating-star-sm"></div><div class="rating-star-sm"></div>
+            </div>
+            <div style="color:#6A7282; font-size:13px;">128 reseñas</div>
+          </div>
+        </div>
+
+        <!-- Reseña 1 -->
+        <div style="border-bottom:1px solid #F3F4F6; padding-bottom:16px; margin-bottom:16px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+            <div class="avatar-circle" style="width:36px; height:36px; font-size:13px;">MG</div>
+            <div>
+              <div style="color:#101828; font-size:14px; font-weight:600;">María García</div>
+              <div style="color:#99A1AF; font-size:12px;">hace 2 días</div>
+            </div>
+          </div>
+          <p style="color:#4A5565; font-size:14px; line-height:1.6;">"Sofía es una tutora increíble. Gracias a ella entendí el cálculo que jamás pude en la universidad."</p>
+        </div>
+
+        <!-- Reseña 2 -->
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+            <div class="avatar-circle" style="width:36px; height:36px; font-size:13px;">JP</div>
+            <div>
+              <div style="color:#101828; font-size:14px; font-weight:600;">Juan Pérez</div>
+              <div style="color:#99A1AF; font-size:12px;">hace 1 semana</div>
+            </div>
+          </div>
+          <p style="color:#4A5565; font-size:14px; line-height:1.6;">"Excelente tutora, muy paciente y explica de manera muy clara. La recomiendo ampliamente."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

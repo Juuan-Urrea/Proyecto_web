@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mensajes — myTEACHER</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body style="background:#F9FAFB;">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><div class="logo-icon-inner"><div class="bar1"></div><div class="bar2"></div></div></div>
+      <div class="logo-text"><span class="my">my</span><span class="teacher">TEACHER</span></div>
+    </a>
+    <div style="flex:1;"></div>
+    <div class="nav-actions">
+      <div class="nav-avatar">
+        <div class="avatar-circle">SM</div>
+        <span style="color:#364153; font-size:14px; font-weight:500;">Sofía Martínez</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-with-sidebar">
+    <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="panel_tutor.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="horario_tutor.html" class="sidebar-item">📅 Horarios y Reservas</a>
+        <a href="solicitudes.html" class="sidebar-item">📋 Solicitudes de Reserva</a>
+        <a href="panel_tutor.html#estadisticas" class="sidebar-item">📊 Estadísticas</a>
+        <a href="mensaje_tutor.html" class="sidebar-item active">💬 Mensajes</a>
+        <a href="perfil2.html" class="sidebar-item">👤 Perfil</a>
+        <a href="configuracion.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <div style="flex:1; display:flex; overflow:hidden;">
+      <div class="mensajes-layout" style="flex:1;">
+
+        <div class="mensajes-lista">
+          <div class="mensajes-lista-header">
+            <div class="mensajes-lista-title">Mensajes</div>
+            <input type="text" placeholder="Buscar conversaciones..." class="form-input" style="margin-top:10px; font-size:13px;" />
+          </div>
+
+          <div class="mensaje-item active">
+            <div class="msg-avatar">DR</div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; justify-content:space-between;">
+                <div class="msg-name">Diego Ramírez</div>
+                <div class="msg-time">10:30 AM</div>
+              </div>
+              <div class="msg-preview">Nos vemos mañana a las 10:00</div>
+            </div>
+            <div class="msg-unread"></div>
+          </div>
+
+          <div class="mensaje-item">
+            <div class="msg-avatar" style="background:#6A7282;">AL</div>
+            <div style="flex:1; min-width:0;">
+              <div style="display:flex; justify-content:space-between;">
+                <div class="msg-name">Ana López</div>
+                <div class="msg-time">Hace 2 días</div>
+              </div>
+              <div class="msg-preview">Excelente! Ya terminaste el proyecto?</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chat-area">
+          <div class="chat-header">
+            <div class="msg-avatar">DR</div>
+            <div>
+              <div style="font-size:15px; font-weight:600; color:#101828;">Diego Ramírez</div>
+              <div style="font-size:12px; color:#16A34A;">● En línea</div>
+            </div>
+          </div>
+
+          <div class="chat-messages">
+            <div style="text-align:center; color:#99A1AF; font-size:12px; margin:8px 0;">Hoy, 09:00 AM</div>
+            <div class="chat-bubble sent">Hola! ¿Cómo estás?</div>
+            <div class="chat-bubble received">¡Hola Sofia! Todo bien, gracias</div>
+            <div class="chat-bubble sent">Perfecto. Recordarte que mañana tenemos clase a las 10 AM</div>
+            <div class="chat-bubble received">Sí, ahí estaré. ¿Qué temas vamos a ver?</div>
+            <div class="chat-bubble sent">Vamos a repasar cálculo diferencial</div>
+            <div style="text-align:center; color:#99A1AF; font-size:12px; margin:8px 0;">10:25 AM</div>
+            <div class="chat-bubble sent">Nos vemos mañana a las 10:00 AM para la clase de matemáticas</div>
+          </div>
+
+          <div class="chat-input-area">
+            <input type="text" class="chat-input" placeholder="Escribe un mensaje..." />
+            <button class="btn-primary" style="padding:10px 20px; font-size:14px; border:none; cursor:pointer; border-radius:12px;">Enviar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

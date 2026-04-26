@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Horarios — myTEACHER</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body style="background:#F9FAFB;">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><div class="logo-icon-inner"><div class="bar1"></div><div class="bar2"></div></div></div>
+      <div class="logo-text"><span class="my">my</span><span class="teacher">TEACHER</span></div>
+    </a>
+    <div style="flex:1;"></div>
+    <div class="nav-actions">
+      <div class="nav-avatar">
+        <div class="avatar-circle">SM</div>
+        <span style="color:#364153; font-size:14px; font-weight:500;">Sofía Martínez</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-with-sidebar">
+    <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="panel_tutor.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="horario_tutor.html" class="sidebar-item active">📅 Horarios y Reservas</a>
+        <a href="solicitudes.html" class="sidebar-item">📋 Solicitudes de Reserva</a>
+        <a href="panel_tutor.html#estadisticas" class="sidebar-item">📊 Estadísticas</a>
+        <a href="mensaje_tutor.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="perfil2.html" class="sidebar-item">👤 Perfil</a>
+        <a href="configuracion.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <div class="page-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+        <div>
+          <div class="page-title">Horarios y Reservas</div>
+          <div class="page-subtitle">Gestiona tu disponibilidad semanal</div>
+        </div>
+        <button class="btn-primary" style="border:none; cursor:pointer;">+ Agregar disponibilidad</button>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 300px; gap:24px;">
+
+        <!-- Calendario semanal -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <div style="font-size:16px; font-weight:700; color:#101828;">Semana del 15 – 21 de Marzo</div>
+            <div style="display:flex; gap:8px;">
+              <button style="background:none; border:1.74px solid #E5E7EB; border-radius:8px; padding:6px 12px; cursor:pointer; color:#6A7282;">‹ Anterior</button>
+              <button style="background:none; border:1.74px solid #E5E7EB; border-radius:8px; padding:6px 12px; cursor:pointer; color:#6A7282;">Siguiente ›</button>
+            </div>
+          </div>
+
+          <table style="width:100%; border-collapse:collapse; font-size:13px; text-align:center;">
+            <thead>
+              <tr style="border-bottom:1.74px solid #F3F4F6;">
+                <th style="padding:12px 8px; color:#6A7282; font-weight:500; width:80px;">Hora</th>
+                <th style="padding:12px 8px; color:#6A7282; font-weight:500;">Lun 16</th>
+                <th style="padding:12px 8px; color:#6A7282; font-weight:500;">Mar 17</th>
+                <th style="padding:12px 8px; color:#6A7282; font-weight:500;">Mié 18</th>
+                <th style="padding:12px 8px; color:#6A7282; font-weight:500;">Jue 19</th>
+                <th style="padding:12px 8px; color:#6A7282; font-weight:500;">Vie 20</th>
+                <th style="padding:12px 8px; color:#6A7282; font-weight:500;">Sáb 21</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #F3F4F6;">
+                <td style="padding:12px 8px; color:#6A7282; font-weight:500;">09:00</td>
+                <td style="padding:6px;"><div style="background:#F5F3FF; border-radius:8px; padding:8px; color:#7F22FE; font-size:12px; font-weight:600;">Disponible</div></td>
+                <td style="padding:6px;"><div style="background:#DCFCE7; border-radius:8px; padding:8px; color:#16A34A; font-size:12px; font-weight:600;">María G.</div></td>
+                <td style="padding:6px;"><div style="background:#F5F3FF; border-radius:8px; padding:8px; color:#7F22FE; font-size:12px; font-weight:600;">Disponible</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px;"><div style="background:#F5F3FF; border-radius:8px; padding:8px; color:#7F22FE; font-size:12px; font-weight:600;">Disponible</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+              </tr>
+              <tr style="border-bottom:1px solid #F3F4F6;">
+                <td style="padding:12px 8px; color:#6A7282; font-weight:500;">11:00</td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px;"><div style="background:#F5F3FF; border-radius:8px; padding:8px; color:#7F22FE; font-size:12px; font-weight:600;">Disponible</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px;"><div style="background:#DCFCE7; border-radius:8px; padding:8px; color:#16A34A; font-size:12px; font-weight:600;">Ana R.</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+              </tr>
+              <tr style="border-bottom:1px solid #F3F4F6;">
+                <td style="padding:12px 8px; color:#6A7282; font-weight:500;">14:00</td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px;"><div style="background:#F5F3FF; border-radius:8px; padding:8px; color:#7F22FE; font-size:12px; font-weight:600;">Disponible</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px;"><div style="background:#DCFCE7; border-radius:8px; padding:8px; color:#16A34A; font-size:12px; font-weight:600;">Pedro S.</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+              </tr>
+              <tr>
+                <td style="padding:12px 8px; color:#6A7282; font-weight:500;">16:00</td>
+                <td style="padding:6px;"><div style="background:#F5F3FF; border-radius:8px; padding:8px; color:#7F22FE; font-size:12px; font-weight:600;">Disponible</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px;"><div style="background:#F5F3FF; border-radius:8px; padding:8px; color:#7F22FE; font-size:12px; font-weight:600;">Disponible</div></td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+                <td style="padding:6px; color:#D1D5DB;">–</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Leyenda -->
+          <div style="display:flex; gap:20px; margin-top:16px; padding-top:12px; border-top:1px solid #F3F4F6;">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div style="width:12px; height:12px; background:#F5F3FF; border-radius:3px; border:1px solid #7F22FE;"></div>
+              <span style="font-size:12px; color:#6A7282;">Disponible</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div style="width:12px; height:12px; background:#DCFCE7; border-radius:3px;"></div>
+              <span style="font-size:12px; color:#6A7282;">Reservado</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:6px;">
+              <div style="width:12px; height:12px; background:#F3F4F6; border-radius:3px;"></div>
+              <span style="font-size:12px; color:#6A7282;">No disponible</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel lateral -->
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="card">
+            <div class="section-title" style="margin-bottom:12px;">Resumen de la semana</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; justify-content:space-between; font-size:14px;">
+                <span style="color:#6A7282;">Sesiones reservadas</span>
+                <span style="font-weight:600; color:#101828;">3</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:14px;">
+                <span style="color:#6A7282;">Horas disponibles</span>
+                <span style="font-weight:600; color:#101828;">8</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:14px;">
+                <span style="color:#6A7282;">Ingresos estimados</span>
+                <span style="font-weight:600; color:#7F22FE;">$75.000</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="section-title" style="margin-bottom:12px;">Sesiones de hoy</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="padding:10px; background:#F5F3FF; border-radius:10px;">
+                <div style="font-size:13px; font-weight:600; color:#101828;">María García</div>
+                <div style="font-size:12px; color:#7F22FE;">Álgebra Lineal</div>
+                <div style="font-size:12px; color:#6A7282; margin-top:2px;">10:00 AM · 1h · Virtual</div>
+              </div>
+              <div style="padding:10px; background:#F5F3FF; border-radius:10px;">
+                <div style="font-size:13px; font-weight:600; color:#101828;">Pedro Silva</div>
+                <div style="font-size:12px; color:#7F22FE;">Cálculo Diferencial</div>
+                <div style="font-size:12px; color:#6A7282; margin-top:2px;">3:00 PM · 1.5h · Virtual</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
