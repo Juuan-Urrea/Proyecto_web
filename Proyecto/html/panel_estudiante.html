@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard Estudiante — myTEACHER</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body style="background:#F9FAFB;">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><div class="logo-icon-inner"><div class="bar1"></div><div class="bar2"></div></div></div>
+      <div class="logo-text"><span class="my">my</span><span class="teacher">TEACHER</span></div>
+    </a>
+    <div style="flex:1;"></div>
+    <div class="nav-actions">
+      <div class="nav-avatar">
+        <div class="avatar-circle">DR</div>
+        <span style="color:#364153; font-size:14px; font-weight:500;">Diego Ramírez</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-with-sidebar">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="panel_estudiante.html" class="sidebar-item active">🏠 Inicio</a>
+        <a href="busqueda_tutores.html" class="sidebar-item">🔍 Buscar Tutores</a>
+        <a href="tutorias.html" class="sidebar-item">📅 Mis Tutorías</a>
+        <a href="mensaje_estudiante.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="notificaciones.html" class="sidebar-item">🔔 Notificaciones</a>
+        <a href="perfil2.html" class="sidebar-item">👤 Perfil</a>
+        <a href="configuracion.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="login.html" class="sidebar-item" style="margin-top:auto; color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <!-- Contenido -->
+    <div class="page-content">
+
+      <!-- Bienvenida -->
+      <div style="margin-bottom:32px;">
+        <div class="page-title">¡Buenos días, Diego!</div>
+        <div class="page-subtitle">Tienes 2 sesiones próximas esta semana</div>
+        <a href="busqueda_tutores.html" class="btn-primary" style="display:inline-flex; gap:8px; align-items:center;">
+          🔍 Buscar tutor
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="dashboard-stats" style="margin-bottom:32px;">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-purple">📚</div>
+          <div class="stat-val">24</div>
+          <div class="stat-lbl">Sesiones totales</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-green">⏱️</div>
+          <div class="stat-val">36h</div>
+          <div class="stat-lbl">Horas de estudio</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-blue">⭐</div>
+          <div class="stat-val">5</div>
+          <div class="stat-lbl">Tutores favoritos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon-yellow">🔥</div>
+          <div class="stat-val">7 días</div>
+          <div class="stat-lbl">Racha actual</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 300px; gap:24px; margin-bottom:32px;">
+
+        <!-- Próximas tutorías -->
+        <div class="table-container">
+          <div class="table-header">
+            <div class="table-title">Próximas tutorías</div>
+            <a href="tutorias.html" class="section-link">Ver todas</a>
+          </div>
+          <div style="padding:16px 24px; display:flex; gap:16px; align-items:center; border-bottom:1px solid #F3F4F6;">
+            <img src="https://placehold.co/48x48" alt="Sofía" style="width:48px; height:48px; border-radius:50%; object-fit:cover; flex-shrink:0;" />
+            <div style="flex:1;">
+              <div style="color:#101828; font-size:14px; font-weight:600;">Sofía Martínez</div>
+              <div style="color:#7F22FE; font-size:13px;">Matemáticas</div>
+              <div style="color:#6A7282; font-size:12px; margin-top:4px;">Hoy, 15 Mar · 10:00 AM · Virtual</div>
+            </div>
+            <a href="agendar.html" class="btn-primary" style="font-size:13px; padding:8px 14px; border-radius:10px; white-space:nowrap;">Unirse</a>
+          </div>
+          <div style="padding:16px 24px; display:flex; gap:16px; align-items:center;">
+            <img src="https://placehold.co/48x48" alt="Carlos" style="width:48px; height:48px; border-radius:50%; object-fit:cover; flex-shrink:0;" />
+            <div style="flex:1;">
+              <div style="color:#101828; font-size:14px; font-weight:600;">Carlos Rodríguez</div>
+              <div style="color:#7F22FE; font-size:13px;">Física</div>
+              <div style="color:#6A7282; font-size:12px; margin-top:4px;">Mañana, 16 Mar · 3:00 PM · Virtual</div>
+            </div>
+            <a href="agendar.html" class="btn-primary" style="font-size:13px; padding:8px 14px; border-radius:10px; white-space:nowrap;">Unirse</a>
+          </div>
+        </div>
+
+        <!-- Recomendados -->
+        <div class="card">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+            <div class="section-title" style="margin:0;">Recomendados</div>
+            <a href="busqueda_tutores.html" class="section-link">Ver más</a>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://placehold.co/36x36" style="width:36px; height:36px; border-radius:50%; flex-shrink:0;"/>
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:600; color:#101828;">María Gonzalez</div>
+                <div style="font-size:12px; color:#6A7282;">Matemáticas · ⭐4.9 · $25.000/h</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://placehold.co/36x36" style="width:36px; height:36px; border-radius:50%; flex-shrink:0;"/>
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:600; color:#101828;">Carlos Rodríguez</div>
+                <div style="font-size:12px; color:#6A7282;">Bases de Datos · ⭐4.8 · $30.000/h</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://placehold.co/36x36" style="width:36px; height:36px; border-radius:50%; flex-shrink:0;"/>
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:600; color:#101828;">Yuki Tanaka</div>
+                <div style="font-size:12px; color:#6A7282;">Estadística · ⭐4.7 · $22.000/h</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <img src="https://placehold.co/36x36" style="width:36px; height:36px; border-radius:50%; flex-shrink:0;"/>
+              <div style="flex:1;">
+                <div style="font-size:13px; font-weight:600; color:#101828;">Andrés Vargas</div>
+                <div style="font-size:12px; color:#6A7282;">Química · ⭐4.6 · $28.000/h</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historial -->
+      <div class="table-container">
+        <div class="table-header">
+          <div class="table-title">Historial de sesiones</div>
+          <a href="tutorias.html" class="section-link">Ver todo</a>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Tutor</th>
+              <th>Materia</th>
+              <th>Fecha</th>
+              <th>Duración</th>
+              <th>Calificación</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div style="display:flex; align-items:center; gap:8px;"><img src="https://placehold.co/32x32" style="width:32px; height:32px; border-radius:50%;"/> Amara Johnson</div></td>
+              <td>Inglés IELTS</td>
+              <td>12 Mar 2026</td>
+              <td>60 min</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td><a href="tutorias.html" class="section-link">Ver detalles</a></td>
+            </tr>
+            <tr>
+              <td><div style="display:flex; align-items:center; gap:8px;"><img src="https://placehold.co/32x32" style="width:32px; height:32px; border-radius:50%;"/> David Herrera</div></td>
+              <td>JavaScript</td>
+              <td>10 Mar 2026</td>
+              <td>90 min</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td><a href="tutorias.html" class="section-link">Ver detalles</a></td>
+            </tr>
+            <tr>
+              <td><div style="display:flex; align-items:center; gap:8px;"><img src="https://placehold.co/32x32" style="width:32px; height:32px; border-radius:50%;"/> Sofía Martínez</div></td>
+              <td>Cálculo</td>
+              <td>8 Mar 2026</td>
+              <td>60 min</td>
+              <td>⭐⭐⭐⭐⭐</td>
+              <td><a href="tutorias.html" class="section-link">Ver detalles</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
