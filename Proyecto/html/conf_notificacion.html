@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notificaciones — Configuración — myTEACHER</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body style="background:#F9FAFB;">
+
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <div class="logo-icon"><div class="logo-icon-inner"><div class="bar1"></div><div class="bar2"></div></div></div>
+      <div class="logo-text"><span class="my">my</span><span class="teacher">TEACHER</span></div>
+    </a>
+    <div style="flex:1;"></div>
+    <div class="nav-actions">
+      <div class="nav-avatar">
+        <div class="avatar-circle">DR</div>
+        <span style="color:#364153; font-size:14px; font-weight:500;">Diego Ramírez</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-with-sidebar">
+    <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="panel_estudiante.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="busqueda_tutores.html" class="sidebar-item">🔍 Buscar Tutores</a>
+        <a href="tutorias.html" class="sidebar-item">📅 Mis Tutorías</a>
+        <a href="mensaje_estudiante.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="notificaciones.html" class="sidebar-item">🔔 Notificaciones</a>
+        <a href="perfil2.html" class="sidebar-item">👤 Perfil</a>
+        <a href="configuracion.html" class="sidebar-item active">⚙️ Configuración</a>
+        <a href="login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+    </aside>
+
+    <div class="page-content">
+      <div class="page-title">Configuración</div>
+      <div class="page-subtitle">Administra tu cuenta y preferencias de la plataforma</div>
+
+      <div class="config-layout">
+        <div class="config-nav">
+          <a href="configuracion.html" class="config-nav-item">👤 Cuenta</a>
+          <a href="conf_notificacion.html" class="config-nav-item active">🔔 Notificaciones</a>
+          <a href="conf_privacidad.html" class="config-nav-item">🔒 Privacidad</a>
+        </div>
+
+        <div class="config-content">
+          <div class="config-section-title">Canales de Notificación</div>
+          <div class="config-section-sub">Elige cómo quieres recibir tus notificaciones</div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label">Notificaciones por Email</div>
+              <div class="toggle-desc">Recibe actualizaciones por correo electrónico</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label">Notificaciones Push</div>
+              <div class="toggle-desc">Notificaciones en el navegador</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label">Notificaciones SMS</div>
+              <div class="toggle-desc">Recibe mensajes de texto</div>
+            </div>
+            <div class="toggle"></div>
+          </div>
+
+          <div class="config-divider"></div>
+
+          <div class="config-section-title">Tipos de Notificación</div>
+          <div class="config-section-sub">Selecciona qué tipo de alertas quieres recibir</div>
+
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label">Nuevos Mensajes</div>
+              <div class="toggle-desc">Notificaciones de mensajes de tutores</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label">Recordatorios de Sesiones</div>
+              <div class="toggle-desc">Recordatorios antes de tus clases</div>
+            </div>
+            <div class="toggle on"></div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info">
+              <div class="toggle-label">Promociones</div>
+              <div class="toggle-desc">Ofertas especiales y promociones</div>
+            </div>
+            <div class="toggle"></div>
+          </div>
+
+          <div style="margin-top:24px;">
+            <button class="btn-primary" style="border:none; cursor:pointer;">Guardar Cambios</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
