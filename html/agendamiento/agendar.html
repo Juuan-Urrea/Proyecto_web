@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agendar Tutoría — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Inicio</a>
+        <a href="../tutor/busqueda_tutores.html">Buscar Tutores</a>
+      </div>
+      <div class="nav-actions">
+        <div class="nav-avatar">
+          <div class="avatar-circle">SM</div>
+          <span style="color: #364153; font-size: 14px; font-weight: 500"
+            >demo</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div
+      style="
+        padding: 16px 67px;
+        background: white;
+        border-bottom: 1px solid #f3f4f6;
+      "
+    >
+      <span style="color: #6a7282; font-size: 14px">
+        <a
+          href="../tutor/busqueda_tutores.html"
+          style="color: #6a7282; text-decoration: none"
+          >Buscar tutores</a
+        >
+        ›
+        <a
+          href="../tutor/perfil_tutor.html"
+          style="color: #6a7282; text-decoration: none"
+          id="breadcrumb-tutor-link"
+          >Sofía Martínez</a
+        >
+        › Agendar
+      </span>
+    </div>
+
+    <div
+      style="
+        background: #f9fafb;
+        min-height: calc(100vh - 130px);
+        padding: 32px 67px;
+      "
+    >
+      <div
+        style="
+          color: #101828;
+          font-size: 24px;
+          font-weight: 700;
+          margin-bottom: 4px;
+        "
+      >
+        Agendar Tutoría
+      </div>
+      <div
+        style="color: #6a7282; font-size: 14px; margin-bottom: 32px"
+        id="header-tutor-info"
+      >
+        con Sofía Martínez · Álgebra y Cálculo
+      </div>
+
+      <div class="agendar-layout">
+        <!-- Formulario -->
+        <div>
+          <!-- Paso 1: Fecha -->
+          <div class="agendar-step card" style="margin-bottom: 24px">
+            <div class="step-title">
+              <div class="step-number">1</div>
+              Elige una fecha
+            </div>
+            <div class="calendar">
+              <div class="calendar-header">
+                <button
+                  style="
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: #6a7282;
+                  "
+                >
+                  ‹
+                </button>
+                <div class="calendar-month">Marzo 2026</div>
+                <button
+                  style="
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    color: #6a7282;
+                  "
+                >
+                  ›
+                </button>
+              </div>
+              <div class="calendar-grid">
+                <div class="cal-day-name">Do</div>
+                <div class="cal-day-name">Lu</div>
+                <div class="cal-day-name">Ma</div>
+                <div class="cal-day-name">Mi</div>
+                <div class="cal-day-name">Ju</div>
+                <div class="cal-day-name">Vi</div>
+                <div class="cal-day-name">Sá</div>
+                <div class="cal-day disabled">1</div>
+                <div class="cal-day disabled">2</div>
+                <div class="cal-day">3</div>
+                <div class="cal-day">4</div>
+                <div class="cal-day">5</div>
+                <div class="cal-day">6</div>
+                <div class="cal-day">7</div>
+                <div class="cal-day">8</div>
+                <div class="cal-day">9</div>
+                <div class="cal-day">10</div>
+                <div class="cal-day">11</div>
+                <div class="cal-day">12</div>
+                <div class="cal-day">13</div>
+                <div class="cal-day active">14</div>
+                <div class="cal-day">15</div>
+                <div class="cal-day">16</div>
+                <div class="cal-day">17</div>
+                <div class="cal-day">18</div>
+                <div class="cal-day">19</div>
+                <div class="cal-day">20</div>
+                <div class="cal-day">21</div>
+                <div class="cal-day">22</div>
+                <div class="cal-day">23</div>
+                <div class="cal-day">24</div>
+                <div class="cal-day">25</div>
+                <div class="cal-day">26</div>
+                <div class="cal-day">27</div>
+                <div class="cal-day">28</div>
+                <div class="cal-day">29</div>
+                <div class="cal-day">30</div>
+                <div class="cal-day">31</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paso 2: Hora -->
+          <div class="agendar-step card" style="margin-bottom: 24px">
+            <div class="step-title">
+              <div class="step-number">2</div>
+              Elige un horario
+            </div>
+            <div class="horarios-grid">
+              <button class="horario-btn">09:00</button>
+              <button class="horario-btn">10:00</button>
+              <button class="horario-btn">11:00</button>
+              <button class="horario-btn active">14:00</button>
+              <button class="horario-btn">15:00</button>
+              <button class="horario-btn disabled">16:00</button>
+              <button class="horario-btn">17:00</button>
+              <button class="horario-btn">18:00</button>
+            </div>
+          </div>
+
+          <!-- Paso 3: Modalidad -->
+          <div class="agendar-step card" style="margin-bottom: 24px">
+            <div class="step-title">
+              <div class="step-number">3</div>
+              Elige la modalidad
+            </div>
+            <div class="modalidad-grid">
+              <div class="modalidad-btn">
+                <div style="font-size: 24px">💻</div>
+                <div class="modalidad-label">Virtual</div>
+                <div class="modalidad-desc">Sesión por videollamada</div>
+              </div>
+              <div class="modalidad-btn active">
+                <div style="font-size: 24px">🏫</div>
+                <div class="modalidad-label">Presencial</div>
+                <div class="modalidad-desc">Encuentro en persona</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paso 4: Pago -->
+          <div class="agendar-step card">
+            <div class="step-title">
+              <div class="step-number">4</div>
+              Elige el método de pago
+            </div>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px"
+            >
+              <div class="modalidad-btn">
+                <div style="font-size: 24px">📱</div>
+                <div class="modalidad-label">Transferencia</div>
+              </div>
+              <div class="modalidad-btn active">
+                <div style="font-size: 24px">💳</div>
+                <div class="modalidad-label">Efectivo</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resumen -->
+        <div>
+          <div class="resumen-card">
+            <div class="resumen-title">Resumen de reserva</div>
+
+            <!-- Info tutor -->
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 16px;
+                padding-bottom: 16px;
+                border-bottom: 1px solid #f3f4f6;
+              "
+            >
+              <img
+                src="https://placehold.co/48x48"
+                alt="Sofía"
+                style="
+                  width: 48px;
+                  height: 48px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                "
+              />
+              <div>
+                <div
+                  style="color: #101828; font-size: 14px; font-weight: 600"
+                  id="summary-tutor-name"
+                >
+                  Sofía Martínez
+                </div>
+                <div
+                  style="color: #7f22fe; font-size: 13px"
+                  id="summary-tutor-subj"
+                >
+                  Álgebra y Cálculo
+                </div>
+              </div>
+            </div>
+
+            <div class="resumen-row">
+              <span class="resumen-lbl">Fecha</span>
+              <span class="resumen-val" id="summary-date">14 Marzo</span>
+            </div>
+            <div class="resumen-row">
+              <span class="resumen-lbl">Hora</span>
+              <span class="resumen-val" id="summary-time">14:00</span>
+            </div>
+            <div class="resumen-row">
+              <span class="resumen-lbl">Duración</span>
+              <span class="resumen-val">60 minutos</span>
+            </div>
+            <div class="resumen-row">
+              <span class="resumen-lbl">Modalidad</span>
+              <span class="resumen-val" id="summary-mod">Presencial</span>
+            </div>
+            <div class="resumen-total">
+              <span class="resumen-total-lbl">Total</span>
+              <span class="resumen-total-val" id="summary-tutor-price"
+                >$25.000</span
+              >
+            </div>
+
+            <div
+              style="
+                margin-top: 8px;
+                color: #6a7282;
+                font-size: 12px;
+                text-align: center;
+              "
+            >
+              Pago al llegar a la tutoría
+            </div>
+
+            <a
+              href="../autenticacion/confirmacion.html"
+              id="btn-confirmar"
+              class="btn-primary"
+              style="
+                width: 100%;
+                display: block;
+                text-align: center;
+                margin-top: 16px;
+              "
+            >
+              Confirmar reserva
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tutores = {
+        sofia: {
+          name: "Sofía Martínez",
+          subj: "Matemáticas",
+          subj1: "Matemáticas",
+          price: "$25.000",
+        },
+        carlos: {
+          name: "Carlos Rodríguez",
+          subj: "Bases de Datos",
+          subj1: "Programación",
+          price: "$30.000",
+        },
+        yuki: {
+          name: "Yuki Tanaka",
+          subj: "Estadística y Probabilidad",
+          subj1: "Estadística",
+          price: "$22.000",
+        },
+        mario: {
+          name: "Mario Blanco",
+          subj: "Mecánica Clásica",
+          subj1: "Física",
+          price: "$28.000",
+        },
+        amara: {
+          name: "Amara Johnson",
+          subj: "Inglés de Negocios",
+          subj1: "Inglés",
+          price: "$35.000",
+        },
+        david: {
+          name: "David Moreno",
+          subj: "Química Orgánica",
+          subj1: "Química",
+          price: "$20.000",
+        },
+      };
+
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (id && tutores[id]) {
+        const t = tutores[id];
+        const linkPerfil = `../tutor/perfil_tutor.html?id=${id}`;
+
+        const breadcrumbLink = document.getElementById("breadcrumb-tutor-link");
+        if (breadcrumbLink) {
+          breadcrumbLink.textContent = t.name;
+          breadcrumbLink.href = linkPerfil;
+        }
+
+        const headerInfo = document.getElementById("header-tutor-info");
+        if (headerInfo) {
+          headerInfo.textContent = `con ${t.name} · ${t.subj}`;
+        }
+
+        const summaryName = document.getElementById("summary-tutor-name");
+        if (summaryName) {
+          summaryName.textContent = t.name;
+        }
+
+        const summarySubj = document.getElementById("summary-tutor-subj");
+        if (summarySubj) {
+          summarySubj.textContent = t.subj;
+        }
+
+        const summaryPrice = document.getElementById("summary-tutor-price");
+        if (summaryPrice) {
+          summaryPrice.textContent = t.price;
+        }
+
+        const btnConfirmar = document.getElementById("btn-confirmar");
+        if (btnConfirmar) {
+          btnConfirmar.href = `../autenticacion/confirmacion.html?id=${id}&mod=Presencial`;
+        }
+      }
+
+      // Función para actualizar el enlace de confirmación y el resumen
+      function updateReservation() {
+        const activeDay = document.querySelector('.cal-day.active');
+        const activeTime = document.querySelector('.horario-btn.active');
+        let activeModLabel = 'Presencial';
+        
+        // Encontrar el botón de modalidad activo en el paso 3
+        const steps = document.querySelectorAll('.agendar-step');
+        if (steps.length >= 3) {
+          const modBtn = steps[2].querySelector('.modalidad-btn.active .modalidad-label');
+          if (modBtn) activeModLabel = modBtn.textContent.trim();
+        }
+
+        const dayText = activeDay ? activeDay.textContent.trim() : '14';
+        const dateText = `${dayText} Marzo`;
+        const timeText = activeTime ? activeTime.textContent.trim() : '14:00';
+
+        // Actualizar resumen
+        const sumDate = document.getElementById('summary-date');
+        if (sumDate) sumDate.textContent = dateText;
+        
+        const sumTime = document.getElementById('summary-time');
+        if (sumTime) sumTime.textContent = timeText;
+        
+        const sumMod = document.getElementById('summary-mod');
+        if (sumMod) sumMod.textContent = activeModLabel;
+
+        // Actualizar URL del botón
+        const btnConf = document.getElementById("btn-confirmar");
+        if (btnConf) {
+          const url = new URL(btnConf.href, window.location.href);
+          url.searchParams.set('dia', dateText);
+          url.searchParams.set('hora', timeText);
+          url.searchParams.set('mod', activeModLabel);
+          btnConf.href = url.href;
+        }
+      }
+
+      // Interactividad de los botones
+      document.querySelectorAll('.agendar-step').forEach(step => {
+        // Calendario
+        const days = step.querySelectorAll('.cal-day:not(.disabled)');
+        if (days.length > 0) {
+          days.forEach(day => {
+            day.addEventListener('click', () => {
+              days.forEach(d => d.classList.remove('active'));
+              day.classList.add('active');
+              updateReservation();
+            });
+          });
+        }
+
+        // Horarios
+        const horarios = step.querySelectorAll('.horario-btn:not(.disabled)');
+        if (horarios.length > 0) {
+          horarios.forEach(horario => {
+            horario.addEventListener('click', () => {
+              horarios.forEach(h => h.classList.remove('active'));
+              horario.classList.add('active');
+              updateReservation();
+            });
+          });
+        }
+
+        // Modalidad y Pago (ambos usan la clase modalidad-btn)
+        const botonesModalidad = step.querySelectorAll('.modalidad-btn');
+        if (botonesModalidad.length > 0) {
+          botonesModalidad.forEach(btn => {
+            btn.addEventListener('click', () => {
+              botonesModalidad.forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              updateReservation();
+            });
+          });
+        }
+      });
+      
+      // Llamar al inicio para fijar parámetros por defecto
+      updateReservation();
+    </script>
+  </body>
+</html>

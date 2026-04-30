@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buscar Tutores — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Inicio</a>
+        <a href="busqueda_tutores.html">Buscar Tutores</a>
+        <a href="index.html#como-funciona">Cómo Funciona</a>
+      </div>
+      <div class="nav-actions">
+        <a href="../autenticacion/login.html" class="btn-login"
+          >Iniciar Sesión</a
+        >
+        <a href="../autenticacion/registro_estudiante.html" class="btn-register"
+          >Registrarse</a
+        >
+      </div>
+    </nav>
+
+    <!-- Hero búsqueda -->
+    <div class="search-hero">
+      <h1>Buscar tutores</h1>
+      <div
+        style="display: flex; gap: 12px; align-items: center; max-width: 900px"
+      >
+        <div class="search-bar" style="flex: 1; max-width: none">
+          <svg
+            width="16"
+            height="16"
+            fill="none"
+            stroke="#99A1AF"
+            stroke-width="1.5"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input type="text" placeholder="Busca por nombre o materia..." />
+        </div>
+        <button class="btn-primary" style="height: 47px; white-space: nowrap">
+          Filtros
+        </button>
+      </div>
+
+      <!-- Filtros -->
+      <div
+        style="
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          margin-top: 20px;
+          padding-top: 16px;
+          border-top: 1.74px solid #f3f4f6;
+        "
+      >
+        <div class="form-group" style="margin: 0">
+          <label
+            class="form-label"
+            style="
+              font-size: 12px;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            "
+            >Materia</label
+          >
+          <select class="form-select">
+            <option>Todas las materias</option>
+            <option>Matemáticas</option>
+            <option>Física</option>
+            <option>Química</option>
+            <option>Programación</option>
+            <option>Inglés</option>
+            <option>Historia</option>
+            <option>Biología</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin: 0">
+          <label
+            class="form-label"
+            style="
+              font-size: 12px;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            "
+            >Nivel educativo</label
+          >
+          <select class="form-select">
+            <option>Todos los niveles</option>
+            <option>Primaria</option>
+            <option>Secundaria</option>
+            <option>Universidad</option>
+            <option>Profesional</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin: 0">
+          <label
+            class="form-label"
+            style="
+              font-size: 12px;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            "
+            >Modalidad</label
+          >
+          <select class="form-select">
+            <option>Cualquier modalidad</option>
+            <option>Virtual</option>
+            <option>Presencial</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin: 0">
+          <label
+            class="form-label"
+            style="
+              font-size: 12px;
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+            "
+            >Calificación mínima</label
+          >
+          <select class="form-select">
+            <option>Cualquier calificación</option>
+            <option>4.0+</option>
+            <option>4.5+</option>
+            <option>4.8+</option>
+          </select>
+        </div>
+      </div>
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: 12px;
+        "
+      >
+        <div style="color: #6a7282; font-size: 14px">
+          Precio máximo: $100.000/h
+        </div>
+        <button
+          style="
+            background: none;
+            border: none;
+            color: #fb2c36;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+          "
+        >
+          Limpiar filtros
+        </button>
+      </div>
+    </div>
+
+    <!-- Resultados -->
+    <div style="padding: 32px 67px">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 24px;
+        "
+      >
+        <div style="color: #6a7282; font-size: 14px">6 tutores encontrados</div>
+        <select class="form-select" style="width: 200px">
+          <option>Ordenar por: Relevancia</option>
+          <option>Precio: menor a mayor</option>
+          <option>Precio: mayor a menor</option>
+          <option>Mejor calificados</option>
+        </select>
+      </div>
+
+      <div class="tutores-grid-busqueda">
+        <!-- Tutor 1 -->
+        <div class="tutor-card-busqueda">
+          <div style="position: relative">
+            <img class="card-img" src="https://placehold.co/389x210" alt="Sofía Martínez" width="389" height="210"/>
+            <span
+              class="badge badge-purple"
+              style="position: absolute; top: 12px; left: 12px"
+              >Top Tutor</span
+            >
+            <div
+              style="
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 4px 10px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
+            >
+              <div class="rating-star-sm"></div>
+              <span class="rating-val">4.9</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tutor-name">Sofía Martínez</div>
+            <div class="tutor-subj">Matemáticas · Álgebra y Cálculo</div>
+            <div class="tutor-loc">📍 Barranquilla, Colombia</div>
+            <div class="card-footer">
+              <div class="tutor-price">$25.000<span>/hora</span></div>
+              <a
+                href="perfil_tutor.html"
+                class="btn-primary"
+                style="font-size: 14px; padding: 8px 16px; border-radius: 10px"
+                >Ver perfil</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Tutor 2 -->
+        <div class="tutor-card-busqueda">
+          <div style="position: relative">
+            <img
+              class="card-img"
+              src="https://placehold.co/389x210"
+              alt="Carlos Rodríguez"
+            />
+            <span
+              class="badge badge-purple"
+              style="position: absolute; top: 12px; left: 12px"
+              >Top Tutor</span
+            >
+            <div
+              style="
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 4px 10px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
+            >
+              <div class="rating-star-sm"></div>
+              <span class="rating-val">4.8</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tutor-name">Carlos Rodríguez</div>
+            <div class="tutor-subj">Programación · Bases de Datos</div>
+            <div class="tutor-loc">📍 Barranquilla, Colombia</div>
+            <div class="card-footer">
+              <div class="tutor-price">$30.000<span>/hora</span></div>
+              <a
+                href="perfil_tutor.html?id=carlos"
+                class="btn-primary"
+                style="font-size: 14px; padding: 8px 16px; border-radius: 10px"
+                >Ver perfil</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Tutor 3 -->
+        <div class="tutor-card-busqueda">
+          <div style="position: relative">
+            <img
+              class="card-img"
+              src="https://placehold.co/389x210"
+              alt="Yuki Tanaka"
+            />
+            <span
+              class="badge badge-purple"
+              style="position: absolute; top: 12px; left: 12px"
+              >Responde rápido</span
+            >
+            <div
+              style="
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 4px 10px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
+            >
+              <div class="rating-star-sm"></div>
+              <span class="rating-val">4.7</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tutor-name">Yuki Tanaka</div>
+            <div class="tutor-subj">Estadística y Probabilidad</div>
+            <div class="tutor-loc">📍 Barranquilla, Colombia</div>
+            <div class="card-footer">
+              <div class="tutor-price">$22.000<span>/hora</span></div>
+              <a
+                href="perfil_tutor.html?id=yuki"
+                class="btn-primary"
+                style="font-size: 14px; padding: 8px 16px; border-radius: 10px"
+                >Ver perfil</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Tutor 4 -->
+        <div class="tutor-card-busqueda">
+          <div style="position: relative">
+            <img
+              class="card-img"
+              src="https://placehold.co/389x210"
+              alt="Mario Blanco"
+            />
+            <div
+              style="
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 4px 10px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
+            >
+              <div class="rating-star-sm"></div>
+              <span class="rating-val">4.6</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tutor-name">Mario Blanco</div>
+            <div class="tutor-subj">Física · Mecánica Clásica</div>
+            <div class="tutor-loc">📍 Bogotá, Colombia</div>
+            <div class="card-footer">
+              <div class="tutor-price">$28.000<span>/hora</span></div>
+              <a
+                href="perfil_tutor.html?id=mario"
+                class="btn-primary"
+                style="font-size: 14px; padding: 8px 16px; border-radius: 10px"
+                >Ver perfil</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Tutor 5 -->
+        <div class="tutor-card-busqueda">
+          <div style="position: relative">
+            <img
+              class="card-img"
+              src="https://placehold.co/389x210"
+              alt="Amara Johnson"
+            />
+            <span
+              class="badge badge-purple"
+              style="position: absolute; top: 12px; left: 12px"
+              >Responde rápido</span
+            >
+            <div
+              style="
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 4px 10px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
+            >
+              <div class="rating-star-sm"></div>
+              <span class="rating-val">4.9</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tutor-name">Amara Johnson</div>
+            <div class="tutor-subj">Inglés de Negocios</div>
+            <div class="tutor-loc">📍 Medellín, Colombia</div>
+            <div class="card-footer">
+              <div class="tutor-price">$35.000<span>/hora</span></div>
+              <a
+                href="perfil_tutor.html?id=amara"
+                class="btn-primary"
+                style="font-size: 14px; padding: 8px 16px; border-radius: 10px"
+                >Ver perfil</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Tutor 6 -->
+        <div class="tutor-card-busqueda">
+          <div style="position: relative">
+            <img
+              class="card-img"
+              src="https://placehold.co/389x210"
+              alt="David Moreno"
+            />
+            <div
+              style="
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: rgba(255, 255, 255, 0.9);
+                border-radius: 10px;
+                padding: 4px 10px;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+              "
+            >
+              <div class="rating-star-sm"></div>
+              <span class="rating-val">4.5</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="tutor-name">David Moreno</div>
+            <div class="tutor-subj">Química Orgánica</div>
+            <div class="tutor-loc">📍 Cali, Colombia</div>
+            <div class="card-footer">
+              <div class="tutor-price">$20.000<span>/hora</span></div>
+              <a
+                href="perfil_tutor.html?id=david"
+                class="btn-primary"
+                style="font-size: 14px; padding: 8px 16px; border-radius: 10px"
+                >Ver perfil</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

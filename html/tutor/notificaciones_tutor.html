@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notificaciones — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body style="background: #f9fafb">
+    <nav class="navbar">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+      <div style="flex: 1"></div>
+      <div class="nav-actions">
+        <div class="nav-avatar">
+          <div class="avatar-circle">DR</div>
+          <span style="color: #364153; font-size: 14px; font-weight: 500"
+            >Diego Ramírez</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="page-with-sidebar">
+      <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="../tutor/panel_tutor.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="../tutor/horario_tutor.html" class="sidebar-item">📅 Horarios y Reservas</a>
+        <a href="../agendamiento/solicitudes.html" class="sidebar-item">📋 Solicitudes de Reserva</a>
+        <a href="../tutor/panel_tutor.html#estadisticas" class="sidebar-item">📊 Estadísticas</a>
+        <a href="../tutor/mensaje_tutor.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="../tutor/notificaciones_tutor.html" class="sidebar-item">🔔 Notificaciones</a>
+        <a href="../tutor/perfil_tutor_editar.html" class="sidebar-item">👤 Perfil</a>
+        <a href="../configuracion/configuracion_tutor.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="../autenticacion/login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+          <a href="../estudiantes/panel_estudiante.html" class="sidebar-item"
+            >🏠 Inicio</a
+          >
+          <a href="../tutor/busqueda_tutores.html" class="sidebar-item"
+            >🔍 Buscar Tutores</a
+          >
+          <a href="../agendamiento/tutorias.html" class="sidebar-item"
+            >📅 Mis Tutorías</a
+          >
+          <div class="sidebar-section-title">Comunicación</div>
+          <a href="../estudiantes/mensaje_estudiante.html" class="sidebar-item"
+            >💬 Mensajes</a
+          >
+          <a href="notificaciones.html" class="sidebar-item active"
+            >🔔 Notificaciones</a
+          >
+          <div class="sidebar-section-title">Cuenta</div>
+          <a href="perfil2.html" class="sidebar-item">👤 Perfil</a>
+          <a href="../configuracion/configuracion_tutor.html" class="sidebar-item"
+            >⚙️ Configuración</a
+          >
+          <a
+            href="../autenticacion/login.html"
+            class="sidebar-item"
+            style="color: #dc2626"
+            >🚪 Cerrar sesión</a
+          >
+        </div>
+      </aside>
+
+      <div class="page-content">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+          "
+        >
+          <div>
+            <div
+              class="page-title"
+              style="display: flex; align-items: center; gap: 10px"
+            >
+              Notificaciones
+              <span class="badge badge-purple">3</span>
+            </div>
+            <div class="page-subtitle">Mantente al día con tus tutorías</div>
+          </div>
+          <button class="btn-outline-purple">Marcar todo como leído</button>
+        </div>
+
+        <!-- Tabs -->
+        <div
+          style="
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1.74px solid #f3f4f6;
+            padding-bottom: 12px;
+          "
+        >
+          <button class="filter-btn active">Todas (6)</button>
+          <button class="filter-btn">No leídas (3)</button>
+        </div>
+
+        <!-- Lista notificaciones -->
+        <div class="card" style="padding: 0; overflow: hidden">
+          <div class="notif-list">
+            <div class="notif-item unread">
+              <div class="notif-dot"></div>
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #101828;
+                    margin-bottom: 2px;
+                  "
+                >
+                  Reserva confirmada
+                </div>
+                <div class="notif-text">
+                  Tu sesión con Sofía Martínez para el 15 Mar a las 10:00 AM ha
+                  sido confirmada.
+                </div>
+              </div>
+              <div class="notif-time">hace 5 min</div>
+            </div>
+
+            <div class="notif-item unread">
+              <div class="notif-dot"></div>
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #101828;
+                    margin-bottom: 2px;
+                  "
+                >
+                  Recordatorio de tutoría
+                </div>
+                <div class="notif-text">
+                  Tienes una sesión de Matemáticas en 30 minutos con Carlos
+                  Rodríguez.
+                </div>
+              </div>
+              <div class="notif-time">hace 25 min</div>
+            </div>
+
+            <div class="notif-item unread">
+              <div class="notif-dot"></div>
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #101828;
+                    margin-bottom: 2px;
+                  "
+                >
+                  Nuevo mensaje
+                </div>
+                <div class="notif-text">
+                  Amara Johnson te ha enviado un mensaje sobre tu próxima clase.
+                </div>
+              </div>
+              <div class="notif-time">hace 1h</div>
+            </div>
+
+            <div class="notif-item">
+              <div class="notif-dot read"></div>
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #101828;
+                    margin-bottom: 2px;
+                  "
+                >
+                  Tutoría completada
+                </div>
+                <div class="notif-text">
+                  Tu sesión de Inglés con Amara Johnson ha finalizado. ¡No
+                  olvides dejar una reseña!
+                </div>
+              </div>
+              <div class="notif-time">hace 2h</div>
+            </div>
+
+            <div class="notif-item">
+              <div class="notif-dot read"></div>
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #101828;
+                    margin-bottom: 2px;
+                  "
+                >
+                  Perfil actualizado
+                </div>
+                <div class="notif-text">
+                  Los cambios en tu perfil han sido guardados correctamente.
+                </div>
+              </div>
+              <div class="notif-time">hace 1 día</div>
+            </div>
+
+            <div class="notif-item">
+              <div class="notif-dot read"></div>
+              <div style="flex: 1">
+                <div
+                  style="
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #101828;
+                    margin-bottom: 2px;
+                  "
+                >
+                  Bienvenido a myTEACHER
+                </div>
+                <div class="notif-text">
+                  ¡Gracias por unirte! Explora tutores disponibles y agenda tu
+                  primera sesión.
+                </div>
+              </div>
+              <div class="notif-time">hace 3 días</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi Perfil — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body style="background: #f9fafb">
+    <nav class="navbar">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+      <div style="flex: 1"></div>
+      <div class="nav-actions">
+        <div class="nav-avatar">
+          <div class="avatar-circle">SM</div>
+          <span style="color: #364153; font-size: 14px; font-weight: 500"
+            >Sofía Martínez</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="page-with-sidebar">
+      <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="../tutor/panel_tutor.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="../tutor/horario_tutor.html" class="sidebar-item">📅 Horarios y Reservas</a>
+        <a href="../agendamiento/solicitudes.html" class="sidebar-item">📋 Solicitudes de Reserva</a>
+        <a href="../tutor/panel_tutor.html#estadisticas" class="sidebar-item">📊 Estadísticas</a>
+        <a href="../tutor/mensaje_tutor.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="../tutor/notificaciones_tutor.html" class="sidebar-item">🔔 Notificaciones</a>
+        <a href="../tutor/perfil_tutor_editar.html" class="sidebar-item">👤 Perfil</a>
+        <a href="../configuracion/configuracion_tutor.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="../autenticacion/login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+      </aside>
+
+      <div class="page-content">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+          "
+        >
+          <div>
+            <div class="page-title">Mi Perfil</div>
+            <div class="page-subtitle">
+              Gestiona tu información personal y preferencias
+            </div>
+          </div>
+          <button class="btn-outline-purple">✏️ Editar Perfil</button>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 24px">
+          <!-- Tarjeta perfil -->
+          <div class="card" style="text-align: center; height: fit-content">
+            <img
+              src="https://placehold.co/100x100"
+              alt="Sofía"
+              style="
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                margin: 0 auto 16px;
+                display: block;
+                object-fit: cover;
+              "
+            />
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 6px;
+                margin-bottom: 4px;
+              "
+            >
+              <div class="rating-star-sm"></div>
+              <span style="font-size: 16px; font-weight: 700; color: #101828"
+                >4.9</span
+              >
+              <span style="font-size: 13px; color: #6a7282">(128)</span>
+            </div>
+            <div
+              style="
+                font-size: 20px;
+                font-weight: 700;
+                color: #101828;
+                margin-bottom: 12px;
+              "
+            >
+              Sofia Martínez
+            </div>
+            <p
+              style="
+                color: #6a7282;
+                font-size: 13px;
+                line-height: 1.6;
+                margin-bottom: 12px;
+              "
+            >
+              Matemática pura con 8 años de experiencia docente. Especializada
+              en hacer accesible el cálculo y el álgebra para estudiantes
+              universitarios.
+            </p>
+            <div style="color: #99a1af; font-size: 12px; margin-bottom: 20px">
+              Miembro desde enero de 2025
+            </div>
+
+            <div
+              style="
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                border-top: 1px solid #f3f4f6;
+                padding-top: 16px;
+              "
+            >
+              <div style="text-align: center">
+                <div style="font-size: 20px; font-weight: 700; color: #101828">
+                  54
+                </div>
+                <div style="font-size: 12px; color: #6a7282">Sesiones</div>
+              </div>
+              <div style="text-align: center">
+                <div style="font-size: 20px; font-weight: 700; color: #101828">
+                  80
+                </div>
+                <div style="font-size: 12px; color: #6a7282">Horas</div>
+              </div>
+              <div style="text-align: center">
+                <div style="font-size: 20px; font-weight: 700; color: #101828">
+                  4.8
+                </div>
+                <div style="font-size: 12px; color: #6a7282">Rating</div>
+              </div>
+              <div style="text-align: center">
+                <div style="font-size: 20px; font-weight: 700; color: #101828">
+                  32
+                </div>
+                <div style="font-size: 12px; color: #6a7282">Reseñas</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Información detallada -->
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div class="card">
+              <div class="section-title" style="margin-bottom: 16px">
+                Información de Contacto
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-input"
+                  value="sofia.martinez@email.com"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Teléfono</label>
+                <input
+                  type="tel"
+                  class="form-input"
+                  value="+57 (300) 123 4567"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Ciudad</label>
+                <input
+                  type="text"
+                  class="form-input"
+                  value="Barranquilla, Colombia"
+                />
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-title" style="margin-bottom: 16px">
+                Sobre mí
+              </div>
+              <textarea class="form-textarea" style="min-height: 120px">
+Matemática pura con 8 años de experiencia docente. Especializada en hacer accesible el cálculo y el álgebra para estudiantes universitarios. Metodología práctica con ejemplos del mundo real.</textarea
+              >
+            </div>
+
+            <div class="card">
+              <div class="section-title" style="margin-bottom: 16px">
+                Materias que enseño
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-wrap: wrap;
+                  gap: 8px;
+                  margin-bottom: 12px;
+                "
+              >
+                <span class="badge badge-purple">📐 Álgebra</span>
+                <span class="badge badge-purple">∫ Cálculo</span>
+                <span class="badge badge-purple">📊 Estadística</span>
+                <span class="badge badge-purple">📐 Geometría</span>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="section-title" style="margin-bottom: 16px">
+                Precio por hora
+              </div>
+              <div class="form-group" style="margin: 0">
+                <input
+                  type="text"
+                  class="form-input"
+                  value="$25.000"
+                  style="max-width: 200px"
+                />
+              </div>
+            </div>
+
+            <button
+              class="btn-primary"
+              style="width: fit-content; border: none; cursor: pointer"
+            >
+              Guardar cambios
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

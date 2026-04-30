@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar sesión — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body>
+    <div class="auth-page">
+      <!-- Logo -->
+      <a
+        href="../../index.html"
+        class="auth-logo"
+        style="text-decoration: none"
+      >
+        <div class="auth-logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="auth-logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+
+      <!-- Card -->
+      <div class="auth-card">
+        <div class="auth-title">Bienvenido/a</div>
+        <div class="auth-subtitle">
+          Inicia sesión para continuar aprendiendo
+        </div>
+
+        <form action="../estudiantes/panel_estudiante.html" method="GET">
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-input"
+              placeholder="tu@email.com"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Contraseña</label>
+            <input
+              type="password"
+              class="form-input"
+              placeholder="••••••••"
+              required
+            />
+            <div style="text-align: right; margin-top: 4px">
+              <a href="#" class="form-link">¿Olvidaste tu contraseña?</a>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            class="btn-primary"
+            style="
+              width: 100%;
+              display: block;
+              text-align: center;
+              margin-top: 8px;
+              border: none;
+              cursor: pointer;
+            "
+          >
+            Iniciar sesión
+          </button>
+        </form>
+
+        <div class="auth-footer" style="margin-top: 20px">
+          ¿No tienes cuenta?
+          <a href="registro_estudiante.html">Regístrate gratis</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
