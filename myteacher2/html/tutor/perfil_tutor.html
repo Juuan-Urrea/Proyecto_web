@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="page-title">Sofía Martínez — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body style="background: #f9fafb">
+    <nav class="navbar">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="../../index.html">Inicio</a>
+        <a href="busqueda_tutores.html">Buscar Tutores</a>
+        <a href="index.html#como-funciona">Cómo Funciona</a>
+      </div>
+      <div class="nav-actions">
+        <a href="../autenticacion/login.html" class="btn-login"
+          >Iniciar Sesión</a
+        >
+        <a href="../autenticacion/registro_estudiante.html" class="btn-register"
+          >Registrarse</a
+        >
+      </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div
+      style="
+        padding: 14px 67px;
+        background: white;
+        border-bottom: 1px solid #f3f4f6;
+      "
+    >
+      <a
+        href="busqueda_tutores.html"
+        class="text-gray text-sm"
+        style="text-decoration: none"
+        >← Volver a resultados</a
+      >
+    </div>
+
+    <div
+      style="
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 32px 67px;
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 32px;
+      "
+    >
+      <!-- Columna principal -->
+      <div>
+        <!-- Header tutor -->
+        <div class="card" style="margin-bottom: 24px">
+          <div style="display: flex; gap: 24px; align-items: flex-start">
+            <div style="position: relative; flex-shrink: 0">
+              <img
+                src="https://placehold.co/100x100"
+                alt="Avatar del tutor"
+                style="
+                  width: 100px;
+                  height: 100px;
+                  border-radius: 50%;
+                  object-fit: cover;
+                "
+              />
+              <div
+                style="
+                  position: absolute;
+                  bottom: 4px;
+                  right: 4px;
+                  width: 16px;
+                  height: 16px;
+                  background: #22c55e;
+                  border-radius: 50%;
+                  border: 2px solid white;
+                "
+              ></div>
+            </div>
+            <div style="flex: 1">
+              <div
+                style="
+                  display: flex;
+                  gap: 8px;
+                  margin-bottom: 6px;
+                  flex-wrap: wrap;
+                "
+              >
+                <span class="badge badge-purple">Top Tutor</span>
+                <span class="badge badge-purple">Responde rápido</span>
+              </div>
+              <div
+                id="tutor-name-main"
+                style="
+                  font-size: 24px;
+                  font-weight: 700;
+                  color: #101828;
+                  margin-bottom: 4px;
+                "
+              >
+                Sofía Martínez
+              </div>
+              <div
+                id="tutor-subj-main"
+                style="
+                  font-size: 15px;
+                  color: #7f22fe;
+                  font-weight: 500;
+                  margin-bottom: 6px;
+                "
+              >
+                Matemáticas
+              </div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 16px;
+                  flex-wrap: wrap;
+                "
+              >
+                <div style="display: flex; align-items: center; gap: 4px">
+                  <div class="rating-star-sm"></div>
+                  <span id="tutor-rating-main" class="rating-val">4.9</span>
+                  <span id="tutor-reviews-main" class="rating-cnt"
+                    >(123 reseñas)</span
+                  >
+                </div>
+                <div id="tutor-loc-main" class="text-gray text-sm">
+                  📍 Barranquilla, Colombia
+                </div>
+                <div class="text-gray text-sm">🎓 312 sesiones</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sobre el tutor -->
+        <div class="card" style="margin-bottom: 24px">
+          <div class="section-title">Sobre el tutor</div>
+          <p
+            id="tutor-xp-text"
+            class="text-gray"
+            style="line-height: 1.7; font-size: 14px"
+          >
+            Matemática con 8 años de experiencia docente. Especializada en hacer
+            accesible el cálculo y el álgebra para estudiantes universitarios.
+            Metodología práctica con ejemplos del mundo real.
+          </p>
+        </div>
+
+        <!-- Materias -->
+        <div class="card" style="margin-bottom: 24px">
+          <div class="section-title">Materias que enseña</div>
+          <div
+            id="tutor-materias-container"
+            style="display: flex; gap: 8px; flex-wrap: wrap"
+          >
+            <span class="badge badge-outline">📐 Álgebra</span>
+            <span class="badge badge-outline">∫ Cálculo</span>
+            <span class="badge badge-outline">📊 Estadística</span>
+            <span class="badge badge-outline">📐 Geometría</span>
+          </div>
+        </div>
+
+        <!-- Horarios disponibles (tabla) -->
+        <div class="card" style="margin-bottom: 24px">
+          <div class="section-title">Horarios disponibles</div>
+          <div style="overflow-x: auto">
+            <table
+              style="
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+                font-size: 13px;
+              "
+            >
+              <thead>
+                <tr style="border-bottom: 1.74px solid #f3f4f6">
+                  <th
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    Hora
+                  </th>
+                  <th
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    Lun 16
+                  </th>
+                  <th
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    Mar 17
+                  </th>
+                  <th
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    Mié 18
+                  </th>
+                  <th
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    Jue 19
+                  </th>
+                  <th
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    Vie 20
+                  </th>
+                  <th
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    Sáb 21
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid #f3f4f6">
+                  <td
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    09:00
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f3f4f6">
+                  <td
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    11:00
+                  </td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f3f4f6">
+                  <td
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    14:00
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                </tr>
+                <tr>
+                  <td
+                    style="padding: 10px 8px; color: #6a7282; font-weight: 500"
+                  >
+                    16:00
+                  </td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                  <td>
+                    <span class="badge badge-green" style="cursor: pointer"
+                      >✓</span
+                    >
+                  </td>
+                  <td><span style="color: #d1d5db">–</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Reseñas -->
+        <div class="card">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              margin-bottom: 20px;
+            "
+          >
+            <div
+              id="tutor-rating-big"
+              style="font-size: 40px; font-weight: 800; color: #101828"
+            >
+              4.9
+            </div>
+            <div>
+              <div style="display: flex; gap: 3px; margin-bottom: 4px">
+                <div class="rating-star-sm"></div>
+                <div class="rating-star-sm"></div>
+                <div class="rating-star-sm"></div>
+                <div class="rating-star-sm"></div>
+                <div class="rating-star-sm"></div>
+              </div>
+              <div id="tutor-reviews-text" class="text-gray text-sm">
+                123 reseñas verificadas
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 20px">
+            <div style="border-bottom: 1px solid #f3f4f6; padding-bottom: 16px">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: 8px;
+                "
+              >
+                <div
+                  class="avatar-circle"
+                  style="width: 36px; height: 36px; font-size: 12px"
+                >
+                  MG
+                </div>
+                <div>
+                  <div
+                    style="font-size: 13px; font-weight: 600; color: #101828"
+                  >
+                    María García
+                  </div>
+                  <div class="text-gray text-xs">hace 2 días</div>
+                </div>
+                <div style="display: flex; gap: 2px; margin-left: auto">
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                </div>
+              </div>
+              <p class="text-gray" style="font-size: 14px; line-height: 1.6">
+                "Es un/a tutor/a increíble. Me ayudó muchísimo a entender el
+                tema cuando estaba completamente perdido/a."
+              </p>
+            </div>
+
+            <div>
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: 8px;
+                "
+              >
+                <div
+                  class="avatar-circle"
+                  style="width: 36px; height: 36px; font-size: 12px"
+                >
+                  JP
+                </div>
+                <div>
+                  <div
+                    style="font-size: 13px; font-weight: 600; color: #101828"
+                  >
+                    Juan Pérez
+                  </div>
+                  <div class="text-gray text-xs">hace 1 semana</div>
+                </div>
+                <div style="display: flex; gap: 2px; margin-left: auto">
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                  <div class="rating-star-sm"></div>
+                </div>
+              </div>
+              <p class="text-gray" style="font-size: 14px; line-height: 1.6">
+                "Excelente metodolog&iacute;a. Muy paciente y explica de manera
+                muy clara. 100% recomendado."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar reserva -->
+      <div>
+        <div class="resumen-card">
+          <div
+            id="tutor-price-big"
+            style="
+              font-size: 28px;
+              font-weight: 700;
+              color: #101828;
+              margin-bottom: 4px;
+            "
+          >
+            $25.000<span
+              style="color: #99a1af; font-size: 14px; font-weight: 400"
+              >/hora</span
+            >
+          </div>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 6px;
+              margin-bottom: 20px;
+            "
+          >
+            <div class="rating-star-sm"></div>
+            <span id="tutor-rating-sidebar" class="rating-val">4.9</span>
+            <span id="tutor-reviews-sidebar" class="rating-cnt"
+              >(123) · 312 sesiones</span
+            >
+          </div>
+
+          <a
+            href="../agendamiento/agendar.html"
+            id="btn-reservar-sesion"
+            class="btn-primary"
+            style="
+              width: 100%;
+              display: block;
+              text-align: center;
+              margin-bottom: 12px;
+            "
+          >
+            Reservar sesión
+          </a>
+          <a
+            href="../estudiantes/mensaje_estudiante.html"
+            class="btn-secondary"
+            style="width: 100%; display: block; text-align: center"
+          >
+            Enviar mensaje
+          </a>
+
+          <div
+            style="
+              margin-top: 20px;
+              padding-top: 16px;
+              border-top: 1px solid #f3f4f6;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              font-size: 13px;
+            "
+          >
+            <div style="display: flex; justify-content: space-between">
+              <span class="text-gray">Modalidad</span>
+              <span style="color: #101828; font-weight: 500"
+                >Virtual y Presencial</span
+              >
+            </div>
+            <div style="display: flex; justify-content: space-between">
+              <span class="text-gray">Tiempo de respuesta</span>
+              <span style="color: #101828; font-weight: 500">~10 min</span>
+            </div>
+            <div style="display: flex; justify-content: space-between">
+              <span class="text-gray">Idiomas</span>
+              <span style="color: #101828; font-weight: 500">Español</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const tutores = {
+        sofia: {
+          name: "Sofía Martínez",
+          subj: "Matemáticas",
+          subj1: "Matemáticas",
+          loc: "📍 Barranquilla, Colombia",
+          price: "$25.000",
+          rating: "4.9",
+          reviews: "123",
+          yrs: "8",
+          xp: "Matemática con 8 años de experiencia docente. Especializada en hacer accesible el cálculo y el álgebra para estudiantes universitarios. Metodología práctica con ejemplos del mundo real.",
+          badges: ["📐 Álgebra", "∫ Cálculo", "📊 Estadística", "📐 Geometría"],
+        },
+        carlos: {
+          name: "Carlos Rodríguez",
+          subj: "Bases de Datos",
+          subj1: "Programación",
+          loc: "📍 Barranquilla, Colombia",
+          price: "$30.000",
+          rating: "4.8",
+          reviews: "95",
+          yrs: "5",
+          xp: "Soy desarrollador Senior con 5 años de experiencia dando clases de programación. Me especializo en Bases de Datos SQL y NoSQL.",
+          badges: ["💻 SQL", "🗄️ NoSQL", "🐍 Python", "🐘 PostgreSQL"],
+        },
+        yuki: {
+          name: "Yuki Tanaka",
+          subj: "Estadística y Probabilidad",
+          subj1: "Estadística",
+          loc: "📍 Barranquilla, Colombia",
+          price: "$22.000",
+          rating: "4.7",
+          reviews: "73",
+          yrs: "2",
+          xp: "Matemática y especialista en análisis de datos. Ayudo a estudiantes universitarios a entender la estadística de forma aplicada.",
+          badges: [
+            "📊 Probabilidad",
+            "📈 Inferencia",
+            "📉 R Studio",
+            "🧪 Hipótesis",
+          ],
+        },
+        mario: {
+          name: "Mario Blanco",
+          subj: "Mecánica Clásica",
+          subj1: "Física",
+          loc: "📍 Bogotá, Colombia",
+          price: "$28.000",
+          rating: "4.6",
+          reviews: "112",
+          yrs: "6",
+          xp: "Ingeniero Mecánico. Doy clases particulares de física para estudiantes de ingeniería, enfocado en mecánica clásica y termodinámica.",
+          badges: [
+            "⚙️ Mecánica",
+            "🌡️ Termodinámica",
+            "🧲 Electromagnetismo",
+            "📐 Estática",
+          ],
+        },
+        amara: {
+          name: "Amara Johnson",
+          subj: "Inglés de Negocios",
+          subj1: "Inglés",
+          loc: "📍 Medellín, Colombia",
+          price: "$35.000",
+          rating: "4.9",
+          reviews: "210",
+          yrs: "10",
+          xp: "Profesora nativa de inglés con una década de experiencia preparando profesionales para entrevistas, negociaciones y certificaciones.",
+          badges: [
+            "🗣️ Conversación",
+            "💼 Negocios",
+            "📝 TOEFL/IELTS",
+            "🤝 Entrevistas",
+          ],
+        },
+        david: {
+          name: "David Moreno",
+          subj: "Química Orgánica",
+          subj1: "Química",
+          loc: "📍 Cali, Colombia",
+          price: "$20.000",
+          rating: "4.5",
+          reviews: "45",
+          yrs: "3",
+          xp: "Químico farmacéutico. Doy clases dinámicas de química orgánica para pregrado. ¡No le temas a los enlaces químicos!",
+          badges: [
+            "🔬 Orgánica",
+            "🧪 Inorgánica",
+            "💊 Bioquímica",
+            "⚖️ Estequiometría",
+          ],
+        },
+      };
+
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+      if (id && tutores[id]) {
+        const t = tutores[id];
+
+        document.getElementById("page-title").textContent =
+          t.name + " — myTEACHER";
+        document.getElementById("tutor-name-main").textContent = t.name;
+        document.getElementById("tutor-subj-main").textContent = t.subj1;
+        document.getElementById("tutor-loc-main").textContent = t.loc;
+
+        document.getElementById("tutor-rating-main").textContent = t.rating;
+        document.getElementById("tutor-reviews-main").textContent =
+          `(${t.reviews} reseñas)`;
+
+        document.getElementById("tutor-rating-big").textContent = t.rating;
+        document.getElementById("tutor-reviews-text").textContent =
+          `${t.reviews} reseñas verificadas`;
+
+        document.getElementById("tutor-rating-sidebar").textContent = t.rating;
+        document.getElementById("tutor-reviews-sidebar").textContent =
+          `(${t.reviews}) · 312 sesiones`;
+
+        document.getElementById("tutor-price-big").innerHTML =
+          `${t.price}<span style="color:#99A1AF; font-size:14px; font-weight:400;">/hora</span>`;
+
+        document.getElementById("tutor-xp-text").textContent = t.xp;
+
+        const mc = document.getElementById("tutor-materias-container");
+        if (mc) {
+          mc.innerHTML = t.badges
+            .map((b) => `<span class="badge badge-outline">${b}</span>`)
+            .join("\n");
+        }
+        
+        const btnReservar = document.getElementById("btn-reservar-sesion");
+        if (btnReservar) {
+          btnReservar.href = `../agendamiento/agendar.html?id=${id}`;
+        }
+      }
+    </script>
+  </body>
+</html>

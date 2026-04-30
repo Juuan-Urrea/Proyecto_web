@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuración — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body style="background: #f9fafb">
+    <nav class="navbar">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+      <div style="flex: 1"></div>
+      <div class="nav-actions">
+        <div class="nav-avatar">
+          <div class="avatar-circle">DR</div>
+          <span style="color: #364153; font-size: 14px; font-weight: 500"
+            >Diego Ramírez</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="page-with-sidebar">
+      <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="../tutor/panel_tutor.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="../tutor/horario_tutor.html" class="sidebar-item">📅 Horarios y Reservas</a>
+        <a href="../agendamiento/solicitudes.html" class="sidebar-item">📋 Solicitudes de Reserva</a>
+        <a href="../tutor/panel_tutor.html#estadisticas" class="sidebar-item">📊 Estadísticas</a>
+        <a href="../tutor/mensaje_tutor.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="../tutor/notificaciones_tutor.html" class="sidebar-item">🔔 Notificaciones</a>
+        <a href="../tutor/perfil_tutor_editar.html" class="sidebar-item">👤 Perfil</a>
+        <a href="../configuracion/configuracion_tutor.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="../autenticacion/login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+      </aside>
+
+      <div class="page-content">
+        <div class="page-title">Configuración</div>
+        <div class="page-subtitle">
+          Administra tu cuenta y preferencias de la plataforma
+        </div>
+
+        <div class="config-layout">
+          <!-- Nav configuración -->
+          <div class="config-nav">
+            <a href="configuracion_tutor.html" class="config-nav-item active"
+              >👤 Cuenta</a
+            >
+            <a href="conf_notificacion_tutor.html" class="config-nav-item"
+              >🔔 Notificaciones</a
+            >
+            <a href="conf_privacidad_tutor.html" class="config-nav-item"
+              >🔒 Privacidad</a
+            >
+          </div>
+
+          <!-- Contenido -->
+          <div class="config-content">
+            <!-- Info de la cuenta -->
+            <div class="config-section-title">Información de la Cuenta</div>
+            <div class="config-section-sub">
+              Actualiza tu información personal
+            </div>
+
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px"
+            >
+              <div class="form-group">
+                <label class="form-label">Nombre Completo</label>
+                <input type="text" class="form-input" value="Diego Ramírez" />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-input"
+                  value="diegoramirez97@email.com"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teléfono</label>
+              <input type="tel" class="form-input" value="+57 (301) 234567" />
+            </div>
+
+            <div class="config-divider"></div>
+
+            <!-- Cambiar contraseña -->
+            <div class="config-section-title">Cambiar Contraseña</div>
+            <div class="form-group">
+              <label class="form-label">Contraseña Actual</label>
+              <input type="password" class="form-input" value="*************" />
+            </div>
+            <div
+              style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px"
+            >
+              <div class="form-group">
+                <label class="form-label">Nueva Contraseña</label>
+                <input
+                  type="password"
+                  class="form-input"
+                  placeholder="Mínimo 8 caracteres"
+                />
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirmar Nueva Contraseña</label>
+                <input
+                  type="password"
+                  class="form-input"
+                  placeholder="Repite la contraseña"
+                />
+              </div>
+            </div>
+            <button class="btn-primary" style="border: none; cursor: pointer">
+              Actualizar Contraseña
+            </button>
+
+            <div class="config-divider"></div>
+
+            <!-- Preferencias -->
+            <div class="config-section-title">Preferencias</div>
+            <div class="toggle-row">
+              <div class="toggle-info">
+                <div class="toggle-label">Modo Oscuro</div>
+                <div class="toggle-desc">
+                  Cambia la apariencia de la plataforma
+                </div>
+              </div>
+              <div class="toggle"></div>
+            </div>
+
+            <div style="margin-top: 24px">
+              <button class="btn-primary" style="border: none; cursor: pointer">
+                Guardar Cambios
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,736 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Tutor — myTEACHER</title>
+    <link rel="stylesheet" href="../../css/style.css" />
+  </head>
+  <body style="background: #f9fafb">
+    <nav class="navbar">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+          </div>
+        </div>
+        <div class="logo-text">
+          <span class="my">my</span><span class="teacher">TEACHER</span>
+        </div>
+      </a>
+      <div style="flex: 1"></div>
+      <div class="nav-actions">
+        <div class="nav-avatar">
+          <div class="avatar-circle">SM</div>
+          <span style="color: #364153; font-size: 14px; font-weight: 500"
+            >Sofía Martínez</span
+          >
+        </div>
+      </div>
+    </nav>
+
+    <div class="page-with-sidebar">
+      <!-- Sidebar tutor -->
+      <aside class="sidebar">
+      <div class="sidebar-nav">
+        <a href="../tutor/panel_tutor.html" class="sidebar-item">🏠 Inicio</a>
+        <a href="../tutor/horario_tutor.html" class="sidebar-item">📅 Horarios y Reservas</a>
+        <a href="../agendamiento/solicitudes.html" class="sidebar-item">📋 Solicitudes de Reserva</a>
+        <a href="../tutor/panel_tutor.html#estadisticas" class="sidebar-item">📊 Estadísticas</a>
+        <a href="../tutor/mensaje_tutor.html" class="sidebar-item">💬 Mensajes</a>
+        <a href="../tutor/notificaciones_tutor.html" class="sidebar-item">🔔 Notificaciones</a>
+        <a href="../tutor/perfil_tutor_editar.html" class="sidebar-item">👤 Perfil</a>
+        <a href="../configuracion/configuracion_tutor.html" class="sidebar-item">⚙️ Configuración</a>
+        <a href="../autenticacion/login.html" class="sidebar-item" style="color:#DC2626;">🚪 Cerrar sesión</a>
+      </div>
+      </aside>
+
+      <div class="page-content">
+        <!-- Bienvenida -->
+        <div style="margin-bottom: 32px">
+          <div class="page-title">¡Buenos días, Sofía!</div>
+          <div class="page-subtitle">
+            Tienes 2 sesiones hoy y 2 solicitudes pendientes.
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="dashboard-stats" style="margin-bottom: 32px">
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-purple">📚</div>
+            <div class="stat-val">28</div>
+            <div class="stat-lbl">Sesiones este mes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-blue">👨‍🎓</div>
+            <div class="stat-val">14</div>
+            <div class="stat-lbl">Estudiantes activos</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-green">💰</div>
+            <div class="stat-val" style="font-size: 20px">$840.000</div>
+            <div class="stat-lbl">Ganancias del mes</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon stat-icon-yellow">⭐</div>
+            <div class="stat-val">4.9</div>
+            <div class="stat-lbl">Calificación</div>
+          </div>
+        </div>
+
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+          "
+        >
+          <!-- Tutorías de hoy -->
+          <div class="table-container">
+            <div class="table-header">
+              <div>
+                <div class="table-title">Tutorías de Hoy</div>
+                <div style="color: #6a7282; font-size: 12px">
+                  Sesiones programadas para hoy, 15 de Marzo · 2 sesiones
+                </div>
+              </div>
+            </div>
+            <div style="padding: 16px 24px; border-bottom: 1px solid #f3f4f6">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-start;
+                  margin-bottom: 8px;
+                "
+              >
+                <div>
+                  <div
+                    style="font-size: 14px; font-weight: 600; color: #101828"
+                  >
+                    María García
+                  </div>
+                  <div style="font-size: 12px; color: #6a7282">
+                    Universidad - 2º año · Álgebra Lineal
+                  </div>
+                </div>
+                <span class="badge badge-green">Virtual</span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-size: 13px; color: #6a7282">
+                  ⏰ 10:00 AM (1h) ·
+                  <strong style="color: #101828">$25.000</strong>
+                </div>
+                <div style="display: flex; gap: 8px">
+                  <button
+                    class="btn-primary"
+                    style="
+                      font-size: 13px;
+                      padding: 6px 14px;
+                      border-radius: 8px;
+                      border: none;
+                      cursor: pointer;
+                    "
+                  >
+                    Iniciar Sesión
+                  </button>
+                  <a
+                    href="../agendamiento/tutorias.html"
+                    class="btn-secondary"
+                    style="
+                      font-size: 13px;
+                      padding: 6px 14px;
+                      border-radius: 8px;
+                    "
+                    >Ver detalles</a
+                  >
+                </div>
+              </div>
+            </div>
+            <div style="padding: 16px 24px">
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: flex-start;
+                  margin-bottom: 8px;
+                "
+              >
+                <div>
+                  <div
+                    style="font-size: 14px; font-weight: 600; color: #101828"
+                  >
+                    Pedro Silva
+                  </div>
+                  <div style="font-size: 12px; color: #6a7282">
+                    Universidad - 1º año · Cálculo Diferencial
+                  </div>
+                </div>
+                <span class="badge badge-green">Virtual</span>
+              </div>
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <div style="font-size: 13px; color: #6a7282">
+                  ⏰ 3:00 PM (1.5h) ·
+                  <strong style="color: #101828">$25.000</strong>
+                </div>
+                <div style="display: flex; gap: 8px">
+                  <button
+                    class="btn-primary"
+                    style="
+                      font-size: 13px;
+                      padding: 6px 14px;
+                      border-radius: 8px;
+                      border: none;
+                      cursor: pointer;
+                    "
+                  >
+                    Iniciar Sesión
+                  </button>
+                  <a
+                    href="../agendamiento/tutorias.html"
+                    class="btn-secondary"
+                    style="
+                      font-size: 13px;
+                      padding: 6px 14px;
+                      border-radius: 8px;
+                    "
+                    >Ver detalles</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Solicitudes pendientes -->
+          <div class="table-container">
+            <div class="table-header">
+              <div>
+                <div class="table-title">Solicitudes de tutoría</div>
+                <div style="color: #6a7282; font-size: 12px">2 pendientes</div>
+              </div>
+              <a href="../agendamiento/solicitudes.html" class="section-link"
+                >Ver todas</a
+              >
+            </div>
+            <!-- Solicitud 1 -->
+            <div style="padding: 14px 24px; border-bottom: 1px solid #f3f4f6">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: 8px;
+                "
+              >
+                <div
+                  class="avatar-circle"
+                  style="width: 36px; height: 36px; font-size: 12px"
+                >
+                  MG
+                </div>
+                <div>
+                  <div
+                    style="font-size: 13px; font-weight: 600; color: #101828"
+                  >
+                    María García
+                  </div>
+                  <div style="font-size: 12px; color: #6a7282">
+                    Álgebra Lineal · 15 Mar 2026 · 10:00 AM · Virtual
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; justify-content: flex-end">
+                <button
+                  class="btn-primary"
+                  style="
+                    font-size: 12px;
+                    padding: 5px 12px;
+                    border-radius: 8px;
+                    border: none;
+                    cursor: pointer;
+                  "
+                >
+                  Aceptar
+                </button>
+                <button
+                  class="btn-secondary"
+                  style="
+                    font-size: 12px;
+                    padding: 5px 12px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    border: 1.74px solid #e5e7eb;
+                    background: white;
+                  "
+                >
+                  Rechazar
+                </button>
+              </div>
+            </div>
+            <!-- Solicitud 2 -->
+            <div style="padding: 14px 24px; border-bottom: 1px solid #f3f4f6">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: 8px;
+                "
+              >
+                <div
+                  class="avatar-circle"
+                  style="width: 36px; height: 36px; font-size: 12px"
+                >
+                  JL
+                </div>
+                <div>
+                  <div
+                    style="font-size: 13px; font-weight: 600; color: #101828"
+                  >
+                    Juan López
+                  </div>
+                  <div style="font-size: 12px; color: #6a7282">
+                    Cálculo Diferencial · 16 Mar 2026 · 3:00 PM · Presencial
+                  </div>
+                </div>
+              </div>
+              <div style="display: flex; gap: 8px; justify-content: flex-end">
+                <button
+                  class="btn-primary"
+                  style="
+                    font-size: 12px;
+                    padding: 5px 12px;
+                    border-radius: 8px;
+                    border: none;
+                    cursor: pointer;
+                  "
+                >
+                  Aceptar
+                </button>
+                <button
+                  class="btn-secondary"
+                  style="
+                    font-size: 12px;
+                    padding: 5px 12px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    border: 1.74px solid #e5e7eb;
+                    background: white;
+                  "
+                >
+                  Rechazar
+                </button>
+              </div>
+            </div>
+            <!-- Solicitud 3 - aceptada -->
+            <div style="padding: 14px 24px">
+              <div
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 10px;
+                  margin-bottom: 8px;
+                "
+              >
+                <div
+                  class="avatar-circle"
+                  style="width: 36px; height: 36px; font-size: 12px"
+                >
+                  AR
+                </div>
+                <div>
+                  <div
+                    style="font-size: 13px; font-weight: 600; color: #101828"
+                  >
+                    Ana Ruiz
+                  </div>
+                  <div style="font-size: 12px; color: #6a7282">
+                    Estadística · 17 Mar 2026 · 11:00 AM · Virtual
+                  </div>
+                </div>
+              </div>
+              <div style="text-align: right">
+                <span class="badge badge-green">✓ Aceptada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana actual / Horario -->
+        <div
+          style="
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+          "
+        >
+          <div class="card">
+            <div
+              style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 16px;
+              "
+            >
+              <div class="section-title" style="margin: 0">
+                Semana actual · Marzo
+              </div>
+              <a href="horario_tutor.html" class="section-link"
+                >Ver horario completo</a
+              >
+            </div>
+            <table
+              style="
+                width: 100%;
+                border-collapse: collapse;
+                text-align: center;
+                font-size: 13px;
+              "
+            >
+              <thead>
+                <tr style="border-bottom: 1px solid #f3f4f6">
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    Hora
+                  </th>
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    D
+                  </th>
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    L
+                  </th>
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    M
+                  </th>
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    X
+                  </th>
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    J
+                  </th>
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    V
+                  </th>
+                  <th style="padding: 8px; color: #6a7282; font-weight: 500">
+                    S
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom: 1px solid #f3f4f6">
+                  <td style="padding: 8px; color: #6a7282">09:00</td>
+                  <td>–</td>
+                  <td
+                    style="
+                      background: #f5f3ff;
+                      border-radius: 6px;
+                      color: #7f22fe;
+                      font-weight: 600;
+                    "
+                  >
+                    ✓
+                  </td>
+                  <td>–</td>
+                  <td
+                    style="
+                      background: #f5f3ff;
+                      border-radius: 6px;
+                      color: #7f22fe;
+                      font-weight: 600;
+                    "
+                  >
+                    ✓
+                  </td>
+                  <td>–</td>
+                  <td
+                    style="
+                      background: #f5f3ff;
+                      border-radius: 6px;
+                      color: #7f22fe;
+                      font-weight: 600;
+                    "
+                  >
+                    ✓
+                  </td>
+                  <td>–</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #f3f4f6">
+                  <td style="padding: 8px; color: #6a7282">11:00</td>
+                  <td>–</td>
+                  <td>–</td>
+                  <td
+                    style="
+                      background: #f5f3ff;
+                      border-radius: 6px;
+                      color: #7f22fe;
+                      font-weight: 600;
+                    "
+                  >
+                    ✓
+                  </td>
+                  <td>–</td>
+                  <td
+                    style="
+                      background: #f5f3ff;
+                      border-radius: 6px;
+                      color: #7f22fe;
+                      font-weight: 600;
+                    "
+                  >
+                    ✓
+                  </td>
+                  <td>–</td>
+                  <td>–</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px; color: #6a7282">14:00</td>
+                  <td>–</td>
+                  <td>–</td>
+                  <td>–</td>
+                  <td
+                    style="
+                      background: #f5f3ff;
+                      border-radius: 6px;
+                      color: #7f22fe;
+                      font-weight: 600;
+                    "
+                  >
+                    ✓
+                  </td>
+                  <td>–</td>
+                  <td
+                    style="
+                      background: #f5f3ff;
+                      border-radius: 6px;
+                      color: #7f22fe;
+                      font-weight: 600;
+                    "
+                  >
+                    ✓
+                  </td>
+                  <td>–</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Próximas sesiones -->
+          <div class="card">
+            <div class="section-title">Próximas sesiones</div>
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                font-size: 13px;
+                color: #4a5565;
+              "
+            >
+              <div
+                style="padding: 10px; background: #f5f3ff; border-radius: 10px"
+              >
+                📅 10:00 AM – María García<br /><span style="color: #6a7282"
+                  >Álgebra Lineal</span
+                >
+              </div>
+              <div
+                style="padding: 10px; background: #f5f3ff; border-radius: 10px"
+              >
+                📅 3:00 PM – Pedro Silva<br /><span style="color: #6a7282"
+                  >Cálculo Diferencial</span
+                >
+              </div>
+              <div
+                style="padding: 10px; background: #f9fafb; border-radius: 10px"
+              >
+                📅 11:00 AM – Laura Fernández<br /><span style="color: #6a7282"
+                  >Estadística</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ganancias -->
+        <div class="card" id="estadisticas">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: flex-start;
+              margin-bottom: 20px;
+            "
+          >
+            <div>
+              <div class="section-title" style="margin: 0">
+                Ganancias del mes
+              </div>
+              <div style="color: #6a7282; font-size: 13px">
+                Resumen de ingresos por semana
+              </div>
+            </div>
+            <div style="text-align: right">
+              <div style="font-size: 24px; font-weight: 700; color: #101828">
+                $1.770
+              </div>
+              <div style="font-size: 12px; color: #16a34a">
+                +23% vs mes anterior
+              </div>
+            </div>
+          </div>
+          <!-- Gráfica simplificada -->
+          <div
+            style="
+              display: flex;
+              align-items: flex-end;
+              gap: 16px;
+              height: 120px;
+              padding: 0 8px;
+            "
+          >
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <div
+                style="
+                  flex: 1;
+                  width: 100%;
+                  background: #f5f3ff;
+                  border-radius: 6px 6px 0 0;
+                  min-height: 40px;
+                  display: flex;
+                  align-items: flex-end;
+                  justify-content: center;
+                "
+              >
+                <div
+                  style="
+                    width: 100%;
+                    height: 40%;
+                    background: #7f22fe;
+                    border-radius: 6px 6px 0 0;
+                  "
+                ></div>
+              </div>
+              <div style="color: #6a7282; font-size: 12px">Sem 1</div>
+            </div>
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <div
+                style="
+                  flex: 1;
+                  width: 100%;
+                  background: #f5f3ff;
+                  border-radius: 6px 6px 0 0;
+                  display: flex;
+                  align-items: flex-end;
+                  justify-content: center;
+                "
+              >
+                <div
+                  style="
+                    width: 100%;
+                    height: 65%;
+                    background: #7f22fe;
+                    border-radius: 6px 6px 0 0;
+                  "
+                ></div>
+              </div>
+              <div style="color: #6a7282; font-size: 12px">Sem 2</div>
+            </div>
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <div
+                style="
+                  flex: 1;
+                  width: 100%;
+                  background: #f5f3ff;
+                  border-radius: 6px 6px 0 0;
+                  display: flex;
+                  align-items: flex-end;
+                  justify-content: center;
+                "
+              >
+                <div
+                  style="
+                    width: 100%;
+                    height: 50%;
+                    background: #7f22fe;
+                    border-radius: 6px 6px 0 0;
+                  "
+                ></div>
+              </div>
+              <div style="color: #6a7282; font-size: 12px">Sem 3</div>
+            </div>
+            <div
+              style="
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+              "
+            >
+              <div
+                style="
+                  flex: 1;
+                  width: 100%;
+                  background: #f5f3ff;
+                  border-radius: 6px 6px 0 0;
+                  display: flex;
+                  align-items: flex-end;
+                  justify-content: center;
+                "
+              >
+                <div
+                  style="
+                    width: 100%;
+                    height: 80%;
+                    background: #7f22fe;
+                    border-radius: 6px 6px 0 0;
+                  "
+                ></div>
+              </div>
+              <div style="color: #6a7282; font-size: 12px">Sem 4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
