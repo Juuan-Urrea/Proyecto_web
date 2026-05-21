@@ -116,7 +116,7 @@
     </tr>
     <tr>
       <td><b>Juan Urrea</b></td>
-      <td>Diseñador Fronted</td>
+      <td>Desarrollador Fronted</td>
     </tr>
     <tr>
       <td><b>Ángel Góngora</b></td>
