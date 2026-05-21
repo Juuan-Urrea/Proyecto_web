@@ -78,14 +78,14 @@
 <p>El desarrollo actual incluye las siguientes características principales y completamente funcionales:</p>
 
 <ul>
-  <li>✅ <b>Registro e Inicio de Sesión:</b> Control de acceso basado en roles (Tutor/Estudiante).</li>
-  <li>✅ <b>Motor de Búsqueda de Tutores:</b> Con soporte de paginación y filtros por parámetros URL.</li>
-  <li>✅ <b>Sistema de Reputación:</b> Calificación por estrellas al terminar una clase.</li>
-  <li>✅ <b>Motor de Calendario Interactivo:</b> Cálculo automático de <i>slots</i> libres para evitar cruce de horarios.</li>
-  <li>✅ <b>Centro de Mensajería:</b> Chat en vivo con persistencia en base de datos PostgreSQL y ordenamiento por último mensaje.</li>
-  <li>✅ <b>Salas Virtuales:</b> Integración directa de Video y Audio.</li>
-  <li>✅ <b>Paneles de Control (Dashboards):</b> Tableros informativos con KPIs personalizados según el rol del usuario.</li>
-  <li>✅ <b>Base de Datos Relacional:</b> Estructura optimizada, escalable y con restricciones estrictas de integridad.</li>
+  <li>✓ <b>Registro e Inicio de Sesión:</b> Control de acceso basado en roles (Tutor/Estudiante).</li>
+  <li>✓ <b>Motor de Búsqueda de Tutores:</b> Con soporte de paginación y filtros por parámetros URL.</li>
+  <li>✓ <b>Sistema de Reputación:</b> Calificación por estrellas al terminar una clase.</li>
+  <li>✓ <b>Motor de Calendario Interactivo:</b> Cálculo automático de <i>slots</i> libres para evitar cruce de horarios.</li>
+  <li>✓ <b>Centro de Mensajería:</b> Chat en vivo con persistencia en base de datos PostgreSQL y ordenamiento por último mensaje.</li>
+  <li>✓ <b>Salas Virtuales:</b> Integración directa de Video y Audio.</li>
+  <li>✓ <b>Paneles de Control (Dashboards):</b> Tableros informativos con KPIs personalizados según el rol del usuario.</li>
+  <li>✓ <b>Base de Datos Relacional:</b> Estructura optimizada, escalable y con restricciones estrictas de integridad.</li>
 </ul>
 
 <hr>
@@ -116,15 +116,15 @@
     </tr>
     <tr>
       <td><b>Juan Urrea</b></td>
-      <td>Desarrollador</td>
+      <td>Diseñador Fronted</td>
     </tr>
     <tr>
       <td><b>Ángel Góngora</b></td>
-      <td>Desarrollador</td>
+      <td>Desarrollador Fullstack</td>
     </tr>
     <tr>
       <td><b>Jhon Suárez</b></td>
-      <td>Desarrollador</td>
+      <td>Desarrollador Backend</td>
     </tr>
   </tbody>
 </table>
