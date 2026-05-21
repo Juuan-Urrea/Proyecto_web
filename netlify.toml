@@ -1,0 +1,10 @@
+[build]
+  # El directorio que Netlify debe publicar es 'frontend'
+  publish = "frontend"
+
+# Redirigimos la antigua ruta del index a la raíz para evitar errores
+[[redirects]]
+  from = "/pages/index.html"
+  to = "/index.html"
+  status = 301
+  force = true

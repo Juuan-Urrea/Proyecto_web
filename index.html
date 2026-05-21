@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>myTEACHER | Conecta con los mejores tutores académicos</title>
+  <meta name="description" content="Encuentra tutores personalizados para matemáticas, física, programación y más. Reserva clases virtuales o presenciales en minutos.">
+  
+  <!-- CSS Globales (Apuntando a la carpeta frontend) -->
+  <link rel="stylesheet" href="frontend/src/css/variables.css">
+  <link rel="stylesheet" href="frontend/src/css/base.css">
+  <link rel="stylesheet" href="frontend/src/css/componentes.css">
+  <link rel="stylesheet" href="frontend/src/css/layout.css">
+  <!-- CSS Específico -->
+  <link rel="stylesheet" href="frontend/src/css/pages/landing.css">
+</head>
+<body class="layout-publico">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="frontend/pages/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-contenido">
+      <h1 class="hero-titulo">Aprende sin límites con <span>tutores expertos</span></h1>
+      <p class="hero-subtitulo">Clases personalizadas virtuales o presenciales. Tú eliges la materia, el tutor y el horario. Nosotros ponemos la tecnología.</p>
+      <div class="hero-botones">
+        <a href="frontend/pages/busqueda.html" class="btn btn-primario btn-grande">Buscar Tutores</a>
+        <a href="#como-funciona" class="btn btn-secundario btn-grande">Saber Más</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Cómo funciona -->
+  <section class="como-funciona" id="como-funciona" style="padding: 80px 24px; background: var(--color-tarjeta);">
+    <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+      <h2 style="font-size: 32px; margin-bottom: 48px; color: var(--color-texto-oscuro);">Cómo Funciona myTEACHER</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px;">
+        <div class="tarjeta-func" style="padding: 32px; background: var(--color-fondo-pagina); border-radius: 12px; box-shadow: var(--shadow-suave);">
+          <div style="font-size: 40px; margin-bottom: 16px;">🔍</div>
+          <h3 style="font-size: 20px; margin-bottom: 12px;">1. Busca tu Tutor</h3>
+          <p style="color: var(--color-texto-gris); font-size: 15px;">Filtra por materia, precio y horario para encontrar a tu tutor ideal.</p>
+        </div>
+        <div class="tarjeta-func" style="padding: 32px; background: var(--color-fondo-pagina); border-radius: 12px; box-shadow: var(--shadow-suave);">
+          <div style="font-size: 40px; margin-bottom: 16px;">📅</div>
+          <h3 style="font-size: 20px; margin-bottom: 12px;">2. Reserva al Instante</h3>
+          <p style="color: var(--color-texto-gris); font-size: 15px;">Elige una fecha y hora y reserva de manera segura desde la plataforma.</p>
+        </div>
+        <div class="tarjeta-func" style="padding: 32px; background: var(--color-fondo-pagina); border-radius: 12px; box-shadow: var(--shadow-suave);">
+          <div style="font-size: 40px; margin-bottom: 16px;">💻</div>
+          <h3 style="font-size: 20px; margin-bottom: 12px;">3. Toma tu Clase</h3>
+          <p style="color: var(--color-texto-gris); font-size: 15px;">Conéctate a la videollamada integrada o reúnete de forma presencial.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tutores Destacados -->
+  <section class="tutores-destacados" style="padding: 80px 24px; max-width: 1200px; margin: 0 auto;">
+    <h2 style="font-size: 32px; text-align: center; margin-bottom: 48px; color: var(--color-texto-oscuro);">Conoce a Nuestros Tutores Destacados</h2>
+    
+    <div class="tutor-grid" id="tutores-contenedor">
+      <div style="text-align: center; grid-column: 1/-1;" class="cargando">Cargando tutores...</div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer style="background: var(--color-primario-oscuro); color: white; padding: 48px 24px; text-align: center;">
+    <p style="font-weight: 700; font-size: 20px; margin-bottom: 16px;">myTEACHER</p>
+    <p style="font-size: 14px; opacity: 0.8;">© 2026 myTEACHER. Proyecto de Programación - Universidad.</p>
+  </footer>
+
+  <script type="module">
+    import { initNavbar } from './frontend/src/js/components/navbar.js';
+    import { api } from './frontend/src/js/core/api.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Inicializar barra de navegación
+      initNavbar();
+
+      // Cargar tutores destacados (los 3 primeros con mejor promedio/tarifa)
+      const contenedor = document.getElementById('tutores-contenedor');
+      try {
+        const data = await api.get('/tutores?page=1');
+        
+        // Tomar hasta 3 tutores para la landing page
+        const destacados = data.tutores.slice(0, 3);
+        
+        if (destacados.length === 0) {
+          contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay tutores disponibles en este momento.</p>';
+          return;
+        }
+
+        contenedor.innerHTML = destacados.map(t => {
+          const avatarHtml = t.avatar_url 
+            ? `<img src="${t.avatar_url}" class="tutor-avatar">`
+            : `<div class="tutor-avatar-iniciales">${t.nombre.charAt(0)}</div>`;
+
+          const ratingHtml = t.promedio_estrellas > 0 
+            ? `⭐ ${Number(t.promedio_estrellas).toFixed(1)} (${t.total_resenas} reseñas)`
+            : 'Sin reseñas aún';
+
+          return `
+            <div class="tutor-card">
+              ${avatarHtml}
+              <div class="tutor-info">
+                <h3 class="tutor-nombre">${t.nombre} ${t.apellido}</h3>
+                <div class="tutor-rating">${ratingHtml}</div>
+                <p class="tutor-materia" style="margin-top: 8px; font-weight:600; color: var(--color-primario); font-size: 14px;">
+                  ${t.materias ? t.materias.join(', ') : 'Tutor'}
+                </p>
+                <p class="tutor-descripcion" style="margin-top: 8px; font-size: 14px; color: var(--color-texto-gris);">
+                  "${t.biografia || 'Hola, estoy listo para enseñarte y ayudarte a mejorar en tus materias.'}"
+                </p>
+                <div style="margin-top: 16px; display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-weight:700; color: var(--color-texto-oscuro);">${new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(t.tarifa_hora)}/h</span>
+                  <a href="frontend/pages/perfil-tutor.html?id=${t.id}" class="btn btn-primario btn-pequeno">Ver Perfil</a>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        contenedor.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: red;">Error al cargar tutores destacados.</p>';
+      }
+    });
+  </script>
+</body>
+</html>
