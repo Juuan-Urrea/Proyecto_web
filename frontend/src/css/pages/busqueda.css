@@ -1,0 +1,122 @@
+/*
+ * ARCHIVO: pages/busqueda.css
+ * QUÉ HACE: Estilos para la página de búsqueda y filtros.
+ * USADO EN: busqueda.html
+ * DEPENDE DE: variables.css, componentes.css
+ */
+
+.page-busqueda {
+  padding-top: var(--alto-navbar);
+}
+
+/* Hero de búsqueda con fondo gris sutil */
+.search-hero {
+  background: var(--color-blanco);
+  border-bottom: var(--ancho-borde) solid var(--color-borde);
+  padding: 40px var(--padding-pagina);
+}
+
+.search-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-input-wrapper {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.search-input-wrapper input {
+  width: 100%;
+  height: 60px;
+  border-radius: var(--radio-tarjeta);
+  border: 2px solid var(--color-borde-medio);
+  padding: 0 24px 0 56px; /* Espacio para el ícono de lupa */
+  font-size: 1.1rem;
+  transition: all var(--transicion);
+}
+
+.search-input-wrapper input:focus {
+  border-color: var(--color-primario);
+  box-shadow: 0 4px 12px rgba(127,34,254,0.1);
+}
+
+/* Icono de lupa simulado con CSS o SVG (se insertará por JS/HTML) */
+.search-icon {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-texto-suave);
+  font-size: 20px;
+}
+
+/* Filtros rápidos por botones */
+.filtros-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.filtro-btn {
+  background: var(--color-fondo-pagina);
+  border: var(--ancho-borde) solid transparent;
+  padding: 8px 16px;
+  border-radius: var(--radio-badge);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-texto-medio);
+  cursor: pointer;
+  transition: all var(--transicion);
+}
+
+.filtro-btn:hover {
+  background: var(--color-borde);
+}
+
+.filtro-btn.activo {
+  background: var(--color-primario-claro);
+  color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+
+/* Resultados */
+.resultados-section {
+  padding: 40px var(--padding-pagina);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.resultados-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.tutores-grid-busqueda {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.sin-resultados {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--color-texto-gris);
+  font-size: 1.1rem;
+}
+
+/* Sidebar de filtros avanzados (opcional, para versión escritorio completa) */
+.filtros-avanzados {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .search-hero { padding: 24px 16px; }
+  .filtros-wrap { justify-content: flex-start; overflow-x: auto; padding-bottom: 8px; flex-wrap: nowrap; }
+  .resultados-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+}

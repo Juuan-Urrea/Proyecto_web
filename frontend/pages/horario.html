@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disponibilidad | Tutor | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/configuracion.css">
+</head>
+<body class="layout-dashboard">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <aside class="sidebar">
+    <div class="sidebar-grupo-label">Gestión</div>
+    <a href="/pages/panel-tutor.html" class="sidebar-link">
+      <span class="sidebar-link-icono">📈</span> Resumen
+    </a>
+    <a href="/pages/solicitudes.html" class="sidebar-link">
+      <span class="sidebar-link-icono">🛎️</span> Solicitudes
+    </a>
+    <a href="/pages/tutorias.html" class="sidebar-link">
+      <span class="sidebar-link-icono">📅</span> Mi Calendario
+    </a>
+    <a href="/pages/mensajes.html" class="sidebar-link">
+      <span class="sidebar-link-icono">💬</span> Mensajes
+    </a>
+    
+    <div class="sidebar-divisor"></div>
+    <div class="sidebar-grupo-label">Perfil</div>
+    <a href="/pages/horario.html" class="sidebar-link activo">
+      <span class="sidebar-link-icono">⏰</span> Disponibilidad
+    </a>
+    <a href="/pages/configuracion.html" class="sidebar-link">
+      <span class="sidebar-link-icono">⚙️</span> Configuración
+    </a>
+  </aside>
+
+  <main class="contenido-dashboard">
+    <div style="margin-bottom: 32px;">
+      <h1>Disponibilidad Semanal</h1>
+      <p style="color: var(--color-texto-gris);">Define tus horarios de trabajo. Los estudiantes solo podrán agendar dentro de estos rangos.</p>
+    </div>
+
+    <div class="settings-layout" style="grid-template-columns: 1fr;">
+      
+      <div class="settings-seccion">
+        <div id="dias-container">
+          <!-- Generado por JS -->
+          <div class="cargando">Cargando horario...</div>
+        </div>
+        
+        <div class="divisor"></div>
+        
+        <div style="display:flex; justify-content:flex-end;">
+          <button class="btn btn-primario" id="btn-guardar">Guardar Horario</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireRole } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { toast } from '/src/js/components/toast.js';
+
+    let userContext = null;
+    const diasSemana = ['lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo'];
+    let horarioLocal = {}; // ej: { lunes: [{ini: '08:00', fin: '12:00'}], martes: [] }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      userContext = requireRole('tutor');
+      if (!userContext) return;
+
+      initNavbar();
+      
+      // Inicializar vacio
+      diasSemana.forEach(d => horarioLocal[d] = []);
+
+      try {
+        const res = await api.get(`/tutores/${userContext.id}/disponibilidad`);
+        
+        res.disponibilidad.forEach(f => {
+          if(!horarioLocal[f.dia]) horarioLocal[f.dia] = [];
+          // Quitar segundos "08:00:00" -> "08:00"
+          horarioLocal[f.dia].push({ 
+            ini: f.hora_ini.substring(0,5), 
+            fin: f.hora_fin.substring(0,5) 
+          });
+        });
+
+        renderFormulario();
+
+      } catch (error) {
+        document.getElementById('dias-container').innerHTML = '<p class="error-general">Error cargando horario.</p>';
+      }
+
+      document.getElementById('btn-guardar').addEventListener('click', guardarHorario);
+    });
+
+    function renderFormulario() {
+      const container = document.getElementById('dias-container');
+      
+      const NombresDias = {
+        lunes: 'Lunes', martes: 'Martes', miercoles: 'Miércoles',
+        jueves: 'Jueves', viernes: 'Viernes', sabado: 'Sábado', domingo: 'Domingo'
+      };
+
+      container.innerHTML = diasSemana.map(dia => {
+        const activo = horarioLocal[dia].length > 0;
+        
+        let franjasHtml = '';
+        if (activo) {
+          franjasHtml = horarioLocal[dia].map((f, i) => `
+            <div style="display:flex; gap:12px; align-items:center; margin-bottom:8px;">
+              <input type="time" class="campo-input" style="width:120px; height:36px;" value="${f.ini}" onchange="actualizarFranja('${dia}', ${i}, 'ini', this.value)">
+              <span>-</span>
+              <input type="time" class="campo-input" style="width:120px; height:36px;" value="${f.fin}" onchange="actualizarFranja('${dia}', ${i}, 'fin', this.value)">
+              <button class="btn btn-fantasma" style="padding:0; width:36px; height:36px; color:var(--color-peligro);" onclick="eliminarFranja('${dia}', ${i})">🗑️</button>
+            </div>
+          `).join('');
+        } else {
+          franjasHtml = '<p style="color:var(--color-texto-suave); font-size:13px; margin:0;">No disponible</p>';
+        }
+
+        return `
+          <div style="display:flex; border-bottom: var(--ancho-borde) solid var(--color-borde); padding: 16px 0;">
+            <div style="width: 140px; display:flex; align-items:center;">
+              <label class="toggle-switch">
+                <input type="checkbox" ${activo ? 'checked' : ''} onchange="toggleDia('${dia}')">
+                <span class="toggle-slider"></span>
+              </label>
+              <span style="margin-left:12px; font-weight:500;">${NombresDias[dia]}</span>
+            </div>
+            
+            <div style="flex:1;">
+              ${franjasHtml}
+              ${activo ? `<button class="btn btn-fantasma btn-pequeno" style="margin-top:8px; padding:0; color:var(--color-primario);" onclick="agregarFranja('${dia}')">+ Agregar horario</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    window.toggleDia = (dia) => {
+      if (horarioLocal[dia].length > 0) {
+        horarioLocal[dia] = []; // Desactiva y borra
+      } else {
+        horarioLocal[dia] = [{ ini: '08:00', fin: '17:00' }]; // Por defecto
+      }
+      renderFormulario();
+    };
+
+    window.agregarFranja = (dia) => {
+      horarioLocal[dia].push({ ini: '08:00', fin: '17:00' });
+      renderFormulario();
+    };
+
+    window.eliminarFranja = (dia, idx) => {
+      horarioLocal[dia].splice(idx, 1);
+      renderFormulario();
+    };
+
+    window.actualizarFranja = (dia, idx, campo, valor) => {
+      horarioLocal[dia][idx][campo] = valor;
+    };
+
+    async function guardarHorario() {
+      const btn = document.getElementById('btn-guardar');
+      btn.disabled = true;
+      btn.textContent = 'Guardando...';
+
+      // Aplanar array para la API
+      const franjasApi = [];
+      diasSemana.forEach(dia => {
+        horarioLocal[dia].forEach(f => {
+          if (f.ini && f.fin && f.ini < f.fin) {
+            franjasApi.push({ dia, hora_ini: f.ini, hora_fin: f.fin });
+          }
+        });
+      });
+
+      try {
+        await api.put(`/tutores/${userContext.id}/disponibilidad`, { franjas: franjasApi });
+        toast.success('Horario guardado correctamente.');
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Guardar Horario';
+      }
+    }
+  </script>
+</body>
+</html>

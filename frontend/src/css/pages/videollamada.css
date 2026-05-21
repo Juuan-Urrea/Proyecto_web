@@ -1,0 +1,77 @@
+/*
+ * ARCHIVO: pages/videollamada.css
+ * QUÉ HACE: Estilos para el contenedor de la videollamada de Daily.co.
+ *           Ocupa la pantalla completa o el espacio asignado.
+ * USADO EN: videollamada.html
+ * DEPENDE DE: variables.css
+ */
+
+.page-videollamada {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #000; /* Fondo negro para contexto de video */
+}
+
+/* Header superior sobre el video */
+.video-header {
+  height: 60px;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  color: var(--color-blanco);
+  z-index: 10;
+}
+
+.video-info h1 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--color-blanco);
+}
+
+.video-info p {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* Botón rojo para salir */
+.btn-salir {
+  background: var(--color-peligro);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity var(--transicion);
+}
+.btn-salir:hover { opacity: 0.8; }
+
+/* Contenedor donde Daily.co inyecta su iframe */
+#contenedor-daily {
+  flex: 1;
+  width: 100%;
+  position: relative;
+}
+
+/* Pantalla de espera antes de que el iframe cargue */
+.video-espera {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-blanco);
+  background: #111;
+  z-index: 5;
+}
+
+.video-espera p { color: var(--color-blanco); margin-top: 16px; }

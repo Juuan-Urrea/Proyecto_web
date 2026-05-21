@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Videollamada | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/pages/videollamada.css">
+
+  <!-- Script oficial de Daily.co -->
+  <script crossorigin src="https://unpkg.com/@daily-co/daily-js"></script>
+</head>
+<body class="page-videollamada">
+
+  <header class="video-header">
+    <div class="video-info">
+      <h1>Sala de Tutoría Virtual</h1>
+      <p id="video-estado">Conectando...</p>
+    </div>
+    <button class="btn-salir" id="btn-salir">Salir de la llamada</button>
+  </header>
+
+  <main id="contenedor-daily">
+    <div class="video-espera" id="video-espera">
+      <div class="spinner"></div>
+      <p>Preparando sala segura...</p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth } from '/src/js/core/auth.js';
+    import { api } from '/src/js/core/api.js';
+
+    let callFrame = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = requireAuth();
+      if (!user) return;
+
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get('sesion');
+
+      if (!sessionId) {
+        document.getElementById('video-espera').innerHTML = '<p>Error: Sesión no especificada.</p>';
+        return;
+      }
+
+      try {
+        let roomUrl = '';
+        let roomToken = '';
+
+        // Si soy el tutor, aseguro que la sala esté creada y luego obtengo mi token
+        if (user.role === 'tutor') {
+          // Si la sala ya existe, Daily devolverá su URL, si no, la crea.
+          const resSala = await api.post(`/salas/sesion/${sessionId}`, {});
+          roomUrl = resSala.url;
+        }
+
+        // Obtener el token de acceso para entrar (necesario para ambos, es sala privada)
+        const resToken = await api.get(`/salas/sesion/${sessionId}/token`);
+        roomUrl = resToken.url;
+        roomToken = resToken.token;
+
+        document.getElementById('video-estado').textContent = 'Conectado a servidor seguro.';
+        iniciarLlamadaDaily(roomUrl, roomToken, user.nombre);
+
+      } catch (error) {
+        document.getElementById('video-espera').innerHTML = `<p style="color:var(--color-peligro)">Error: ${error.message}</p>`;
+        document.getElementById('video-estado').textContent = 'Fallo de conexión';
+      }
+    });
+
+    function iniciarLlamadaDaily(url, token, nombreUsuario) {
+      const contenedor = document.getElementById('contenedor-daily');
+      
+      callFrame = window.DailyIframe.createFrame(contenedor, {
+        showLeaveButton: false, // Ocultamos el default para usar el nuestro en el header
+        iframeStyle: {
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          border: 'none',
+        },
+      });
+
+      // Únete a la llamada
+      callFrame.join({
+        url: url,
+        token: token,
+        userName: nombreUsuario
+      }).then(() => {
+        // Ocultar overlay de carga
+        document.getElementById('video-espera').style.display = 'none';
+        document.getElementById('video-estado').textContent = 'En llamada';
+      }).catch(err => {
+        console.error("Error uniéndose a la llamada:", err);
+        document.getElementById('video-estado').textContent = 'Error al entrar';
+      });
+
+      // Listener para cuando el otro cuelga o hay un evento
+      callFrame.on('left-meeting', (e) => {
+        window.location.href = '/pages/tutorias.html';
+      });
+    }
+
+    document.getElementById('btn-salir').addEventListener('click', () => {
+      if (callFrame) {
+        callFrame.leave().then(() => {
+          window.location.href = '/pages/tutorias.html';
+        });
+      } else {
+        window.location.href = '/pages/tutorias.html';
+      }
+    });
+  </script>
+</body>
+</html>

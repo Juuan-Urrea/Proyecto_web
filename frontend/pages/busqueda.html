@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buscar Tutores | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/busqueda.css">
+</head>
+<body class="page-busqueda">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Hero de Búsqueda -->
+  <header class="search-hero">
+    <div class="search-container">
+      <form id="form-busqueda" class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="input-search" placeholder="Busca por nombre, apellido, etc...">
+      </form>
+      
+      <div class="filtros-wrap" id="contenedor-filtros-materias">
+        <!-- Renderizado dinámicamente con JS -->
+      </div>
+    </div>
+  </header>
+
+  <!-- Resultados -->
+  <main class="resultados-section">
+    <div class="resultados-header">
+      <h2 id="titulo-resultados">Todos los tutores</h2>
+      
+      <div class="filtros-avanzados">
+        <select class="campo-select" style="width: auto; height: 38px;" id="select-orden">
+          <option value="rating">Mejor valorados</option>
+          <option value="precio">Menor precio</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="tutores-grid-busqueda" id="contenedor-resultados">
+      <div style="grid-column: 1/-1; text-align: center;" class="cargando">Cargando tutores...</div>
+    </div>
+    
+    <div class="paginacion" id="contenedor-paginacion">
+      <!-- Botones de paginación generados por JS -->
+    </div>
+  </main>
+
+  <script type="module">
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { crearTarjetaTutor } from '/src/js/utils/dom.js';
+    import { MATERIAS } from '/src/js/core/constants.js';
+
+    // Estado actual de la búsqueda
+    let estadoActual = {
+      search: new URLSearchParams(window.location.search).get('search') || '',
+      materia: '',
+      order_by: 'rating',
+      page: 1
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavbar();
+      renderizarFiltrosMaterias();
+      
+      // Restaurar valor inicial en el input
+      document.getElementById('input-search').value = estadoActual.search;
+      
+      cargarTutores();
+
+      // Listeners
+      document.getElementById('form-busqueda').addEventListener('submit', (e) => {
+        e.preventDefault();
+        estadoActual.search = document.getElementById('input-search').value;
+        estadoActual.page = 1;
+        cargarTutores();
+      });
+
+      document.getElementById('select-orden').addEventListener('change', (e) => {
+        estadoActual.order_by = e.target.value;
+        estadoActual.page = 1;
+        cargarTutores();
+      });
+    });
+
+    function renderizarFiltrosMaterias() {
+      const contenedor = document.getElementById('contenedor-filtros-materias');
+      
+      // Botón "Todas"
+      const btnTodas = document.createElement('button');
+      btnTodas.className = 'filtro-btn activo';
+      btnTodas.textContent = 'Todas';
+      btnTodas.onclick = () => aplicarFiltroMateria('', btnTodas);
+      contenedor.appendChild(btnTodas);
+
+      // Botones por materia
+      MATERIAS.forEach(m => {
+        const btn = document.createElement('button');
+        btn.className = 'filtro-btn';
+        btn.textContent = `${m.emoji} ${m.label}`;
+        btn.onclick = () => aplicarFiltroMateria(m.id, btn);
+        contenedor.appendChild(btn);
+      });
+    }
+
+    function aplicarFiltroMateria(materiaId, btnActivado) {
+      document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('activo'));
+      btnActivado.classList.add('activo');
+      
+      estadoActual.materia = materiaId;
+      estadoActual.page = 1;
+      cargarTutores();
+    }
+
+    async function cargarTutores() {
+      const contenedor = document.getElementById('contenedor-resultados');
+      const titulo = document.getElementById('titulo-resultados');
+      
+      contenedor.innerHTML = '<div style="grid-column: 1/-1; text-align: center;" class="cargando">Cargando tutores...</div>';
+
+      try {
+        // Construir query string
+        const params = new URLSearchParams({
+          page: estadoActual.page,
+          order_by: estadoActual.order_by
+        });
+        
+        if (estadoActual.search) params.append('search', estadoActual.search);
+        if (estadoActual.materia) params.append('materia', estadoActual.materia);
+
+        const res = await api.get(`/tutores?${params.toString()}`);
+        
+        // Actualizar UI
+        if (estadoActual.search) {
+          titulo.textContent = `Resultados para "${estadoActual.search}"`;
+        } else if (estadoActual.materia) {
+          const m = MATERIAS.find(x => x.id === estadoActual.materia);
+          titulo.textContent = `Tutores de ${m ? m.label : 'Materia'}`;
+        } else {
+          titulo.textContent = 'Todos los tutores';
+        }
+
+        if (res.tutores.length === 0) {
+          contenedor.innerHTML = `
+            <div class="sin-resultados" style="grid-column: 1/-1;">
+              <span style="font-size: 48px; display: block; margin-bottom: 16px;">🔍</span>
+              No encontramos tutores que coincidan con tu búsqueda.
+              <p style="margin-top:8px; font-size:14px;">Intenta con otros filtros o términos.</p>
+            </div>`;
+          document.getElementById('contenedor-paginacion').innerHTML = '';
+        } else {
+          contenedor.innerHTML = res.tutores.map(crearTarjetaTutor).join('');
+          renderizarPaginacion(res.pagina, res.tutores.length); // asumiendo limit 12
+        }
+      } catch (error) {
+        console.error('Error cargando tutores:', error);
+        contenedor.innerHTML = '<p class="error-general" style="grid-column:1/-1">Error al cargar resultados.</p>';
+      }
+    }
+
+    function renderizarPaginacion(paginaActual, cantidadMostrada) {
+      const contenedor = document.getElementById('contenedor-paginacion');
+      contenedor.innerHTML = '';
+      
+      const limit = 12; // Debe coincidir con el backend
+
+      // Si hay página anterior
+      if (paginaActual > 1) {
+        const btnPrev = document.createElement('button');
+        btnPrev.className = 'paginacion-btn';
+        btnPrev.innerHTML = '←';
+        btnPrev.onclick = () => { estadoActual.page--; cargarTutores(); window.scrollTo(0,0); };
+        contenedor.appendChild(btnPrev);
+      }
+
+      // Indicador actual
+      const current = document.createElement('button');
+      current.className = 'paginacion-btn activo';
+      current.textContent = paginaActual;
+      contenedor.appendChild(current);
+
+      // Si trajo el límite exacto, asumimos que hay página siguiente
+      if (cantidadMostrada === limit) {
+        const btnNext = document.createElement('button');
+        btnNext.className = 'paginacion-btn';
+        btnNext.innerHTML = '→';
+        btnNext.onclick = () => { estadoActual.page++; cargarTutores(); window.scrollTo(0,0); };
+        contenedor.appendChild(btnNext);
+      }
+    }
+  </script>
+</body>
+</html>

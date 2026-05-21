@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Solicitudes | Tutor | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/dashboard.css">
+</head>
+<body class="layout-dashboard">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <aside class="sidebar">
+    <div class="sidebar-grupo-label">Gestión</div>
+    <a href="/pages/panel-tutor.html" class="sidebar-link">
+      <span class="sidebar-link-icono">📈</span> Resumen
+    </a>
+    <a href="/pages/solicitudes.html" class="sidebar-link activo">
+      <span class="sidebar-link-icono">🛎️</span> Solicitudes
+    </a>
+    <a href="/pages/tutorias.html" class="sidebar-link">
+      <span class="sidebar-link-icono">📅</span> Mi Calendario
+    </a>
+    <a href="/pages/mensajes.html" class="sidebar-link">
+      <span class="sidebar-link-icono">💬</span> Mensajes
+    </a>
+    
+    <div class="sidebar-divisor"></div>
+    <div class="sidebar-grupo-label">Perfil</div>
+    <a href="/pages/horario.html" class="sidebar-link">
+      <span class="sidebar-link-icono">⏰</span> Disponibilidad
+    </a>
+    <a href="/pages/configuracion.html" class="sidebar-link">
+      <span class="sidebar-link-icono">⚙️</span> Configuración
+    </a>
+  </aside>
+
+  <main class="contenido-dashboard">
+    <div style="margin-bottom: 32px;">
+      <h1>Solicitudes de Tutoría</h1>
+      <p style="color: var(--color-texto-gris);">Revisa y responde a las solicitudes de estudiantes.</p>
+    </div>
+
+    <div class="lista-sesiones" id="lista-pendientes">
+      <div style="text-align: center;" class="cargando">Cargando solicitudes...</div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireRole } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { formatearFecha, formatearHora } from '/src/js/utils/fechas.js';
+    import { formatearDinero } from '/src/js/core/constants.js';
+    import { toast } from '/src/js/components/toast.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const user = requireRole('tutor');
+      if (!user) return;
+
+      initNavbar();
+      cargarSolicitudes();
+    });
+
+    async function cargarSolicitudes() {
+      const contenedor = document.getElementById('lista-pendientes');
+      
+      try {
+        const data = await api.get('/sesiones?status=pendiente&page=1');
+        
+        if (data.sesiones.length === 0) {
+          contenedor.innerHTML = `
+            <div class="estado-vacio">
+              <div class="estado-vacio-icono">✅</div>
+              <div class="estado-vacio-texto">No hay solicitudes nuevas en este momento.</div>
+            </div>
+          `;
+          return;
+        }
+
+        contenedor.innerHTML = data.sesiones.map(s => {
+          const avatarHtml = s.est_avatar 
+            ? `<img src="${s.est_avatar}" class="avatar avatar-md">`
+            : `<div class="avatar-iniciales avatar-md">${s.est_nombre.charAt(0)}</div>`;
+
+          return `
+            <div class="tarjeta" style="padding: 24px; margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:16px;">
+                <div style="display:flex; gap:16px; align-items:center;">
+                  ${avatarHtml}
+                  <div>
+                    <h3 style="font-size:16px;">${s.est_nombre} ${s.est_apellido}</h3>
+                    <p style="color:var(--color-texto-suave); font-size:13px;">Quiere una clase de <strong>${s.materia_label}</strong></p>
+                  </div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:20px; font-weight:700; color:var(--color-primario);">${formatearDinero(s.precio_total)}</div>
+                  <div style="font-size:12px; color:var(--color-texto-suave);">Pago: ${s.metodo_pago}</div>
+                </div>
+              </div>
+              
+              <div style="background:var(--color-fondo-pagina); padding:16px; border-radius:8px; margin-bottom:16px; display:flex; gap:32px;">
+                <div>
+                  <div style="font-size:12px; color:var(--color-texto-suave); margin-bottom:4px;">Fecha y Hora</div>
+                  <div style="font-weight:600;">${formatearFecha(s.fecha)}</div>
+                  <div style="font-size:14px;">${formatearHora(s.hora_ini)} a ${formatearHora(s.hora_fin)}</div>
+                </div>
+                <div>
+                  <div style="font-size:12px; color:var(--color-texto-suave); margin-bottom:4px;">Modalidad</div>
+                  <div style="font-weight:600; text-transform:capitalize;">${s.modalidad}</div>
+                </div>
+                ${s.notas ? `
+                <div style="flex:1;">
+                  <div style="font-size:12px; color:var(--color-texto-suave); margin-bottom:4px;">Mensaje del estudiante</div>
+                  <div style="font-size:14px; font-style:italic;">"${s.notas}"</div>
+                </div>` : ''}
+              </div>
+
+              <div style="display:flex; justify-content:flex-end; gap:12px;">
+                <button class="btn btn-fantasma" onclick="abrirMensaje('${s.estudiante_id}', '${s.est_nombre} ${s.est_apellido}')">Enviar Mensaje</button>
+                <button class="btn btn-secundario" onclick="responder('${s.id}', 'rechazada')">Rechazar</button>
+                <button class="btn btn-primario" onclick="responder('${s.id}', 'confirmada')">Aceptar Reserva</button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      } catch (error) {
+        contenedor.innerHTML = `<p class="error-general">Error: ${error.message}</p>`;
+      }
+    }
+
+    window.responder = async (id, status) => {
+      try {
+        await api.patch(`/sesiones/${id}/estado`, { status });
+        toast.success(status === 'confirmada' ? 'Reserva aceptada.' : 'Reserva rechazada.');
+        cargarSolicitudes();
+      } catch(e) {
+        toast.error(e.message);
+      }
+    };
+
+    window.abrirMensaje = (id, nombre) => {
+      window.location.href = `/pages/mensajes.html?chat=${id}&nombre=${encodeURIComponent(nombre)}`;
+    };
+  </script>
+</body>
+</html>

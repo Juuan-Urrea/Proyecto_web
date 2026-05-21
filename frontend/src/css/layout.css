@@ -1,0 +1,124 @@
+/*
+ * ARCHIVO: layout.css
+ * QUÉ HACE: Define la estructura general de las páginas, grids,
+ *           y todos los media queries para hacerlo responsive.
+ * USADO EN: Todos los archivos HTML
+ * DEPENDE DE: variables.css
+ */
+
+/* ── LAYOUT BÁSICO (Páginas públicas) ─────────────────────────────────────── */
+.layout-publico {
+  padding-top: var(--alto-navbar);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenido-centrado {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px var(--padding-pagina);
+}
+
+
+/* ── LAYOUT DASHBOARD (Páginas con Sidebar) ──────────────────────────────── */
+.layout-dashboard {
+  padding-top: var(--alto-navbar);
+  padding-left: var(--ancho-sidebar);
+  min-height: 100vh;
+}
+
+.contenido-dashboard {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 40px var(--padding-dashboard);
+}
+
+/* Grillas comunes en dashboards */
+.grid-2-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.grid-3-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.grid-aside {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+
+/* ── MEDIA QUERIES (RESPONSIVE) ──────────────────────────────────────────── */
+
+/* TABLET (Hasta 1024px) */
+@media (max-width: 1024px) {
+  :root {
+    --padding-pagina: 32px;
+    --padding-dashboard: 24px;
+  }
+
+  .grid-3-col {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid-aside {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* MÓVIL (Hasta 768px) */
+@media (max-width: 768px) {
+  :root {
+    --padding-pagina: 16px;
+    --padding-dashboard: 16px;
+    --alto-navbar: 60px;
+  }
+
+  /* ── Grids ── */
+  .grid-2-col, .grid-3-col {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── Navbar ── */
+  .navbar-links {
+    display: none; /* Se ocultan en móvil, idealmente irían en un menú colapsable */
+  }
+
+  .navbar-acciones {
+    gap: 8px;
+  }
+
+  .navbar-hamburguesa {
+    display: flex; /* Mostrar botón hamburguesa en móvil */
+  }
+
+  /* ── Sidebar (Dashboard) ── */
+  .layout-dashboard {
+    padding-left: 0; /* Quitar margen del sidebar */
+  }
+
+  .sidebar {
+    transform: translateX(-100%); /* Ocultar sidebar por defecto */
+    transition: transform var(--transicion);
+    box-shadow: var(--sombra-dropdown);
+  }
+
+  /* Clase para mostrar el sidebar en móvil */
+  .sidebar.abierto {
+    transform: translateX(0);
+  }
+  
+  /* Botones grandes en móvil */
+  .btn {
+    width: 100%;
+  }
+}

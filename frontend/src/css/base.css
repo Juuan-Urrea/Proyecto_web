@@ -1,0 +1,103 @@
+/*
+ * ARCHIVO: base.css
+ * QUÉ HACE: Reset de estilos del navegador, tipografía base del documento,
+ *           estilos del scrollbar y clases utilitarias de uso universal.
+ * USADO EN: Importado segundo (después de variables.css) en todos los HTML
+ * DEPENDE DE: variables.css
+ */
+
+/* ── Reset universal ─────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Elimina las decoraciones de lista por defecto */
+ul, ol { list-style: none; }
+
+/* Hereda la fuente en inputs y botones (el navegador no lo hace por defecto) */
+input, button, textarea, select {
+  font: inherit;
+}
+
+/* Imágenes responsive */
+img { max-width: 100%; display: block; }
+
+/* ── Documento base ──────────────────────────────────────────────────────── */
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--fuente-sans);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-texto-oscuro);
+  background-color: var(--color-fondo-pagina);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar personalizado ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-fondo-pagina); }
+::-webkit-scrollbar-thumb {
+  background: var(--color-borde-medio);
+  border-radius: var(--radio-badge);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-texto-suave); }
+
+/* ── Tipografía base ─────────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-texto-oscuro);
+}
+
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.25rem; }
+h4 { font-size: 1.1rem;  }
+
+p { color: var(--color-texto-gris); }
+
+a {
+  color: var(--color-primario);
+  text-decoration: none;
+  transition: opacity var(--transicion);
+}
+a:hover { opacity: 0.8; }
+
+/* ── Clases utilitarias ──────────────────────────────────────────────────── */
+
+/* Oculta elemento visualmente pero lo mantiene en el DOM */
+.hidden { display: none !important; }
+
+/* Texto truncado con puntos suspensivos */
+.truncar {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Centrado con flexbox */
+.flex-centro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Separador de contenido */
+.divisor {
+  border: none;
+  border-top: var(--ancho-borde) solid var(--color-borde);
+  margin: 24px 0;
+}
+
+/* Clase de estado de carga: aplica cursor de espera y bloquea clicks */
+.cargando {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: wait;
+}

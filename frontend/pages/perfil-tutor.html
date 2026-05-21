@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil de Tutor | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+</head>
+<body class="layout-publico">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="contenido-centrado" style="max-width: 900px; display: grid; grid-template-columns: 1fr 300px; gap: 40px; align-items: start;" id="layout-perfil">
+    <!-- Renderizado por JS -->
+    <div style="grid-column: 1/-1; text-align: center; padding: 60px;" class="cargando">Cargando perfil...</div>
+  </div>
+
+  <script type="module">
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { renderEstrellas } from '/src/js/utils/dom.js';
+    import { formatearDinero } from '/src/js/core/constants.js';
+    import { calcularTiempoRelativo } from '/src/js/utils/fechas.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      initNavbar();
+      
+      const params = new URLSearchParams(window.location.search);
+      const tutorId = params.get('id');
+      const container = document.getElementById('layout-perfil');
+
+      if (!tutorId) {
+        container.innerHTML = '<div class="error-general">Tutor no especificado.</div>';
+        return;
+      }
+
+      try {
+        const response = await api.get(`/tutores/${tutorId}`);
+        const t = response.tutor;
+
+        // Foto o iniciales
+        const avatarHtml = t.avatar_url 
+          ? `<img src="${t.avatar_url}" class="avatar avatar-xl" style="width: 120px; height: 120px;">`
+          : `<div class="avatar-iniciales avatar-xl" style="width: 120px; height: 120px;">${t.nombre.charAt(0)}</div>`;
+
+        // Materias tags
+        const materiasHtml = t.materias.map(m => `<span class="badge badge-morado">${m.emoji} ${m.label}</span>`).join(' ');
+
+        // Badges
+        const badgesHtml = t.badges.map(b => `<span class="badge badge-verde">${b}</span>`).join(' ');
+
+        // Reseñas
+        let resenasHtml = '<p style="color:var(--color-texto-gris); font-size:13px;">Aún no hay reseñas.</p>';
+        if (t.resenas && t.resenas.length > 0) {
+          resenasHtml = t.resenas.map(r => `
+            <div style="border-bottom: var(--ancho-borde) solid var(--color-borde); padding: 16px 0;">
+              <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                <span style="font-weight:600; font-size:14px;">${r.nombre_estudiante}</span>
+                <span style="font-size:12px; color:var(--color-texto-suave);">${calcularTiempoRelativo(r.created_at)}</span>
+              </div>
+              <div style="margin-bottom:8px;">${renderEstrellas(r.rating)}</div>
+              <p style="font-size:14px; margin:0;">${r.comentario}</p>
+            </div>
+          `).join('');
+        }
+
+        // Layout (Left: Info, Right: Sticky Card)
+        container.innerHTML = `
+          <!-- Columna Izquierda (Perfil Completo) -->
+          <div>
+            <div style="display:flex; gap:24px; align-items:center; margin-bottom:32px;">
+              ${avatarHtml}
+              <div>
+                <h1 style="margin-bottom:8px;">${t.nombre} ${t.apellido} ${t.verificado ? '✅' : ''}</h1>
+                <p style="margin-bottom:12px;">📍 ${t.ciudad || 'Virtual'}</p>
+                <div style="display:flex; gap:16px;">
+                  <span>${renderEstrellas(t.rating)} (${t.total_reviews} reseñas)</span>
+                  <span style="color:var(--color-texto-gris);">|</span>
+                  <span>${t.total_sesiones} tutorías dadas</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="divisor"></div>
+
+            <section style="margin-bottom:32px;">
+              <h3 style="margin-bottom:16px;">Sobre mí</h3>
+              <p style="white-space:pre-wrap; line-height:1.7;">${t.bio || 'Este tutor aún no ha escrito su biografía.'}</p>
+            </section>
+
+            <section style="margin-bottom:32px;">
+              <h3 style="margin-bottom:16px;">Materias que enseño</h3>
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">${materiasHtml}</div>
+            </section>
+            
+            ${t.badges.length > 0 ? `
+            <section style="margin-bottom:32px;">
+              <h3 style="margin-bottom:16px;">Insignias</h3>
+              <div style="display:flex; flex-wrap:wrap; gap:8px;">${badgesHtml}</div>
+            </section>` : ''}
+
+            <section style="margin-bottom:32px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                <h3>Reseñas de estudiantes</h3>
+                <span style="font-weight:600;">${t.rating} de 5</span>
+              </div>
+              <div>${resenasHtml}</div>
+            </section>
+          </div>
+
+          <!-- Columna Derecha (Sticky Tarjeta Reserva) -->
+          <div style="position: sticky; top: calc(var(--alto-navbar) + 40px);">
+            <div class="tarjeta" style="padding: 24px;">
+              <div style="margin-bottom:24px;">
+                <span style="font-size:32px; font-weight:700; color:var(--color-texto-oscuro);">${formatearDinero(t.precio_hora)}</span>
+                <span style="color:var(--color-texto-suave);">/ hora</span>
+              </div>
+              
+              <ul style="margin-bottom:24px; color:var(--color-texto-gris); font-size:14px; display:flex; flex-direction:column; gap:8px;">
+                <li>✓ Clases 1 a 1 personalizadas</li>
+                <li>✓ ${t.anios_exp} años de experiencia</li>
+                ${t.responde_rapido ? '<li>⚡ Responde rápido</li>' : ''}
+              </ul>
+
+              <a href="/pages/agendar.html?id=${t.id}" class="btn btn-primario btn-completo" style="height:52px; font-size:16px;">
+                Agendar Tutoría
+              </a>
+              
+              <p style="text-align:center; font-size:12px; color:var(--color-texto-suave); margin-top:16px;">
+                No se te cobrará nada aún.
+              </p>
+            </div>
+          </div>
+        `;
+
+        // Responsive fix para móvil
+        if (window.innerWidth <= 768) {
+          container.style.gridTemplateColumns = '1fr';
+        }
+
+      } catch (error) {
+        console.error(error);
+        container.innerHTML = `<div class="error-general" style="grid-column: 1/-1;">Error al cargar el perfil.</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

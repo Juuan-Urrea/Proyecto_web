@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Tutor | myTEACHER</title>
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/pages/auth.css">
+</head>
+<body class="auth-page">
+
+  <div class="auth-card auth-card-wide">
+    <div class="auth-header">
+      <a href="/index.html" class="navbar-logo" style="display:block; margin-bottom: 24px;">myTEACHER</a>
+      <h1 class="auth-title">Solicitud para ser Tutor</h1>
+      <p class="auth-subtitle">Únete a nuestra red de educadores y genera ingresos compartiendo tu conocimiento.</p>
+    </div>
+
+    <form id="register-form">
+      <input type="hidden" id="role" value="tutor">
+
+      <div class="form-grid">
+        <div class="grupo-campo">
+          <label for="nombre" class="etiqueta-campo">Nombre</label>
+          <input type="text" id="nombre" class="campo-input" required placeholder="María">
+        </div>
+
+        <div class="grupo-campo">
+          <label for="apellido" class="etiqueta-campo">Apellido</label>
+          <input type="text" id="apellido" class="campo-input" required placeholder="Gómez">
+        </div>
+
+        <div class="grupo-campo">
+          <label for="email" class="etiqueta-campo">Correo electrónico</label>
+          <input type="email" id="email" class="campo-input" required placeholder="maria@ejemplo.com">
+        </div>
+
+        <div class="grupo-campo">
+          <label for="telefono" class="etiqueta-campo">Teléfono / WhatsApp</label>
+          <input type="tel" id="telefono" class="campo-input" required placeholder="3001234567">
+        </div>
+        
+        <div class="grupo-campo">
+          <label for="ciudad" class="etiqueta-campo">Ciudad</label>
+          <input type="text" id="ciudad" class="campo-input" required placeholder="Bogotá">
+        </div>
+
+        <div class="grupo-campo">
+          <label for="password" class="etiqueta-campo">Contraseña</label>
+          <input type="password" id="password" class="campo-input" required minlength="8" placeholder="Mínimo 8 caracteres">
+        </div>
+      </div>
+
+      <div class="divisor"></div>
+
+      <h3 style="font-size: 16px; margin-bottom: 16px;">Perfil Profesional</h3>
+
+      <div class="form-grid">
+        <div class="grupo-campo">
+          <label for="precio_hora" class="etiqueta-campo">Precio por hora (COP)</label>
+          <input type="number" id="precio_hora" class="campo-input" required min="10000" step="1000" value="25000">
+        </div>
+
+        <div class="grupo-campo">
+          <label for="anios_exp" class="etiqueta-campo">Años de experiencia</label>
+          <input type="number" id="anios_exp" class="campo-input" required min="0" value="0">
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <label class="etiqueta-campo">¿Qué materias vas a enseñar?</label>
+        <div class="materias-grid" id="contenedor-materias">
+          <!-- Renderizado por JS -->
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primario btn-completo" id="btn-submit" style="margin-top: 24px;">
+        Enviar Solicitud
+      </button>
+      
+      <div id="error-msg" class="error-general"></div>
+    </form>
+
+    <div class="auth-footer-text">
+      <p>¿Ya tienes una cuenta? <a href="/pages/login.html">Inicia sesión</a></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { api } from '/src/js/core/api.js';
+    import { guardarSesion } from '/src/js/core/auth.js';
+    import { toast } from '/src/js/components/toast.js';
+    import { MATERIAS } from '/src/js/core/constants.js';
+
+    // Cargar materias dinámicamente
+    document.addEventListener('DOMContentLoaded', () => {
+      const contenedor = document.getElementById('contenedor-materias');
+      contenedor.innerHTML = MATERIAS.map(m => `
+        <label>
+          <input type="checkbox" name="materias" value="${m.id}" class="materia-checkbox">
+          <span class="materia-label">${m.emoji} ${m.label}</span>
+        </label>
+      `).join('');
+    });
+
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const materiasSeleccionadas = Array.from(document.querySelectorAll('input[name="materias"]:checked'))
+                                         .map(cb => cb.value);
+      
+      if (materiasSeleccionadas.length === 0) {
+        toast.error('Debes seleccionar al menos una materia.');
+        return;
+      }
+
+      const body = {
+        role: document.getElementById('role').value,
+        nombre: document.getElementById('nombre').value,
+        apellido: document.getElementById('apellido').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        telefono: document.getElementById('telefono').value,
+        ciudad: document.getElementById('ciudad').value,
+        precio_hora: parseInt(document.getElementById('precio_hora').value, 10),
+        anios_exp: parseInt(document.getElementById('anios_exp').value, 10),
+        materias: materiasSeleccionadas
+      };
+      
+      const btn = document.getElementById('btn-submit');
+      const errorMsg = document.getElementById('error-msg');
+
+      btn.disabled = true;
+      btn.textContent = 'Enviando solicitud...';
+      errorMsg.textContent = '';
+
+      try {
+        const data = await api.post('/auth/registrar', body);
+        
+        guardarSesion(data.token, data.usuario);
+        toast.success('¡Registro de tutor exitoso!');
+        
+        setTimeout(() => {
+          window.location.href = '/pages/panel-tutor.html';
+        }, 1000);
+      } catch (error) {
+        errorMsg.textContent = error.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Enviar Solicitud';
+      }
+    });
+  </script>
+</body>
+</html>

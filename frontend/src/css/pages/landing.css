@@ -1,0 +1,110 @@
+/*
+ * ARCHIVO: pages/landing.css
+ * QUÉ HACE: Estilos exclusivos del landing page.
+ * USADO EN: index.html
+ * DEPENDE DE: variables.css, base.css, componentes.css, layout.css
+ */
+
+/* ── Hero Section ── */
+.hero {
+  background-color: var(--color-fondo-oscuro);
+  color: var(--color-blanco);
+  padding: 100px var(--padding-pagina);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efecto de resplandor morado de fondo */
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(circle, rgba(127, 34, 254, 0.2) 0%, rgba(15, 23, 42, 0) 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-contenido {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-titulo {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+  line-height: 1.1;
+}
+
+.hero-titulo span {
+  color: var(--color-primario);
+}
+
+.hero-subtitulo {
+  font-size: 1.25rem;
+  color: #CBD5E1; /* gris claro */
+  margin-bottom: 40px;
+  font-weight: 400;
+}
+
+.hero-acciones {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+/* ── Sección de Búsqueda Rápida ── */
+.busqueda-rapida {
+  background: var(--color-blanco);
+  border-radius: var(--radio-tarjeta);
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  max-width: 600px;
+  margin: 40px auto 0;
+  box-shadow: var(--sombra-dropdown);
+}
+
+.busqueda-rapida input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 0 16px;
+  font-size: 16px;
+  outline: none;
+  color: var(--color-texto-oscuro);
+}
+
+/* ── Sección de Tutores Destacados ── */
+.seccion-destacados {
+  padding: 80px var(--padding-pagina);
+  background: var(--color-fondo-pagina);
+}
+
+.seccion-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.grid-destacados {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .hero-titulo { font-size: 2.5rem; }
+  .hero-acciones { flex-direction: column; }
+  .busqueda-rapida { flex-direction: column; padding: 16px; background: transparent; box-shadow: none; gap: 16px; }
+  .busqueda-rapida input { background: var(--color-blanco); height: 48px; border-radius: var(--radio-input); }
+}

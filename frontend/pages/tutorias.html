@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Tutorías | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/dashboard.css">
+</head>
+<body class="layout-dashboard">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <aside class="sidebar" id="sidebar-container">
+    <!-- El sidebar se inyectará dinámicamente según el rol en JS -->
+  </aside>
+
+  <main class="contenido-dashboard">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 32px;">
+      <h1>Mis Tutorías</h1>
+      
+      <!-- Filtro de estado -->
+      <select id="filtro-status" class="campo-select" style="width: auto;">
+        <option value="">Todas</option>
+        <option value="pendiente">Pendientes</option>
+        <option value="confirmada">Confirmadas</option>
+        <option value="completada">Completadas</option>
+        <option value="cancelada">Canceladas</option>
+      </select>
+    </div>
+
+    <div class="lista-sesiones" id="lista-sesiones">
+      <div style="text-align: center;" class="cargando">Cargando sesiones...</div>
+    </div>
+    
+    <div class="paginacion" id="paginacion-container"></div>
+  </main>
+
+  <script type="module">
+    import { requireAuth } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { formatearFecha, formatearHora } from '/src/js/utils/fechas.js';
+    import { badgeClassStatus, labelStatus, formatearDinero } from '/src/js/core/constants.js';
+    import { toast } from '/src/js/components/toast.js';
+
+    let estadoActual = { page: 1, status: '' };
+    let userContext = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      userContext = requireAuth();
+      if (!userContext) return;
+
+      initNavbar();
+      renderSidebarContext();
+      
+      cargarSesiones();
+
+      document.getElementById('filtro-status').addEventListener('change', (e) => {
+        estadoActual.status = e.target.value;
+        estadoActual.page = 1;
+        cargarSesiones();
+      });
+    });
+
+    function renderSidebarContext() {
+      const container = document.getElementById('sidebar-container');
+      if (userContext.role === 'tutor') {
+        container.innerHTML = `
+          <div class="sidebar-grupo-label">Gestión</div>
+          <a href="/pages/panel-tutor.html" class="sidebar-link"><span class="sidebar-link-icono">📈</span> Resumen</a>
+          <a href="/pages/solicitudes.html" class="sidebar-link"><span class="sidebar-link-icono">🛎️</span> Solicitudes</a>
+          <a href="/pages/tutorias.html" class="sidebar-link activo"><span class="sidebar-link-icono">📅</span> Mi Calendario</a>
+          <a href="/pages/mensajes.html" class="sidebar-link"><span class="sidebar-link-icono">💬</span> Mensajes</a>
+          <div class="sidebar-divisor"></div>
+          <div class="sidebar-grupo-label">Perfil</div>
+          <a href="/pages/horario.html" class="sidebar-link"><span class="sidebar-link-icono">⏰</span> Disponibilidad</a>
+          <a href="/pages/configuracion.html" class="sidebar-link"><span class="sidebar-link-icono">⚙️</span> Configuración</a>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="sidebar-grupo-label">General</div>
+          <a href="/pages/panel-estudiante.html" class="sidebar-link"><span class="sidebar-link-icono">📊</span> Inicio</a>
+          <a href="/pages/busqueda.html" class="sidebar-link"><span class="sidebar-link-icono">🔍</span> Buscar Tutores</a>
+          <div class="sidebar-divisor"></div>
+          <div class="sidebar-grupo-label">Mi Aprendizaje</div>
+          <a href="/pages/tutorias.html" class="sidebar-link activo"><span class="sidebar-link-icono">📅</span> Mis Sesiones</a>
+          <a href="/pages/mensajes.html" class="sidebar-link"><span class="sidebar-link-icono">💬</span> Mensajes</a>
+          <div class="sidebar-divisor"></div>
+          <div class="sidebar-grupo-label">Cuenta</div>
+          <a href="/pages/configuracion.html" class="sidebar-link"><span class="sidebar-link-icono">⚙️</span> Configuración</a>
+        `;
+      }
+    }
+
+    async function cargarSesiones() {
+      const contenedor = document.getElementById('lista-sesiones');
+      contenedor.innerHTML = '<div style="text-align: center;" class="cargando">Cargando...</div>';
+
+      try {
+        let url = `/sesiones?page=${estadoActual.page}`;
+        if (estadoActual.status) url += `&status=${estadoActual.status}`;
+
+        const data = await api.get(url);
+        
+        if (data.sesiones.length === 0) {
+          contenedor.innerHTML = `
+            <div class="estado-vacio">
+              <div class="estado-vacio-icono">📅</div>
+              <div class="estado-vacio-texto">No se encontraron tutorías en este estado.</div>
+            </div>
+          `;
+          document.getElementById('paginacion-container').innerHTML = '';
+          return;
+        }
+
+        contenedor.innerHTML = data.sesiones.map(s => {
+          // Determina los datos de la "otra" persona
+          const esTutor = userContext.role === 'tutor';
+          const otroNombre = esTutor ? `${s.est_nombre} ${s.est_apellido}` : `${s.tutor_nombre} ${s.tutor_apellido}`;
+          const otroAvatar = esTutor ? s.est_avatar : s.tutor_avatar;
+
+          const avatarHtml = otroAvatar 
+            ? `<img src="${otroAvatar}" class="avatar avatar-md">`
+            : `<div class="avatar-iniciales avatar-md">${otroNombre.charAt(0)}</div>`;
+
+          // Botones de acción dinámicos
+          const otroId = esTutor ? s.estudiante_id : s.tutor_id;
+          let btnHtml = `<button onclick="abrirMensaje('${otroId}', '${otroNombre}')" class="btn btn-fantasma btn-pequeno">Mensaje</button>`;
+          
+          if (s.status === 'confirmada' && s.modalidad === 'virtual') {
+            btnHtml += `<a href="/pages/videollamada.html?sesion=${s.id}" class="btn btn-primario btn-pequeno">Sala Virtual</a>`;
+          }
+          
+          if (['pendiente', 'confirmada'].includes(s.status)) {
+            // Cancelar
+            btnHtml += `<button onclick="cancelarSesion('${s.id}')" class="btn btn-secundario btn-pequeno">Cancelar</button>`;
+          }
+
+          if (s.status === 'completada' && !esTutor) {
+             // Solo el estudiante puede reseñar (simplificado: asume que no hay estado global para reseña dejada aquí, se valida en backend)
+             btnHtml += `<button onclick="abrirModalResena('${s.id}')" class="btn btn-secundario btn-pequeno">Dejar Reseña</button>`;
+          }
+
+          if (esTutor && s.status === 'pendiente') {
+             btnHtml += `<button onclick="cambiarEstadoSesion('${s.id}', 'confirmada')" class="btn btn-primario btn-pequeno">Aceptar</button>`;
+          }
+
+          return `
+            <div class="sesion-item">
+              <div class="sesion-info">
+                ${avatarHtml}
+                <div class="sesion-detalles">
+                  <div class="sesion-materia">${s.materia_label} <span style="font-size:12px; font-weight:400; color:var(--color-texto-suave);">(${s.modalidad})</span></div>
+                  <div class="sesion-meta">
+                    <span>👤 ${otroNombre}</span>
+                    <span>📅 ${formatearFecha(s.fecha)}</span>
+                    <span>⏰ ${formatearHora(s.hora_ini)}</span>
+                  </div>
+                  <div style="margin-top:4px; font-size:13px; color:var(--color-texto-oscuro);">
+                    <strong>${formatearDinero(s.precio_total)}</strong> (${s.metodo_pago})
+                  </div>
+                </div>
+              </div>
+              <div class="sesion-acciones">
+                <span class="badge ${badgeClassStatus(s.status)}">${labelStatus(s.status)}</span>
+                <div style="display:flex; gap:8px;">${btnHtml}</div>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Paginación básica (10 por página)
+        renderPaginacion(data.pagina, data.sesiones.length === 10);
+
+      } catch (error) {
+        contenedor.innerHTML = `<p class="error-general">Error: ${error.message}</p>`;
+      }
+    }
+
+    function renderPaginacion(page, hasNext) {
+      const p = document.getElementById('paginacion-container');
+      p.innerHTML = '';
+      if (page > 1) {
+        const btn = document.createElement('button');
+        btn.className = 'paginacion-btn';
+        btn.innerHTML = '←';
+        btn.onclick = () => { estadoActual.page--; cargarSesiones(); window.scrollTo(0,0); };
+        p.appendChild(btn);
+      }
+      if (hasNext) {
+        const btn = document.createElement('button');
+        btn.className = 'paginacion-btn';
+        btn.innerHTML = '→';
+        btn.onclick = () => { estadoActual.page++; cargarSesiones(); window.scrollTo(0,0); };
+        p.appendChild(btn);
+      }
+    }
+
+    // Funciones globales para botones
+    window.cancelarSesion = async (id) => {
+      if(!confirm('¿Estás seguro de cancelar esta sesión? No podrás deshacerlo.')) return;
+      try {
+        await api.delete(`/sesiones/${id}`);
+        toast.success('Sesión cancelada.');
+        cargarSesiones();
+      } catch (e) { toast.error(e.message); }
+    };
+
+    window.cambiarEstadoSesion = async (id, status) => {
+      try {
+        await api.patch(`/sesiones/${id}/estado`, { status });
+        toast.success('Estado actualizado.');
+        cargarSesiones();
+      } catch (e) { toast.error(e.message); }
+    };
+
+    window.abrirModalResena = (id) => {
+      const rating = prompt("Califica al tutor (1 a 5):", "5");
+      if(!rating) return;
+      const comentario = prompt("Escribe un breve comentario:", "Excelente clase.");
+      
+      api.post(`/sesiones/${id}/resena`, { rating: parseInt(rating), comentario })
+        .then(() => { toast.success('Reseña guardada'); cargarSesiones(); })
+        .catch(e => toast.error(e.message));
+    };
+
+    window.abrirMensaje = (id, nombre) => {
+      window.location.href = `/pages/mensajes.html?chat=${id}&nombre=${encodeURIComponent(nombre)}`;
+    };
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estado del Pago | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+</head>
+<body class="layout-publico" style="background:var(--color-fondo-pagina);">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+  </nav>
+
+  <div class="auth-page" style="padding-top: 0; min-height: calc(100vh - var(--alto-navbar));">
+    <div class="auth-card" style="text-align: center;" id="contenedor-estado">
+      <div class="spinner" style="margin: 0 auto 24px; width:48px; height:48px;"></div>
+      <h2>Verificando pago...</h2>
+      <p style="color:var(--color-texto-gris); margin-top:8px;">Estamos consultando el estado de tu transacción con Wompi. Por favor no cierres esta ventana.</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavbar();
+      verificarEstadoPago();
+    });
+
+    async function verificarEstadoPago() {
+      const params = new URLSearchParams(window.location.search);
+      const idWompi = params.get('id'); // ID de transacción devuelto por Wompi en la redirección
+      const sessionId = params.get('sesion'); // Traído mediante custom logic en callback o de local
+
+      if (!sessionId) {
+        mostrarError('No se encontró información de la sesión en la URL.');
+        return;
+      }
+
+      // Wompi procesa asíncronamente (puede tomar segundos).
+      // Hacemos polling (máximo 5 intentos de 3s c/u) para que el webhook del backend actualice.
+      let intentos = 0;
+      const MAX_INTENTOS = 5;
+
+      const poll = async () => {
+        try {
+          const res = await api.get(`/pagos/sesion/${sessionId}`);
+          const status = res.pago.status; // 'pendiente', 'aprobado', 'rechazado'
+
+          if (status === 'aprobado') {
+            mostrarExito(res.pago.monto);
+          } else if (status === 'rechazado') {
+            mostrarFallo();
+          } else if (intentos < MAX_INTENTOS) {
+            intentos++;
+            setTimeout(poll, 3000);
+          } else {
+            // Si después de 15s sigue pendiente
+            mostrarPendiente();
+          }
+        } catch (error) {
+          mostrarError(error.message);
+        }
+      };
+
+      poll();
+    }
+
+    function mostrarExito(monto) {
+      document.getElementById('contenedor-estado').innerHTML = `
+        <div style="font-size: 64px; margin-bottom: 16px;">✅</div>
+        <h2>¡Pago Exitoso!</h2>
+        <p style="color:var(--color-texto-gris); margin:8px 0 24px;">Tu reserva ha sido confirmada y el tutor ha sido notificado.</p>
+        <a href="/pages/tutorias.html" class="btn btn-primario btn-completo">Ver Mis Sesiones</a>
+      `;
+    }
+
+    function mostrarFallo() {
+      document.getElementById('contenedor-estado').innerHTML = `
+        <div style="font-size: 64px; margin-bottom: 16px;">❌</div>
+        <h2>Pago Rechazado</h2>
+        <p style="color:var(--color-texto-gris); margin:8px 0 24px;">Hubo un problema procesando tu tarjeta con Wompi. Tu reserva ha sido cancelada.</p>
+        <a href="/pages/busqueda.html" class="btn btn-secundario btn-completo">Volver a intentar</a>
+      `;
+    }
+
+    function mostrarPendiente() {
+      document.getElementById('contenedor-estado').innerHTML = `
+        <div style="font-size: 64px; margin-bottom: 16px;">⏳</div>
+        <h2>Pago Pendiente</h2>
+        <p style="color:var(--color-texto-gris); margin:8px 0 24px;">Tu banco está procesando el pago. Te notificaremos cuando se apruebe.</p>
+        <a href="/pages/tutorias.html" class="btn btn-primario btn-completo">Ir al Dashboard</a>
+      `;
+    }
+
+    function mostrarError(msg) {
+      document.getElementById('contenedor-estado').innerHTML = `
+        <h2 style="color:var(--color-peligro)">Error</h2>
+        <p style="color:var(--color-texto-gris); margin-top:8px;">${msg}</p>
+        <a href="/pages/panel-estudiante.html" class="btn btn-secundario btn-completo" style="margin-top:24px;">Ir al inicio</a>
+      `;
+    }
+  </script>
+</body>
+</html>

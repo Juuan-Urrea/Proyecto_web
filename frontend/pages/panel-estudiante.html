@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Panel | Estudiante | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/dashboard.css">
+</head>
+<body class="layout-dashboard">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-grupo-label">General</div>
+    <a href="/pages/panel-estudiante.html" class="sidebar-link activo">
+      <span class="sidebar-link-icono">📊</span> Inicio
+    </a>
+    <a href="/pages/busqueda.html" class="sidebar-link">
+      <span class="sidebar-link-icono">🔍</span> Buscar Tutores
+    </a>
+    
+    <div class="sidebar-divisor"></div>
+    <div class="sidebar-grupo-label">Mi Aprendizaje</div>
+    <a href="/pages/tutorias.html" class="sidebar-link">
+      <span class="sidebar-link-icono">📅</span> Mis Sesiones
+    </a>
+    <a href="/pages/mensajes.html" class="sidebar-link">
+      <span class="sidebar-link-icono">💬</span> Mensajes
+    </a>
+    
+    <div class="sidebar-divisor"></div>
+    <div class="sidebar-grupo-label">Cuenta</div>
+    <a href="/pages/configuracion.html" class="sidebar-link">
+      <span class="sidebar-link-icono">⚙️</span> Configuración
+    </a>
+  </aside>
+
+  <!-- Contenido -->
+  <main class="contenido-dashboard">
+    <div style="margin-bottom: 32px;">
+      <h1 id="bienvenida-titulo" style="margin-bottom: 8px;">Hola, Estudiante</h1>
+      <p style="color: var(--color-texto-gris);">Este es el resumen de tus actividades en myTEACHER.</p>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Sesiones Completadas</span>
+        <span class="kpi-valor" id="kpi-completadas">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Sesiones Próximas</span>
+        <span class="kpi-valor" id="kpi-proximas">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Total Horas</span>
+        <span class="kpi-valor" id="kpi-horas">-</span>
+      </div>
+    </div>
+
+    <div class="grid-aside">
+      <!-- Próximas Clases -->
+      <section>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+          <h2 style="font-size: 1.25rem;">Tus próximas clases</h2>
+          <a href="/pages/tutorias.html" style="font-size:14px; font-weight:600;">Ver todas</a>
+        </div>
+        
+        <div class="lista-sesiones" id="lista-proximas">
+          <div class="cargando">Cargando...</div>
+        </div>
+      </section>
+
+      <!-- Panel derecho (ej: Tutores recomendados o Búsqueda rápida) -->
+      <aside>
+        <div class="tarjeta" style="padding: 24px; text-align:center;">
+          <div style="font-size:40px; margin-bottom:16px;">🎯</div>
+          <h3 style="margin-bottom:8px;">¿Listo para aprender algo nuevo?</h3>
+          <p style="color:var(--color-texto-gris); font-size:13px; margin-bottom:20px;">
+            Explora nuestra lista de tutores verificados y reserva tu próxima sesión hoy mismo.
+          </p>
+          <a href="/pages/busqueda.html" class="btn btn-primario btn-completo">Buscar Tutor</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireRole } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { formatearFecha, formatearHora } from '/src/js/utils/fechas.js';
+    import { badgeClassStatus, labelStatus } from '/src/js/core/constants.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Proteger ruta: Solo estudiantes
+      const user = requireRole('estudiante');
+      if (!user) return; // Se está redirigiendo
+
+      // 2. Init global UI
+      initNavbar();
+      document.getElementById('bienvenida-titulo').textContent = `Hola, ${user.nombre} 👋`;
+
+      // 3. Cargar datos
+      try {
+        const data = await api.get('/sesiones?page=1');
+        const sesiones = data.sesiones || [];
+
+        // Calcular KPIs (simplificado en cliente, en prod idealmente desde un endpoint de stats)
+        const completadas = sesiones.filter(s => s.status === 'completada').length;
+        const proximas = sesiones.filter(s => s.status === 'confirmada' || s.status === 'pendiente').length;
+        
+        // Calcular horas completadas aproximadas
+        const horas = sesiones
+          .filter(s => s.status === 'completada')
+          .reduce((acc, s) => {
+            const h1 = parseInt(s.hora_ini.split(':')[0]);
+            const h2 = parseInt(s.hora_fin.split(':')[0]);
+            return acc + (h2 - h1);
+          }, 0);
+
+        document.getElementById('kpi-completadas').textContent = completadas;
+        document.getElementById('kpi-proximas').textContent = proximas;
+        document.getElementById('kpi-horas').textContent = horas;
+
+        // Renderizar lista de próximas
+        const proximasList = sesiones
+          .filter(s => ['confirmada', 'pendiente'].includes(s.status))
+          .slice(0, 3); // Solo mostrar 3
+
+        const contenedor = document.getElementById('lista-proximas');
+
+        if (proximasList.length === 0) {
+          contenedor.innerHTML = `
+            <div class="estado-vacio">
+              <div class="estado-vacio-icono">📚</div>
+              <div class="estado-vacio-texto">No tienes sesiones próximas agendadas.</div>
+              <a href="/pages/busqueda.html" class="btn btn-secundario">Encontrar Tutor</a>
+            </div>
+          `;
+        } else {
+          contenedor.innerHTML = proximasList.map(s => {
+            const avatarHtml = s.tutor_avatar 
+              ? `<img src="${s.tutor_avatar}" class="avatar avatar-md">`
+              : `<div class="avatar-iniciales avatar-md">${s.tutor_nombre.charAt(0)}</div>`;
+
+            // Si está confirmada y es virtual, mostrar enlace
+            let btnAccion = `<a href="/pages/tutorias.html" class="btn btn-fantasma btn-pequeno">Ver Detalle</a>`;
+            if (s.status === 'confirmada' && s.modalidad === 'virtual') {
+              btnAccion = `<a href="/pages/videollamada.html?sesion=${s.id}" class="btn btn-primario btn-pequeno">Entrar a Sala</a>`;
+            }
+
+            return `
+              <div class="sesion-item">
+                <div class="sesion-info">
+                  ${avatarHtml}
+                  <div class="sesion-detalles">
+                    <div class="sesion-materia">${s.materia_label}</div>
+                    <div class="sesion-meta">
+                      <span>👤 ${s.tutor_nombre} ${s.tutor_apellido}</span>
+                      <span>📅 ${formatearFecha(s.fecha)}</span>
+                      <span>⏰ ${formatearHora(s.hora_ini)}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="sesion-acciones">
+                  <span class="badge ${badgeClassStatus(s.status)}">${labelStatus(s.status)}</span>
+                  ${btnAccion}
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+      } catch (error) {
+        console.error('Error cargando dashboard:', error);
+        document.getElementById('lista-proximas').innerHTML = '<p class="error-general">Error al cargar datos.</p>';
+      }
+    });
+  </script>
+</body>
+</html>

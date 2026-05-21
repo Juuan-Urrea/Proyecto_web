@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Panel | Tutor | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/dashboard.css">
+</head>
+<body class="layout-dashboard">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-grupo-label">Gestión</div>
+    <a href="/pages/panel-tutor.html" class="sidebar-link activo">
+      <span class="sidebar-link-icono">📈</span> Resumen
+    </a>
+    <a href="/pages/solicitudes.html" class="sidebar-link">
+      <span class="sidebar-link-icono">🛎️</span> Solicitudes
+    </a>
+    <a href="/pages/tutorias.html" class="sidebar-link">
+      <span class="sidebar-link-icono">📅</span> Mi Calendario
+    </a>
+    <a href="/pages/mensajes.html" class="sidebar-link">
+      <span class="sidebar-link-icono">💬</span> Mensajes
+    </a>
+    
+    <div class="sidebar-divisor"></div>
+    <div class="sidebar-grupo-label">Perfil</div>
+    <a href="/pages/horario.html" class="sidebar-link">
+      <span class="sidebar-link-icono">⏰</span> Disponibilidad
+    </a>
+    <a href="/pages/configuracion.html" class="sidebar-link">
+      <span class="sidebar-link-icono">⚙️</span> Configuración
+    </a>
+  </aside>
+
+  <!-- Contenido -->
+  <main class="contenido-dashboard">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom: 32px;">
+      <div>
+        <h1 id="bienvenida-titulo" style="margin-bottom: 8px;">Hola, Tutor</h1>
+        <p style="color: var(--color-texto-gris);">Aquí tienes un resumen de tus métricas y próximas clases.</p>
+      </div>
+      <div>
+        <a href="#" id="link-mi-perfil" class="btn btn-secundario" target="_blank">Ver Mi Perfil Público</a>
+      </div>
+    </div>
+
+    <!-- KPIs -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Rating Actual</span>
+        <div style="display:flex; align-items:baseline; gap:8px;">
+          <span class="kpi-valor" id="kpi-rating">-</span>
+          <span style="color:#FBBF24; font-size:24px;">★</span>
+        </div>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Total Sesiones</span>
+        <span class="kpi-valor" id="kpi-sesiones">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Ingresos Mensuales</span>
+        <span class="kpi-valor" id="kpi-ingresos">-</span>
+      </div>
+    </div>
+
+    <div class="grid-aside">
+      <!-- Solicitudes Pendientes -->
+      <section>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+          <h2 style="font-size: 1.25rem;">Solicitudes Pendientes</h2>
+          <a href="/pages/solicitudes.html" style="font-size:14px; font-weight:600;">Ver todas</a>
+        </div>
+        
+        <div class="lista-sesiones" id="lista-pendientes">
+          <div class="cargando">Cargando...</div>
+        </div>
+      </section>
+
+      <!-- Panel derecho (Recordatorio rápido de agenda de hoy) -->
+      <aside>
+        <div class="tarjeta" style="padding: 24px;">
+          <h3 style="margin-bottom:16px;">Clases de Hoy</h3>
+          <div id="lista-hoy">
+            <!-- Se llena con JS -->
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireRole } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { formatearFecha, formatearHora, getHoyInput } from '/src/js/utils/fechas.js';
+    import { badgeClassStatus, labelStatus, formatearDinero } from '/src/js/core/constants.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // 1. Proteger ruta: Solo tutores
+      const user = requireRole('tutor');
+      if (!user) return;
+
+      // 2. Init global UI
+      initNavbar();
+      document.getElementById('bienvenida-titulo').textContent = `Hola, ${user.nombre} 👨‍🏫`;
+      document.getElementById('link-mi-perfil').href = `/pages/perfil-tutor.html?id=${user.id}`;
+
+      // 3. Cargar datos
+      try {
+        // Cargar perfil para ver stats (rating, sesiones)
+        const perfilData = await api.get(`/auth/yo`); // Devuelve basic info
+        const tutorInfoData = await api.get(`/tutores/${user.id}`); // Devuelve info de tutor
+        
+        const tutorStats = tutorInfoData.tutor;
+        document.getElementById('kpi-rating').textContent = Number(tutorStats.rating).toFixed(1);
+        document.getElementById('kpi-sesiones').textContent = tutorStats.total_sesiones;
+
+        // Cargar Sesiones
+        const data = await api.get('/sesiones?page=1');
+        const sesiones = data.sesiones || [];
+
+        // Calcular ingresos de este mes (sesiones completadas)
+        const hoy = new Date();
+        const ingresos = sesiones
+          .filter(s => s.status === 'completada' && new Date(s.fecha).getMonth() === hoy.getMonth())
+          .reduce((acc, s) => acc + Number(s.precio_total), 0);
+        
+        document.getElementById('kpi-ingresos').textContent = formatearDinero(ingresos);
+
+        // Renderizar Solicitudes Pendientes
+        const pendientes = sesiones.filter(s => s.status === 'pendiente').slice(0, 5);
+        const contenedorP = document.getElementById('lista-pendientes');
+
+        if (pendientes.length === 0) {
+          contenedorP.innerHTML = `
+            <div class="estado-vacio" style="padding: 32px;">
+              <div class="estado-vacio-icono">✅</div>
+              <div class="estado-vacio-texto">No tienes solicitudes pendientes por revisar.</div>
+            </div>
+          `;
+        } else {
+          contenedorP.innerHTML = pendientes.map(s => {
+            const avatarHtml = s.est_avatar 
+              ? `<img src="${s.est_avatar}" class="avatar avatar-md">`
+              : `<div class="avatar-iniciales avatar-md">${s.est_nombre.charAt(0)}</div>`;
+
+            return `
+              <div class="sesion-item">
+                <div class="sesion-info">
+                  ${avatarHtml}
+                  <div class="sesion-detalles">
+                    <div class="sesion-materia">${s.materia_label}</div>
+                    <div class="sesion-meta">
+                      <span>👤 ${s.est_nombre} ${s.est_apellido}</span>
+                      <span>📅 ${formatearFecha(s.fecha)}</span>
+                      <span>⏰ ${formatearHora(s.hora_ini)}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="sesion-acciones">
+                  <a href="/pages/solicitudes.html" class="btn btn-secundario btn-pequeno">Gestionar</a>
+                </div>
+              </div>
+            `;
+          }).join('');
+        }
+
+        // Renderizar Agenda de Hoy
+        const fechaHoy = getHoyInput();
+        const clasesHoy = sesiones
+          .filter(s => s.fecha.startsWith(fechaHoy) && s.status === 'confirmada')
+          .sort((a,b) => a.hora_ini.localeCompare(b.hora_ini));
+
+        const contenedorH = document.getElementById('lista-hoy');
+        if (clasesHoy.length === 0) {
+          contenedorH.innerHTML = '<p style="color:var(--color-texto-suave); font-size:13px; text-align:center;">No tienes clases programadas para hoy.</p>';
+        } else {
+          contenedorH.innerHTML = clasesHoy.map(s => `
+            <div style="padding: 12px 0; border-bottom: var(--ancho-borde) solid var(--color-borde); display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <strong style="display:block; font-size:14px;">${formatearHora(s.hora_ini)}</strong>
+                <span style="font-size:12px; color:var(--color-texto-gris);">${s.materia_label} con ${s.est_nombre}</span>
+              </div>
+              ${s.modalidad === 'virtual' ? `<a href="/pages/videollamada.html?sesion=${s.id}" style="font-size:12px; color:var(--color-primario); font-weight:600;">Unirme</a>` : ''}
+            </div>
+          `).join('');
+        }
+
+      } catch (error) {
+        console.error('Error cargando dashboard:', error);
+        document.getElementById('lista-pendientes').innerHTML = '<p class="error-general">Error al cargar datos.</p>';
+      }
+    });
+  </script>
+</body>
+</html>

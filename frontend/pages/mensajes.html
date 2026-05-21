@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensajes | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/mensajes.css">
+</head>
+<body class="layout-dashboard">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- En desktop el layout-dashboard tiene padding left, aquí lo quitamos para que el chat ocupe todo -->
+  <style>
+    @media (min-width: 769px) { .layout-dashboard { padding-left: 0; } }
+  </style>
+
+  <main class="chat-layout">
+    <!-- Lista de Conversaciones -->
+    <aside class="chat-sidebar" id="panel-lista">
+      <div class="chat-sidebar-header">
+        <h2 style="font-size:18px;">Mensajes</h2>
+      </div>
+      <div class="conversaciones-lista" id="lista-conversaciones">
+        <div class="cargando" style="text-align:center; padding:20px;">Cargando...</div>
+      </div>
+    </aside>
+
+    <!-- Chat Activo -->
+    <section class="chat-main" id="panel-chat">
+      <!-- Vacio por defecto -->
+      <div class="chat-vacio" id="chat-vacio-msg">
+        <div style="text-align:center;">
+          <div style="font-size:48px; margin-bottom:16px;">💬</div>
+          <h3>Tus mensajes</h3>
+          <p>Selecciona una conversación para empezar a chatear.</p>
+        </div>
+      </div>
+
+      <!-- Contenedor del chat (oculto por defecto) -->
+      <div style="display:none; flex-direction:column; height:100%;" id="chat-activo-container">
+        <header class="chat-header">
+          <button class="btn btn-fantasma btn-pequeno" id="btn-volver-movil" style="display:none; padding:0 8px;">←</button>
+          <div id="chat-header-avatar"></div>
+          <h3 id="chat-header-nombre" style="font-size:16px;"></h3>
+        </header>
+
+        <div class="chat-mensajes" id="chat-mensajes">
+          <!-- Burbujas insertadas por JS -->
+        </div>
+
+        <form class="chat-input-area chat-form" id="form-mensaje">
+          <input type="text" id="input-mensaje" class="chat-input" placeholder="Escribe un mensaje..." required autocomplete="off">
+          <button type="submit" class="chat-btn-enviar">▶</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script type="module">
+    import { requireAuth, getToken } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { formatearHora } from '/src/js/utils/fechas.js';
+
+    let userContext = null;
+    let ws = null;
+    let conversacionActualId = null; // ID del "otro" usuario
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      userContext = requireAuth();
+      if (!userContext) return;
+
+      initNavbar();
+      
+      // Control responsive (Móvil)
+      if(window.innerWidth <= 768) {
+        document.getElementById('panel-chat').classList.add('oculto-movil');
+        document.getElementById('btn-volver-movil').style.display = 'block';
+      }
+
+      document.getElementById('btn-volver-movil').addEventListener('click', () => {
+        document.getElementById('panel-lista').classList.remove('oculto-movil');
+        document.getElementById('panel-chat').classList.add('oculto-movil');
+        conversacionActualId = null;
+      });
+
+      cargarConversaciones();
+      conectarWebSocket();
+
+      // Abrir chat si viene por URL
+      const params = new URLSearchParams(window.location.search);
+      const startChatId = params.get('chat');
+      const startChatNombre = params.get('nombre');
+      if (startChatId && startChatNombre) {
+        // Retrasamos un poquito para que el DOM esté listo
+        setTimeout(() => abrirChat(startChatId, startChatNombre, ''), 300);
+      }
+
+      document.getElementById('form-mensaje').addEventListener('submit', enviarMensaje);
+    });
+
+    async function cargarConversaciones() {
+      const contenedor = document.getElementById('lista-conversaciones');
+      try {
+        const data = await api.get('/mensajes/conversaciones');
+        if (data.conversaciones.length === 0) {
+          contenedor.innerHTML = '<p style="text-align:center; color:var(--color-texto-gris); padding:20px;">No tienes mensajes aún.</p>';
+          return;
+        }
+
+        contenedor.innerHTML = data.conversaciones.map(c => {
+          const avatarHtml = c.otro_avatar 
+            ? `<img src="${c.otro_avatar}" class="avatar avatar-md">`
+            : `<div class="avatar-iniciales avatar-md">${c.otro_nombre.charAt(0)}</div>`;
+
+          return `
+            <div class="conversacion-item" id="conv-${c.otro_id}" onclick="abrirChat('${c.otro_id}', '${c.otro_nombre}', '${c.otro_avatar || ''}')">
+              ${avatarHtml}
+              <div class="conv-info">
+                <div class="conv-nombre">${c.otro_nombre}</div>
+                <div class="conv-ultimo truncar">${c.ultimo_mensaje}</div>
+              </div>
+              ${c.no_leidos > 0 ? `<div class="conv-badge">${c.no_leidos}</div>` : ''}
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        contenedor.innerHTML = '<p class="error-general">Error al cargar.</p>';
+      }
+    }
+
+    window.abrirChat = async (otroId, otroNombre, otroAvatarUrl) => {
+      conversacionActualId = otroId;
+
+      // Estilos activos
+      document.querySelectorAll('.conversacion-item').forEach(el => el.classList.remove('activa'));
+      document.getElementById(`conv-${otroId}`)?.classList.add('activa');
+
+      // Móvil: intercambiar paneles
+      if(window.innerWidth <= 768) {
+        document.getElementById('panel-lista').classList.add('oculto-movil');
+        document.getElementById('panel-chat').classList.remove('oculto-movil');
+      }
+
+      // UI
+      document.getElementById('chat-vacio-msg').style.display = 'none';
+      document.getElementById('chat-activo-container').style.display = 'flex';
+      
+      const headerAvatar = document.getElementById('chat-header-avatar');
+      headerAvatar.innerHTML = otroAvatarUrl 
+        ? `<img src="${otroAvatarUrl}" class="avatar avatar-sm">`
+        : `<div class="avatar-iniciales avatar-sm">${otroNombre.charAt(0)}</div>`;
+      
+      document.getElementById('chat-header-nombre').textContent = otroNombre;
+      
+      const chatMensajes = document.getElementById('chat-mensajes');
+      chatMensajes.innerHTML = '<div class="cargando" style="text-align:center;">Cargando...</div>';
+
+      // Marcar como leídos
+      try {
+        await api.patch(`/mensajes/conversacion/${otroId}/leidos`);
+        // Ocultar badge de la lista localmente
+        const badge = document.querySelector(`#conv-${otroId} .conv-badge`);
+        if(badge) badge.style.display = 'none';
+      } catch(e) {}
+
+      // Cargar historial
+      try {
+        const data = await api.get(`/mensajes/conversacion/${otroId}`);
+        chatMensajes.innerHTML = '';
+        
+        data.mensajes.forEach(m => agregarBurbujaDOM(m));
+        bajarScroll();
+      } catch(error) {
+        chatMensajes.innerHTML = '<p class="error-general">Error al cargar historial.</p>';
+      }
+    };
+
+    function agregarBurbujaDOM(msg) {
+      const chatMensajes = document.getElementById('chat-mensajes');
+      const esMio = msg.sender_id === userContext.id;
+      
+      // La hora que viene de BD
+      const hora = msg.created_at ? formatearHora(new Date(msg.created_at).toTimeString()) : '';
+
+      const div = document.createElement('div');
+      div.className = `mensaje-fila ${esMio ? 'mio' : ''}`;
+      div.innerHTML = `
+        <div class="mensaje-burbuja">
+          ${msg.texto}
+          ${hora ? `<span class="mensaje-hora">${hora}</span>` : ''}
+        </div>
+      `;
+      chatMensajes.appendChild(div);
+    }
+
+    function bajarScroll() {
+      const container = document.getElementById('chat-mensajes');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function conectarWebSocket() {
+      // WS_URL en producción debería venir de import.meta.env
+      // Para local: ws://localhost:3000
+      const host = window.location.host.includes('localhost') || window.location.host.includes('127.0.0.1') ? 'localhost:3000' : window.location.host;
+      const wsUrl = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${host}?token=${getToken()}`;
+      
+      ws = new WebSocket(wsUrl);
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        
+        if (data.type === 'message') {
+          // Si es un mensaje del usuario con el que estoy chateando ahora
+          if (conversacionActualId === data.from) {
+            agregarBurbujaDOM({
+              sender_id: data.from,
+              texto: data.texto,
+              created_at: data.created_at
+            });
+            bajarScroll();
+            // Lo marco leido en background
+            api.patch(`/mensajes/conversacion/${data.from}/leidos`).catch(()=>{});
+          } else {
+            // Si es de otro usuario, recargar lista de conversaciones para actualizar badge
+            cargarConversaciones();
+          }
+        }
+      };
+
+      ws.onclose = () => {
+        console.warn('WebSocket desconectado. Intentando reconectar...');
+        setTimeout(conectarWebSocket, 5000);
+      };
+    }
+
+    async function enviarMensaje(e) {
+      e.preventDefault();
+      if (!conversacionActualId || ws?.readyState !== WebSocket.OPEN) return;
+
+      const input = document.getElementById('input-mensaje');
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      // Enviar por WS (el backend lo guarda en BD)
+      ws.send(JSON.stringify({
+        type: 'message',
+        to: conversacionActualId,
+        texto: texto
+      }));
+
+      // Renderizar optimísticamente
+      agregarBurbujaDOM({
+        sender_id: userContext.id,
+        texto: texto,
+        created_at: new Date().toISOString()
+      });
+      bajarScroll();
+
+      input.value = '';
+      
+      // Actualizar la lista lateral (poner último mensaje simulado)
+      const convInfo = document.querySelector(`#conv-${conversacionActualId} .conv-ultimo`);
+      if (convInfo) convInfo.textContent = texto;
+    }
+  </script>
+</body>
+</html>

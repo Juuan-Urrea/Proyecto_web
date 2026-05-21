@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registro Estudiante | myTEACHER</title>
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/pages/auth.css">
+</head>
+<body class="auth-page">
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <a href="/index.html" class="navbar-logo" style="display:block; margin-bottom: 24px;">myTEACHER</a>
+      <h1 class="auth-title">Crea tu cuenta</h1>
+      <p class="auth-subtitle">Empieza a aprender con los mejores tutores</p>
+    </div>
+
+    <form id="register-form">
+      <!-- Se fuerza el rol desde el frontend -->
+      <input type="hidden" id="role" value="estudiante">
+
+      <div class="form-grid">
+        <div class="grupo-campo">
+          <label for="nombre" class="etiqueta-campo">Nombre</label>
+          <input type="text" id="nombre" class="campo-input" required placeholder="Juan">
+        </div>
+
+        <div class="grupo-campo">
+          <label for="apellido" class="etiqueta-campo">Apellido</label>
+          <input type="text" id="apellido" class="campo-input" required placeholder="Pérez">
+        </div>
+      </div>
+
+      <div class="grupo-campo">
+        <label for="email" class="etiqueta-campo">Correo electrónico</label>
+        <input type="email" id="email" class="campo-input" required placeholder="juan@ejemplo.com">
+      </div>
+
+      <div class="grupo-campo">
+        <label for="password" class="etiqueta-campo">Contraseña</label>
+        <input type="password" id="password" class="campo-input" required minlength="8" placeholder="Mínimo 8 caracteres">
+      </div>
+
+      <button type="submit" class="btn btn-primario btn-completo" id="btn-submit">
+        Registrarme
+      </button>
+      
+      <div id="error-msg" class="error-general"></div>
+    </form>
+
+    <div class="auth-footer-text">
+      <p>¿Ya tienes una cuenta? <a href="/pages/login.html">Inicia sesión</a></p>
+      <p style="margin-top:8px;">¿Quieres enseñar? <a href="/pages/registro-tutor.html">Regístrate como Tutor</a></p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { api } from '/src/js/core/api.js';
+    import { guardarSesion } from '/src/js/core/auth.js';
+    import { toast } from '/src/js/components/toast.js';
+
+    document.getElementById('register-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const role = document.getElementById('role').value;
+      const nombre = document.getElementById('nombre').value;
+      const apellido = document.getElementById('apellido').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      const btn = document.getElementById('btn-submit');
+      const errorMsg = document.getElementById('error-msg');
+
+      btn.disabled = true;
+      btn.textContent = 'Creando cuenta...';
+      errorMsg.textContent = '';
+
+      try {
+        const data = await api.post('/auth/registrar', { role, nombre, apellido, email, password });
+        
+        guardarSesion(data.token, data.usuario);
+        toast.success('¡Cuenta creada exitosamente!');
+        
+        setTimeout(() => {
+          window.location.href = '/pages/panel-estudiante.html';
+        }, 1000);
+      } catch (error) {
+        errorMsg.textContent = error.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Registrarme';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+/*
+ * ARCHIVO: variables.css
+ * QUÉ HACE: Define todos los tokens de diseño del sistema como variables CSS.
+ *           Todos los demás archivos CSS deben usar estas variables en lugar
+ *           de valores hardcodeados. Cambiar un valor aquí lo cambia en toda la app.
+ * USADO EN: Importado primero en todos los archivos HTML del proyecto
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  /* ── Colores principales ────────────────────────────── */
+  --color-primario:        #7F22FE;   /* morado principal: botones, links, highlights */
+  --color-primario-oscuro: #6b1de0;   /* morado oscuro: hover de botones */
+  --color-primario-claro:  #F5F3FF;   /* morado muy claro: fondos de badges y alertas */
+  --color-primario-medio:  #EDE9FE;   /* morado suave: estados activos */
+
+  /* ── Colores de estado ──────────────────────────────── */
+  --color-exito:    #1D9E75;   /* verde: sesión confirmada */
+  --color-aviso:    #BA7517;   /* amarillo: sesión pendiente */
+  --color-peligro:  #E24B4A;   /* rojo: errores de validación */
+  --color-info:     #0EA5E9;   /* azul: información neutral */
+
+  /* ── Escala de texto ────────────────────────────────── */
+  --color-texto-oscuro:  #101828;   /* títulos y texto principal */
+  --color-texto-medio:   #364153;   /* texto secundario importante */
+  --color-texto-gris:    #6A7282;   /* texto descriptivo y subtítulos */
+  --color-texto-suave:   #99A1AF;   /* placeholders y texto muy secundario */
+
+  /* ── Bordes y fondos ────────────────────────────────── */
+  --color-borde:        #F3F4F6;   /* bordes sutiles entre secciones */
+  --color-borde-medio:  #E5E7EB;   /* bordes de inputs y tarjetas */
+  --color-fondo-pagina: #F9FAFB;   /* fondo general de la aplicación */
+  --color-blanco:       #FFFFFF;   /* fondo de tarjetas y modales */
+  --color-fondo-oscuro: #0F172A;   /* fondo de navbar oscura / hero */
+
+  /* ── Dimensiones fijas ──────────────────────────────── */
+  --alto-navbar:     66px;     /* altura exacta de la barra de navegación */
+  --ancho-sidebar:   240px;    /* ancho del panel lateral del dashboard */
+  --ancho-borde:     1.5px;    /* grosor de bordes y líneas */
+
+  /* ── Border radius ──────────────────────────────────── */
+  --radio-tarjeta: 16px;   /* redondez de tarjetas y modales */
+  --radio-boton:   12px;   /* redondez de botones principales */
+  --radio-input:   10px;   /* redondez de campos de formulario */
+  --radio-badge:   999px;  /* completamente redondo: badges de estado */
+
+  /* ── Espaciado de página ────────────────────────────── */
+  --padding-pagina:     64px;   /* padding lateral del contenido general */
+  --padding-dashboard:  40px;   /* padding lateral de las páginas de dashboard */
+
+  /* ── Sombras ────────────────────────────────────────── */
+  --sombra-tarjeta:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --sombra-elevada:   0 4px 16px rgba(0,0,0,.10);
+  --sombra-dropdown:  0 8px 24px rgba(0,0,0,.12);
+
+  /* ── Tipografía ─────────────────────────────────────── */
+  --fuente-sans: 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* ── Transiciones ───────────────────────────────────── */
+  --transicion: 0.15s ease;
+}

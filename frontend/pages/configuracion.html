@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/configuracion.css">
+</head>
+<body class="layout-dashboard">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <aside class="sidebar" id="sidebar-container">
+    <!-- Renderizado por JS -->
+  </aside>
+
+  <main class="contenido-dashboard">
+    <div style="margin-bottom: 32px;">
+      <h1>Configuración de Cuenta</h1>
+      <p style="color: var(--color-texto-gris);">Gestiona tus datos personales y preferencias del sistema.</p>
+    </div>
+
+    <div class="settings-layout">
+      <!-- Navegación interna -->
+      <nav class="settings-nav">
+        <a href="#perfil" class="settings-link activo">Perfil Público</a>
+        <a href="#cuenta" class="settings-link">Seguridad</a>
+        <a href="#notif" class="settings-link">Notificaciones</a>
+      </nav>
+
+      <div>
+        <!-- 1. Perfil -->
+        <section id="perfil" class="settings-seccion">
+          <h2 class="settings-titulo">Perfil Público</h2>
+          
+          <form id="form-perfil">
+            <!-- Avatar Upload -->
+            <div style="display:flex; align-items:center; gap:24px; margin-bottom:32px;">
+              <div id="avatar-preview"></div>
+              <div>
+                <p style="font-weight:500; margin-bottom:8px;">Foto de Perfil</p>
+                <p style="font-size:13px; color:var(--color-texto-suave); margin-bottom:12px;">Recomendado: 400x400px (Máx 2MB)</p>
+                <label class="btn btn-secundario btn-pequeno">
+                  Subir Foto
+                  <input type="file" id="input-avatar" accept="image/jpeg, image/png, image/webp" style="display:none;">
+                </label>
+              </div>
+            </div>
+
+            <div class="grid-2-col" style="margin-bottom:20px;">
+              <div class="grupo-campo">
+                <label class="etiqueta-campo">Nombre</label>
+                <input type="text" id="p-nombre" class="campo-input" required>
+              </div>
+              <div class="grupo-campo">
+                <label class="etiqueta-campo">Apellido</label>
+                <input type="text" id="p-apellido" class="campo-input" required>
+              </div>
+            </div>
+
+            <div class="grid-2-col" style="margin-bottom:20px;">
+              <div class="grupo-campo">
+                <label class="etiqueta-campo">Ciudad</label>
+                <input type="text" id="p-ciudad" class="campo-input">
+              </div>
+              <div class="grupo-campo">
+                <label class="etiqueta-campo">Teléfono / WhatsApp</label>
+                <input type="tel" id="p-telefono" class="campo-input">
+              </div>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="etiqueta-campo">Acerca de mí (Biografía)</label>
+              <textarea id="p-bio" class="campo-textarea campo-input" placeholder="Cuéntale a los estudiantes sobre ti..."></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primario" id="btn-perfil">Guardar Cambios</button>
+          </form>
+        </section>
+
+        <!-- 2. Seguridad -->
+        <section id="cuenta" class="settings-seccion">
+          <h2 class="settings-titulo">Seguridad y Contraseña</h2>
+          
+          <form id="form-pwd">
+            <div class="grupo-campo">
+              <label class="etiqueta-campo">Contraseña Actual</label>
+              <input type="password" id="pw-actual" class="campo-input" required>
+            </div>
+            
+            <div class="grupo-campo">
+              <label class="etiqueta-campo">Nueva Contraseña</label>
+              <input type="password" id="pw-nueva" class="campo-input" required minlength="8">
+            </div>
+
+            <button type="submit" class="btn btn-primario" id="btn-pwd">Actualizar Contraseña</button>
+          </form>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth, getUser, guardarSesion } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { toast } from '/src/js/components/toast.js';
+
+    let userContext = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      userContext = requireAuth();
+      if (!userContext) return;
+
+      initNavbar();
+      renderSidebarContext();
+      
+      // Manejo de scroll para links internos
+      document.querySelectorAll('.settings-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+          document.querySelectorAll('.settings-link').forEach(l => l.classList.remove('activo'));
+          e.target.classList.add('activo');
+        });
+      });
+
+      // Cargar datos actuales
+      try {
+        const res = await api.get('/auth/yo');
+        const u = res.usuario;
+
+        // Llenar formulario perfil
+        document.getElementById('p-nombre').value = u.nombre;
+        document.getElementById('p-apellido').value = u.apellido;
+        document.getElementById('p-ciudad').value = u.ciudad || '';
+        document.getElementById('p-telefono').value = u.telefono || '';
+        document.getElementById('p-bio').value = u.bio || '';
+
+        // Avatar
+        const avatarContainer = document.getElementById('avatar-preview');
+        avatarContainer.innerHTML = u.avatar_url 
+          ? `<img src="${u.avatar_url}" class="avatar avatar-xl">`
+          : `<div class="avatar-iniciales avatar-xl">${u.nombre.charAt(0)}</div>`;
+
+      } catch (error) {
+        toast.error('Error al cargar información.');
+      }
+
+      // Eventos
+      document.getElementById('form-perfil').addEventListener('submit', guardarPerfil);
+      document.getElementById('form-pwd').addEventListener('submit', cambiarPwd);
+      
+      // Upload avatar
+      document.getElementById('input-avatar').addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('imagen', file);
+
+        try {
+          toast.warning('Subiendo imagen...');
+          const res = await api.upload(`/usuarios/${userContext.id}/avatar`, formData);
+          
+          // Actualiza contexto local
+          const nuevoUser = { ...userContext, avatar_url: res.avatar_url };
+          guardarSesion(localStorage.getItem('myteacher_token'), nuevoUser);
+          
+          document.getElementById('avatar-preview').innerHTML = `<img src="${res.avatar_url}" class="avatar avatar-xl">`;
+          toast.success('Foto de perfil actualizada.');
+          initNavbar(); // Recarga avatar del header
+        } catch(error) {
+          toast.error(error.message);
+        }
+      });
+    });
+
+    function renderSidebarContext() {
+      const container = document.getElementById('sidebar-container');
+      if (userContext.role === 'tutor') {
+        container.innerHTML = `
+          <div class="sidebar-grupo-label">Gestión</div>
+          <a href="/pages/panel-tutor.html" class="sidebar-link"><span class="sidebar-link-icono">📈</span> Resumen</a>
+          <a href="/pages/solicitudes.html" class="sidebar-link"><span class="sidebar-link-icono">🛎️</span> Solicitudes</a>
+          <a href="/pages/tutorias.html" class="sidebar-link"><span class="sidebar-link-icono">📅</span> Mi Calendario</a>
+          <a href="/pages/mensajes.html" class="sidebar-link"><span class="sidebar-link-icono">💬</span> Mensajes</a>
+          <div class="sidebar-divisor"></div>
+          <div class="sidebar-grupo-label">Perfil</div>
+          <a href="/pages/horario.html" class="sidebar-link"><span class="sidebar-link-icono">⏰</span> Disponibilidad</a>
+          <a href="/pages/configuracion.html" class="sidebar-link activo"><span class="sidebar-link-icono">⚙️</span> Configuración</a>
+        `;
+      } else {
+        container.innerHTML = `
+          <div class="sidebar-grupo-label">General</div>
+          <a href="/pages/panel-estudiante.html" class="sidebar-link"><span class="sidebar-link-icono">📊</span> Inicio</a>
+          <a href="/pages/busqueda.html" class="sidebar-link"><span class="sidebar-link-icono">🔍</span> Buscar Tutores</a>
+          <div class="sidebar-divisor"></div>
+          <div class="sidebar-grupo-label">Mi Aprendizaje</div>
+          <a href="/pages/tutorias.html" class="sidebar-link"><span class="sidebar-link-icono">📅</span> Mis Sesiones</a>
+          <a href="/pages/mensajes.html" class="sidebar-link"><span class="sidebar-link-icono">💬</span> Mensajes</a>
+          <div class="sidebar-divisor"></div>
+          <div class="sidebar-grupo-label">Cuenta</div>
+          <a href="/pages/configuracion.html" class="sidebar-link activo"><span class="sidebar-link-icono">⚙️</span> Configuración</a>
+        `;
+      }
+    }
+
+    async function guardarPerfil(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-perfil');
+      btn.disabled = true;
+
+      const body = {
+        nombre: document.getElementById('p-nombre').value,
+        apellido: document.getElementById('p-apellido').value,
+        ciudad: document.getElementById('p-ciudad').value,
+        telefono: document.getElementById('p-telefono').value,
+        bio: document.getElementById('p-bio').value
+      };
+
+      try {
+        const res = await api.patch(`/usuarios/${userContext.id}`, body);
+        
+        // Actualiza info básica en localStorage
+        const nuevoUser = { ...userContext, nombre: res.usuario.nombre, apellido: res.usuario.apellido };
+        guardarSesion(localStorage.getItem('myteacher_token'), nuevoUser);
+        
+        toast.success('Perfil actualizado correctamente.');
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function cambiarPwd(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-pwd');
+      btn.disabled = true;
+
+      const passwordActual = document.getElementById('pw-actual').value;
+      const nuevaPassword = document.getElementById('pw-nueva').value;
+
+      try {
+        await api.patch(`/usuarios/${userContext.id}/password`, { passwordActual, nuevaPassword });
+        toast.success('Contraseña actualizada.');
+        document.getElementById('form-pwd').reset();
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

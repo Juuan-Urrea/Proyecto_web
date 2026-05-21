@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificaciones | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+</head>
+<body class="layout-dashboard">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <aside class="sidebar" id="sidebar-container"></aside>
+
+  <main class="contenido-dashboard" style="max-width: 800px; margin:0;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 32px;">
+      <h1>Notificaciones</h1>
+      <button class="btn btn-fantasma" id="btn-leer-todas">Marcar todas como leídas</button>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:12px;" id="lista-notif">
+      <div class="cargando">Cargando...</div>
+    </div>
+  </main>
+
+  <script type="module">
+    import { requireAuth } from '/src/js/core/auth.js';
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { calcularTiempoRelativo } from '/src/js/utils/fechas.js';
+
+    let userContext = null;
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      userContext = requireAuth();
+      if (!userContext) return;
+
+      initNavbar();
+      renderSidebarContext();
+      cargarNotificaciones();
+
+      document.getElementById('btn-leer-todas').addEventListener('click', async () => {
+        try {
+          await api.patch('/notificaciones/todas-leidas');
+          cargarNotificaciones();
+          initNavbar(); // para quitar el badge rojo
+        } catch(e) {}
+      });
+    });
+
+    function renderSidebarContext() {
+      const container = document.getElementById('sidebar-container');
+      if (userContext.role === 'tutor') {
+        container.innerHTML = `
+          <a href="/pages/panel-tutor.html" class="sidebar-link">← Volver al Dashboard</a>
+        `;
+      } else {
+        container.innerHTML = `
+          <a href="/pages/panel-estudiante.html" class="sidebar-link">← Volver al Dashboard</a>
+        `;
+      }
+    }
+
+    async function cargarNotificaciones() {
+      const contenedor = document.getElementById('lista-notif');
+      try {
+        const res = await api.get('/notificaciones');
+        
+        if (res.notificaciones.length === 0) {
+          contenedor.innerHTML = '<div class="estado-vacio">No tienes notificaciones.</div>';
+          return;
+        }
+
+        contenedor.innerHTML = res.notificaciones.map(n => `
+          <div class="tarjeta" style="padding:16px; display:flex; gap:16px; align-items:flex-start; ${n.leida ? 'opacity:0.6;' : 'border-left: 4px solid var(--color-primario)'}">
+            <div style="font-size:24px;">🔔</div>
+            <div style="flex:1;">
+              <h4 style="margin-bottom:4px;">${n.titulo}</h4>
+              <p style="margin-bottom:8px; color:var(--color-texto-medio);">${n.texto}</p>
+              <span style="font-size:12px; color:var(--color-texto-suave);">${calcularTiempoRelativo(n.created_at)}</span>
+            </div>
+            ${!n.leida ? `<button class="btn btn-fantasma btn-pequeno" onclick="marcarLeida('${n.id}')">✓</button>` : ''}
+            ${n.link ? `<a href="${n.link}" class="btn btn-secundario btn-pequeno" style="padding:0 8px;">Ir</a>` : ''}
+          </div>
+        `).join('');
+
+      } catch (error) {
+        contenedor.innerHTML = '<p class="error-general">Error al cargar.</p>';
+      }
+    }
+
+    window.marcarLeida = async (id) => {
+      try {
+        await api.patch(`/notificaciones/${id}/leida`);
+        cargarNotificaciones();
+        initNavbar();
+      } catch(e) {}
+    };
+  </script>
+</body>
+</html>

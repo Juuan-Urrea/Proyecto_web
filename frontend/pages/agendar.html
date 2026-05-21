@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agendar Tutoría | myTEACHER</title>
+  
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <link rel="stylesheet" href="/src/css/pages/agendar.css">
+</head>
+<body class="layout-publico">
+
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="contenido-centrado">
+    <h1 style="margin-bottom: 32px;">Reserva tu sesión</h1>
+    
+    <div class="agendar-container" id="agendar-container">
+      <div style="grid-column: 1/-1; text-align: center;" class="cargando">Cargando datos...</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { requireAuth } from '/src/js/core/auth.js';
+    import { toast } from '/src/js/components/toast.js';
+    import { formatearDinero } from '/src/js/core/constants.js';
+
+    // Estado local para la reserva
+    let estado = {
+      tutorId: null,
+      tutorData: null,
+      fechaSeleccionada: null,
+      slotSeleccionado: null,
+      mesActual: new Date(),
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Requiere estar logueado para agendar
+      const user = requireAuth();
+      if (!user) return;
+
+      initNavbar();
+      
+      const params = new URLSearchParams(window.location.search);
+      estado.tutorId = params.get('id');
+      
+      if (!estado.tutorId) {
+        document.getElementById('agendar-container').innerHTML = '<p class="error-general">Tutor no especificado.</p>';
+        return;
+      }
+
+      try {
+        // Cargar info del tutor
+        const res = await api.get(`/tutores/${estado.tutorId}`);
+        estado.tutorData = res.tutor;
+        
+        renderLayout();
+        renderCalendario();
+
+      } catch (error) {
+        document.getElementById('agendar-container').innerHTML = `<p class="error-general">Error: ${error.message}</p>`;
+      }
+    });
+
+    function renderLayout() {
+      const t = estado.tutorData;
+      const avatarHtml = t.avatar_url 
+        ? `<img src="${t.avatar_url}" class="avatar avatar-lg">`
+        : `<div class="avatar-iniciales avatar-lg">${t.nombre.charAt(0)}</div>`;
+
+      // Select de materias
+      const opcionesMaterias = t.materias.map(m => `<option value="${m.id}">${m.emoji} ${m.label}</option>`).join('');
+
+      document.getElementById('agendar-container').innerHTML = `
+        <!-- Izquierda: Resumen del Tutor y Formulario de Reserva -->
+        <div class="resumen-tutor">
+          <div class="tutor-info-header">
+            ${avatarHtml}
+            <h3>${t.nombre} ${t.apellido}</h3>
+            <p style="margin-bottom:16px;">${t.ciudad || 'Virtual'}</p>
+            <div class="precio-destacado">${formatearDinero(t.precio_hora)}</div>
+            <span style="font-size:13px; color:var(--color-texto-suave);">Precio por 1 hora</span>
+          </div>
+          
+          <div class="divisor"></div>
+
+          <form id="form-reserva">
+            <div class="grupo-campo">
+              <label class="etiqueta-campo">Materia a enseñar</label>
+              <select id="sel-materia" class="campo-select" required>
+                ${opcionesMaterias}
+              </select>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="etiqueta-campo">Modalidad</label>
+              <select id="sel-modalidad" class="campo-select" required>
+                <option value="virtual">💻 Virtual</option>
+                ${t.ciudad ? `<option value="presencial">📍 Presencial (${t.ciudad})</option>` : ''}
+              </select>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="etiqueta-campo">Método de Pago</label>
+              <select id="sel-pago" class="campo-select" required>
+                <option value="wompi">💳 Pago Digital (Wompi)</option>
+                <option value="efectivo">💵 Efectivo (Acuerdo directo)</option>
+              </select>
+            </div>
+
+            <div class="grupo-campo">
+              <label class="etiqueta-campo">Notas para el tutor (Opcional)</label>
+              <textarea id="txt-notas" class="campo-textarea campo-input" placeholder="Ej: Necesito ayuda con el tema de derivadas..."></textarea>
+            </div>
+
+            <div id="resumen-seleccion" style="margin: 24px 0; padding:16px; background:var(--color-primario-claro); border-radius:8px; display:none;">
+              <p style="margin:0; font-size:13px; color:var(--color-primario); font-weight:600;">Fecha seleccionada:</p>
+              <p style="margin:0; font-size:15px; font-weight:700;" id="texto-resumen-fecha"></p>
+            </div>
+
+            <button type="submit" id="btn-reservar" class="btn btn-primario btn-completo" disabled>
+              Selecciona Fecha y Hora
+            </button>
+          </form>
+        </div>
+
+        <!-- Derecha: Calendario -->
+        <div class="panel-calendario">
+          <h2 class="seccion-titulo">1. Selecciona la fecha</h2>
+          
+          <div class="calendario-header">
+            <button class="btn btn-fantasma btn-pequeno" id="btn-mes-prev">&lt;</button>
+            <h3 id="mes-titulo"></h3>
+            <button class="btn btn-fantasma btn-pequeno" id="btn-mes-next">&gt;</button>
+          </div>
+
+          <div class="calendario-grid">
+            <div class="dia-semana">Dom</div><div class="dia-semana">Lun</div><div class="dia-semana">Mar</div>
+            <div class="dia-semana">Mié</div><div class="dia-semana">Jue</div><div class="dia-semana">Vie</div><div class="dia-semana">Sáb</div>
+          </div>
+          <div class="calendario-grid" id="grid-dias"></div>
+
+          <div id="contenedor-slots" class="slots-container" style="display:none;">
+            <h2 class="seccion-titulo">2. Selecciona la hora</h2>
+            <div class="slots-grid" id="grid-slots"></div>
+          </div>
+        </div>
+      `;
+
+      // Eventos del formulario
+      document.getElementById('form-reserva').addEventListener('submit', enviarReserva);
+
+      // Eventos calendario
+      document.getElementById('btn-mes-prev').addEventListener('click', () => { estado.mesActual.setMonth(estado.mesActual.getMonth() - 1); renderCalendario(); });
+      document.getElementById('btn-mes-next').addEventListener('click', () => { estado.mesActual.setMonth(estado.mesActual.getMonth() + 1); renderCalendario(); });
+    }
+
+    function renderCalendario() {
+      const mes = estado.mesActual.getMonth();
+      const año = estado.mesActual.getFullYear();
+      
+      const mesesNombres = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      document.getElementById('mes-titulo').textContent = `${mesesNombres[mes]} ${año}`;
+
+      const gridDias = document.getElementById('grid-dias');
+      gridDias.innerHTML = '';
+
+      const primerDia = new Date(año, mes, 1).getDay(); // 0(Dom) a 6(Sáb)
+      const diasEnMes = new Date(año, mes + 1, 0).getDate();
+      
+      const hoy = new Date();
+      hoy.setHours(0,0,0,0);
+
+      // Espacios vacíos
+      for (let i = 0; i < primerDia; i++) {
+        const div = document.createElement('div');
+        gridDias.appendChild(div);
+      }
+
+      // Días del mes
+      for (let i = 1; i <= diasEnMes; i++) {
+        const fechaIter = new Date(año, mes, i);
+        const div = document.createElement('div');
+        div.className = 'dia-mes';
+        div.textContent = i;
+
+        // Formato YYYY-MM-DD local
+        const strFecha = `${año}-${String(mes+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`;
+
+        if (fechaIter < hoy) {
+          div.classList.add('deshabilitado');
+        } else {
+          // Indicador visual en diseño (asumiendo que el tutor está disponible siempre, 
+          // la API validará luego al hacer click)
+          div.classList.add('con-disponibilidad');
+          
+          div.onclick = () => {
+            document.querySelectorAll('.dia-mes').forEach(d => d.classList.remove('activo'));
+            div.classList.add('activo');
+            estado.fechaSeleccionada = strFecha;
+            estado.slotSeleccionado = null; // Reset
+            actualizarEstadoBoton();
+            cargarSlots(strFecha);
+          };
+        }
+
+        if (estado.fechaSeleccionada === strFecha) {
+          div.classList.add('activo');
+        }
+
+        gridDias.appendChild(div);
+      }
+    }
+
+    async function cargarSlots(fecha) {
+      const contenedor = document.getElementById('contenedor-slots');
+      const grid = document.getElementById('grid-slots');
+      
+      contenedor.style.display = 'block';
+      grid.innerHTML = '<p class="cargando">Buscando horarios...</p>';
+
+      try {
+        const res = await api.get(`/tutores/${estado.tutorId}/slots?fecha=${fecha}`);
+        
+        if (!res.slots || res.slots.length === 0) {
+          grid.innerHTML = '<p style="color:var(--color-texto-gris); font-size:14px; grid-column:1/-1;">No hay horarios disponibles para esta fecha.</p>';
+          return;
+        }
+
+        grid.innerHTML = res.slots.map(s => `
+          <button class="slot-btn" data-ini="${s.hora_ini}" data-fin="${s.hora_fin}">
+            ${s.hora_ini} - ${s.hora_fin}
+          </button>
+        `).join('');
+
+        // Eventos a los slots
+        document.querySelectorAll('.slot-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            // Unselect others
+            document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('seleccionado'));
+            btn.classList.add('seleccionado');
+            
+            estado.slotSeleccionado = {
+              hora_ini: btn.dataset.ini,
+              hora_fin: btn.dataset.fin
+            };
+            actualizarEstadoBoton();
+          });
+        });
+
+      } catch (error) {
+        grid.innerHTML = '<p class="error-general" style="grid-column:1/-1;">Error cargando horarios.</p>';
+      }
+    }
+
+    function actualizarEstadoBoton() {
+      const btn = document.getElementById('btn-reservar');
+      const resumen = document.getElementById('resumen-seleccion');
+      const textRes = document.getElementById('texto-resumen-fecha');
+
+      if (estado.fechaSeleccionada && estado.slotSeleccionado) {
+        btn.disabled = false;
+        btn.textContent = 'Confirmar Reserva';
+        resumen.style.display = 'block';
+        textRes.textContent = `${estado.fechaSeleccionada} a las ${estado.slotSeleccionado.hora_ini}`;
+      } else {
+        btn.disabled = true;
+        btn.textContent = 'Selecciona Fecha y Hora';
+        resumen.style.display = 'none';
+      }
+    }
+
+    async function enviarReserva(e) {
+      e.preventDefault();
+      if (!estado.fechaSeleccionada || !estado.slotSeleccionado) return;
+
+      const body = {
+        tutor_id: estado.tutorId,
+        materia_id: document.getElementById('sel-materia').value,
+        modalidad: document.getElementById('sel-modalidad').value,
+        metodo_pago: document.getElementById('sel-pago').value, // 'wompi' o 'efectivo'
+        fecha: estado.fechaSeleccionada,
+        hora_ini: estado.slotSeleccionado.hora_ini,
+        hora_fin: estado.slotSeleccionado.hora_fin,
+        notas: document.getElementById('txt-notas').value
+      };
+
+      const btn = document.getElementById('btn-reservar');
+      btn.disabled = true;
+      btn.textContent = 'Procesando...';
+
+      try {
+        const res = await api.post('/sesiones', body);
+        
+        // Si el pago es Wompi, redireccionar a pago. Si no, a tutorías
+        if (body.metodo_pago === 'wompi') {
+          // Llama al endpoint de iniciar pago
+          toast.success('Reserva creada. Redirigiendo a pago...');
+          const pagoRes = await api.post('/pagos/iniciar', { session_id: res.sesion.id });
+          window.location.href = pagoRes.url; // Redirige a Wompi
+        } else {
+          toast.success('Reserva creada exitosamente.');
+          setTimeout(() => {
+            window.location.href = '/pages/tutorias.html';
+          }, 1500);
+        }
+        
+      } catch (error) {
+        toast.error(error.message);
+        btn.disabled = false;
+        btn.textContent = 'Confirmar Reserva';
+      }
+    }
+  </script>
+</body>
+</html>

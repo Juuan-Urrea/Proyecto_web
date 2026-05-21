@@ -1,0 +1,103 @@
+/*
+ * ARCHIVO: pages/auth.css
+ * QUÉ HACE: Estilos específicos para las páginas de login y registro.
+ * USADO EN: login.html, registro-estudiante.html, registro-tutor.html
+ * DEPENDE DE: variables.css, base.css, componentes.css
+ */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-fondo-pagina);
+  padding: 24px 16px;
+}
+
+.auth-card {
+  background: var(--color-blanco);
+  border-radius: var(--radio-tarjeta);
+  box-shadow: var(--sombra-tarjeta);
+  padding: 40px;
+  width: 100%;
+  max-width: 440px;
+}
+
+.auth-card-wide {
+  max-width: 600px;
+}
+
+.auth-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.auth-title {
+  margin-bottom: 8px;
+}
+
+.auth-subtitle {
+  color: var(--color-texto-gris);
+}
+
+.auth-footer-text {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  color: var(--color-texto-gris);
+}
+
+/* ── Grilla específica para el registro de tutor ── */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+
+.form-grid-full {
+  grid-column: span 2;
+}
+
+/* Múltiples selectores para materias (checkboxes como botones) */
+.materias-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.materia-checkbox {
+  display: none;
+}
+
+.materia-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: var(--ancho-borde) solid var(--color-borde-medio);
+  border-radius: var(--radio-boton);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all var(--transicion);
+  user-select: none;
+}
+
+.materia-checkbox:checked + .materia-label {
+  background-color: var(--color-primario-claro);
+  border-color: var(--color-primario);
+  color: var(--color-primario);
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .auth-card {
+    padding: 24px 16px;
+  }
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-grid-full {
+    grid-column: 1;
+  }
+}

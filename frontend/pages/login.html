@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Iniciar Sesión | myTEACHER</title>
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/pages/auth.css">
+</head>
+<body class="auth-page">
+
+  <div class="auth-card">
+    <div class="auth-header">
+      <a href="/index.html" class="navbar-logo" style="display:block; margin-bottom: 24px;">myTEACHER</a>
+      <h1 class="auth-title">Bienvenido de nuevo</h1>
+      <p class="auth-subtitle">Ingresa tus credenciales para continuar</p>
+    </div>
+
+    <form id="login-form">
+      <div class="grupo-campo">
+        <label for="email" class="etiqueta-campo">Correo electrónico</label>
+        <input type="email" id="email" class="campo-input" required placeholder="tu@correo.com">
+      </div>
+
+      <div class="grupo-campo">
+        <label for="password" class="etiqueta-campo">Contraseña</label>
+        <input type="password" id="password" class="campo-input" required placeholder="••••••••">
+      </div>
+
+      <button type="submit" class="btn btn-primario btn-completo" id="btn-submit">
+        Iniciar Sesión
+      </button>
+      
+      <div id="error-msg" class="error-general"></div>
+    </form>
+
+    <div class="auth-footer-text">
+      <p>¿No tienes una cuenta?</p>
+      <div style="display:flex; justify-content:center; gap:16px; margin-top:8px;">
+        <a href="/pages/registro-estudiante.html">Soy Estudiante</a>
+        <a href="/pages/registro-tutor.html">Soy Tutor</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { api } from '/src/js/core/api.js';
+    import { guardarSesion } from '/src/js/core/auth.js';
+    import { toast } from '/src/js/components/toast.js';
+
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const btn = document.getElementById('btn-submit');
+      const errorMsg = document.getElementById('error-msg');
+
+      btn.disabled = true;
+      btn.textContent = 'Verificando...';
+      errorMsg.textContent = '';
+
+      try {
+        const data = await api.post('/auth/login', { email, password });
+        
+        // Guardar token y redireccionar según rol
+        guardarSesion(data.token, data.usuario);
+        toast.success('¡Sesión iniciada con éxito!');
+        
+        setTimeout(() => {
+          window.location.href = data.usuario.role === 'tutor' 
+            ? '/pages/panel-tutor.html' 
+            : '/pages/panel-estudiante.html';
+        }, 800);
+      } catch (error) {
+        errorMsg.textContent = error.message;
+        document.getElementById('password').value = '';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Iniciar Sesión';
+      }
+    });
+  </script>
+</body>
+</html>

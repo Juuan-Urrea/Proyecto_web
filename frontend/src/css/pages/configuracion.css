@@ -1,0 +1,121 @@
+/*
+ * ARCHIVO: pages/configuracion.css
+ * QUÉ HACE: Estilos para la página de configuración y perfil (toggles, layout de settings).
+ * USADO EN: perfil-editar.html, configuracion.html, horario.html
+ * DEPENDE DE: variables.css, layout.css, componentes.css
+ */
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Menú lateral de configuración */
+.settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: sticky;
+  top: calc(var(--alto-navbar) + 24px);
+}
+
+.settings-link {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-texto-gris);
+  transition: all var(--transicion);
+}
+
+.settings-link:hover {
+  background: var(--color-borde);
+}
+
+.settings-link.activo {
+  background: var(--color-primario-claro);
+  color: var(--color-primario);
+  font-weight: 600;
+}
+
+/* Secciones de configuración */
+.settings-seccion {
+  background: var(--color-blanco);
+  border-radius: var(--radio-tarjeta);
+  border: var(--ancho-borde) solid var(--color-borde);
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.settings-titulo {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: var(--ancho-borde) solid var(--color-borde);
+}
+
+/* ── Custom Toggle Switch (CSS puro, sin JS) ── */
+.toggle-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: var(--ancho-borde) solid var(--color-borde);
+}
+.toggle-fila:last-child { border-bottom: none; padding-bottom: 0; }
+
+.toggle-info h4 { font-size: 14px; margin-bottom: 4px; }
+.toggle-info p { font-size: 13px; font-weight: 400; margin: 0; }
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--color-borde-medio);
+  transition: .4s;
+  border-radius: 24px;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .toggle-slider {
+  background-color: var(--color-primario);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(20px);
+}
+
+@media (max-width: 768px) {
+  .settings-layout { grid-template-columns: 1fr; gap: 24px; }
+  .settings-nav { position: static; flex-direction: row; overflow-x: auto; padding-bottom: 8px; }
+  .settings-link { white-space: nowrap; }
+}
