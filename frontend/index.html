@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>myTEACHER | Conecta con los mejores tutores académicos</title>
+  <meta name="description" content="Encuentra tutores personalizados para matemáticas, física, programación y más. Reserva clases virtuales o presenciales en minutos.">
+  
+  <!-- CSS Globales -->
+  <link rel="stylesheet" href="/src/css/variables.css">
+  <link rel="stylesheet" href="/src/css/base.css">
+  <link rel="stylesheet" href="/src/css/componentes.css">
+  <link rel="stylesheet" href="/src/css/layout.css">
+  <!-- CSS Específico -->
+  <link rel="stylesheet" href="/src/css/pages/landing.css">
+</head>
+<body class="layout-publico">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a href="/index.html" class="navbar-logo">myTEACHER</a>
+    <div class="navbar-links" id="navbar-links"></div>
+    <div class="navbar-acciones" id="navbar-acciones"></div>
+    <button class="navbar-hamburguesa" id="navbar-hamburguesa">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-contenido">
+      <h1 class="hero-titulo">Aprende sin límites con <span>tutores expertos</span></h1>
+      <p class="hero-subtitulo">Clases personalizadas virtuales o presenciales. Tú eliges la materia, el tutor y el horario. Nosotros ponemos la tecnología.</p>
+      
+      <div class="hero-acciones">
+        <a href="/pages/busqueda.html" class="btn btn-primario btn-grande">Buscar un Tutor</a>
+        <a href="/pages/registro-tutor.html" class="btn btn-secundario btn-grande" style="background:rgba(255,255,255,0.1); border-color:white; color:white;">Quiero Enseñar</a>
+      </div>
+
+      <form class="busqueda-rapida" id="form-busqueda-rapida">
+        <input type="text" id="input-busqueda" placeholder="¿Qué quieres aprender hoy? Ej: Cálculo Diferencial">
+        <button type="submit" class="btn btn-primario">Buscar</button>
+      </form>
+    </div>
+  </header>
+
+  <!-- Tutores Destacados -->
+  <section class="seccion-destacados">
+    <div class="seccion-header">
+      <h2>Tutores Mejor Valorados</h2>
+      <p>Estudiantes como tú los recomiendan por su excelente metodología.</p>
+    </div>
+    
+    <div class="grid-destacados" id="contenedor-destacados">
+      <!-- Se llenará dinámicamente con JS -->
+      <div style="grid-column: 1/-1; text-align: center;" class="cargando">Cargando tutores...</div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="/pages/busqueda.html" class="btn btn-secundario">Ver Todos los Tutores</a>
+    </div>
+  </section>
+
+  <!-- Scripts -->
+  <script type="module">
+    import { initNavbar } from '/src/js/components/navbar.js';
+    import { api } from '/src/js/core/api.js';
+    import { crearTarjetaTutor } from '/src/js/utils/dom.js';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      initNavbar();
+
+      // Buscador rápido
+      const form = document.getElementById('form-busqueda-rapida');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const query = document.getElementById('input-busqueda').value;
+        if(query) window.location.href = `/pages/busqueda.html?search=${encodeURIComponent(query)}`;
+      });
+
+      // Cargar tutores destacados
+      try {
+        const respuesta = await api.get('/tutores?limit=3&order_by=rating');
+        const contenedor = document.getElementById('contenedor-destacados');
+        
+        if (respuesta.tutores && respuesta.tutores.length > 0) {
+          contenedor.innerHTML = respuesta.tutores.map(crearTarjetaTutor).join('');
+        } else {
+          contenedor.innerHTML = '<p class="estado-vacio">No hay tutores disponibles en este momento.</p>';
+        }
+      } catch (error) {
+        console.error('Error al cargar destacados:', error);
+      }
+    });
+  </script>
+</body>
+</html>
